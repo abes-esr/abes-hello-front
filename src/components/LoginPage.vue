@@ -7,12 +7,12 @@
 
         <img class="mb-4" v-bind:src="`${imgPath}abes_logo.png`" alt="" width="72" height="72">
         <hr>
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Connecter</h1>
         
-        <input type="email" id="inputEmail" class="form-control mb-3" placeholder="Email address" required autofocus>
+        <input type="text" id="username" class="form-control mb-3" placeholder="Utilisateur" required autofocus>
         
-        <input type="password" id="inputPassword" class="form-control mb-5" placeholder="Password" required>       
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <input type="password" id="password" class="form-control mb-5" placeholder="Mot de pass" required>       
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
           
       </form>
     </div>
@@ -26,10 +26,15 @@
 
 export default {
   name: 'LoginPage',
+  userName:'',
+  passWord:'',
   data() {
     return {
       imgPath: `./static/picture/`
     }
+  },
+  methods: {
+
   }
 }
 </script>
