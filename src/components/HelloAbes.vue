@@ -37,7 +37,7 @@ export default {
   components: {'api-public': ApiPublic},
   data () {
     return {
-      urlApiPublic: 'https://test-abes-back.herokuapp.com/',
+      urlApiPublic: 'http://localhost:8081',
       errorApi: '',
       msg: '',
       loading: true
@@ -53,12 +53,12 @@ export default {
           this.msg = res;
           this.loading = false;
         }, 2000);
-        
+
       })
       .catch(error => {
         this.errorApi = `Error message: ${error.message}`;
         this.loading = false;
-      })
+      });
     }
 }
 </script>
