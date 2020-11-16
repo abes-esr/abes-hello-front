@@ -63,6 +63,27 @@
         </v-col>
       </v-row>
 
+      <div v-if="errorApi && !loading">
+
+        <v-row class="text-center" >
+          <v-col
+              md="6"
+              offset-md="3">
+            <v-divider class="mx-4"></v-divider>
+            <h1>La réponse de serveur API</h1>
+            <h4 class="mt-10">
+              <v-card
+                  elevation="2"
+                  class="pa-3"
+              ><code>{{ resApi }}</code>
+              </v-card>
+            </h4>
+          </v-col>
+        </v-row>
+
+      </div>
+
+
     </v-container>
 
 </template>
@@ -97,6 +118,7 @@ export default {
         user: 'auth/user',
         isLoggedIn: 'auth/isLogged',
         resApi: 'auth/resApi',
+        errorApi: 'auth/errorApi',
       })
     },
     methods: {
