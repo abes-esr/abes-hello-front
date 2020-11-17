@@ -1,15 +1,17 @@
 <template>
   <div class="secure-page">
-    <h1>Hello secure page</h1>
+    <secure-api />
   </div>
 </template>
 
 <script>
 
+import SecureApi from '@/components/user-components/SecureApi';
+
 export default {
   name: 'SecureApiPage',
   components: {
-
+    SecureApi,
   }
 }
 
