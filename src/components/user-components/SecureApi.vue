@@ -15,6 +15,20 @@
           <h1 class="mt-10">Bienvenue à l'Abes : {{user}}</h1>
         </v-col>
       </v-row>
+
+      <v-row class="text-center">
+        <v-col
+          md="6"
+          offset-md="3">
+          <v-data-table
+            :headers="tabHeader"
+            :items="produits"
+            :items-per-page="5"
+            class="elevation-1"
+          ></v-data-table>
+        </v-col>
+      </v-row>
+
     </div>
 
     <div v-if="!loading">
@@ -35,7 +49,6 @@
       </v-row>
     </div>
 
-
   </v-container>
 
 </template>
@@ -50,6 +63,18 @@ export default {
     urlApi: 'http://localhost:8081/secured',
     resApi: '',
     loading: true,
+    tabHeader:[
+      {
+        text: 'Produit',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { 
+        text: 'Prix',
+        value: 'prix'
+      },
+    ]
 
   }),
   computed: {
