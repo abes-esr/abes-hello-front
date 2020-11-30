@@ -29,7 +29,7 @@
           <v-data-table
             :headers="tabHeader"
             :items="commande.products"
-            item-key="price"
+            item-key="id"
             :items-per-page="5"
             class="elevation-1"
           >
