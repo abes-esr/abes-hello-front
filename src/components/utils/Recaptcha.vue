@@ -11,7 +11,7 @@ export default {
     return {
       name: 'Recaptcha',
       sitekey: '6LeSNfUZAAAAACKpVKFtRqFRKwIuN_ulDXZGgP7q',
-      widgetId: 0
+      widgetId: 0,
     }
   },
   methods: {

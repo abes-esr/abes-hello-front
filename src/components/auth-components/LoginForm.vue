@@ -136,7 +136,7 @@ export default {
           validate () {
 
             if(this.$refs.loginForm.validate()) {
-              this.$refs.recaptcha.execute()
+              this.$refs.recaptcha.execute();
               this.doLogin();
             }
           },
