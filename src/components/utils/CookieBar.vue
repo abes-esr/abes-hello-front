@@ -1,12 +1,61 @@
 <template>
     <v-row class="text-center" v-if="snackbar">
         <v-col cols="12">
-            <v-snackbar
-            v-model="snackbar"
-            :timeout="timeout"
-            :multi-line="multiLine"
-            top
-            >
+
+          <v-alert
+              prominent
+              type="info"
+          >
+            <v-row align="center">
+              <v-col cols="12">
+                <h2>Important Information</h2>
+                <v-divider
+                    class="my-2"
+                ></v-divider>
+                <span>This website uses cookies to ensure you get the best experience on our website.</span>
+              </v-col>
+              <v-col cols="12">
+                <v-btn
+                    class="mx-4"
+                    elevation="5"
+                    dark
+                    large
+                    color="purple"
+                    @click="close"
+                >
+                  Fermer
+                </v-btn>
+                <v-btn
+                    class="mx-4"
+                    elevation="5"
+                    dark
+                    large
+                    color="purple"
+                    @click="accept"
+                >
+                  Accepter
+                </v-btn>
+                <v-btn
+                    class="mx-4"
+                    elevation="5"
+                    dark
+                    large
+                    color="purple"
+                    @click="decline"
+                >
+                  Refuser
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+
+          <!--
+          <v-snackbar
+          v-model="snackbar"
+          :timeout="timeout"
+          :multi-line="multiLine"
+          top
+          >
             <b>Important Information</b>
             <v-divider
                 class="my-2"
@@ -39,7 +88,9 @@
                     </v-col>
                 </v-row>
             </template>
-            </v-snackbar>
+          </v-snackbar>
+          -->
+
         </v-col>  
     </v-row>
 </template>

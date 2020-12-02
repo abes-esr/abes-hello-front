@@ -18,6 +18,7 @@ import NavBarLogged from "@/components/NavBarLogged";
 import {mapGetters} from "vuex";
 import CookieBar from "@/components/utils/CookieBar"
 
+
 export default {
   name: 'App',
 
