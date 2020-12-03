@@ -13,6 +13,9 @@ node
     sh 'npm --version'
     pipelineTriggers([pollSCM('* * * * *')])
 
+    properties([
+        pipelineTriggers([pollSCM('* * * * *')])
+    ])
    stage('SCM checkout') {
         checkout([$class: 'GitSCM', branches: [[name: 'Test/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
    }
@@ -60,10 +63,11 @@ node
         
     }
 
+/*
     stage('Test git trigger commit') {
         echo 'Commit OK'
     }
-    
+*/
     stage('Build main job') {
         echo 'Buiding main job trigger'
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
