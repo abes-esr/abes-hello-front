@@ -13,7 +13,7 @@ node
     sh 'npm --version'
 
    stage('SCM checkout') {
-        checkout([$class: 'GitSCM', branches: [[name: '*/${branchName}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: 'Test/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
    }
 
    stage('Information') {
