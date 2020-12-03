@@ -11,7 +11,6 @@ node
     env.NODEJS_HOME = "${tool 'NodeJS 11.2.0'}"
     env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
     sh 'npm --version'
-    pipelineTriggers([pollSCM('* * * * *')])
 
     properties([
         pipelineTriggers([pollSCM('* * * * *')])
@@ -69,7 +68,7 @@ node
         
     }
 
-    stage('Build main test job') {
+    stage('Build main job') {
         echo 'Buiding main job with trigger'
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
