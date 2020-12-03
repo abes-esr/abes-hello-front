@@ -69,7 +69,7 @@ node
         
     }
 
-    stage('Build main job') {
+    stage('Build main test job') {
         echo 'Buiding main job with trigger'
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
