@@ -60,6 +60,10 @@ node
         
     }
 
+    stage('Test git trigger commit') {
+        echo 'Commit OK'
+    }
+    
     stage('Build main job') {
         echo 'Buiding main job trigger'
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
@@ -67,12 +71,6 @@ node
 }
 
 
-
-   //stage('sonarqube analysis'){
-    //   withSonarQubeEnv('SonarQube Server2'){ cf : jenkins/configuration/sonarQube servers ==> between the quotes put the name we gave to the server
-     //      sh "${maventool}/bin/mvn sonar:sonar"
-     //  }
- // }
 
 
 
