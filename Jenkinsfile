@@ -67,24 +67,18 @@ node
         
         
     }
-/*
+
     stage('Build main job prod') {
         echo 'Buiding main job prod with trigger'
         //sh "echo 'Jenkinsfile' >> .gitignore"
         //sh 'git push -u origin Test/main'
-        
+         sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
             
-        sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/hello/ && rm -rf -d js && rm -rf -d css"'
-        sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
-        //sh 'scp dist.tar.gz devel@raiponce1-dev.v3.abes.fr://var/www/html/thesesinterfacebatchs/'
-        //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && tar xvzf dist.tar.gz"'
-        //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "mv /var/www/html/thesesinterfacebatchs/dist/* /var/www/html/thesesinterfacebatchs/"'
-        //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && rm dist.tar.gz && rm -d dist"'
-        //sh 'tar -xf dist.tar.gz'
+            sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/hello/ && rm -rf -d js && rm -rf -d css"'
+            sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
         }
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
-    */
 }
 
 
