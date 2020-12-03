@@ -70,6 +70,7 @@ node
 
     stage('Build main job prod') {
         echo 'Buiding main job prod with trigger'
+        sh "echo 'Jenkinsfile' >> .gitignore"
         sh 'git push -u origin Test/main'
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
