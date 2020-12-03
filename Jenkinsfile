@@ -63,11 +63,11 @@ node
         
     }
 
-/*
+
     stage('Test git trigger commit') {
         echo 'Commit OK'
     }
-*/
+
     stage('Build main job') {
         echo 'Buiding main job trigger'
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
