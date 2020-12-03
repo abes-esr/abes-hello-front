@@ -32,6 +32,7 @@ node
         sh 'npm run build'
     }
 
+    /*
     stage ('deploy to raiponce Prod'){
        echo 'deployment Prod started'
 
@@ -41,9 +42,10 @@ node
         //or in jenkins/identifiants/system/identifiants globaux (so the credential can be accessed by all the projects)
 
         sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
-            /*withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
-                sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-            }*/
+            
+            //withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
+            //   sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
+            //}
             
             sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
             sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/abes-hello/'
@@ -54,4 +56,6 @@ node
             //sh 'tar -xf dist.tar.gz'
         }
     }
+    */
+    
 }
