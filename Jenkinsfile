@@ -58,18 +58,19 @@ node
         sshagent(credentials: ['raiponce2-dev-ssh-key']) { //one key per tomcat
             /*withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
                 sh 'ssh -tt devel@raiponce2-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-            }*/
+            }
         
             sh 'ssh -tt devel@raiponce2-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
             sh 'scp -r dist/* devel@raiponce2-dev.v3.abes.fr:/var/www/html/abes-hello/'
         }
+        */
         
         
         
     }
 
     stage('Build main job') {
-        echo 'Buiding main job trigger'
+        echo 'Buiding main job with trigger'
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
 }
