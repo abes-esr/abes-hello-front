@@ -11,6 +11,9 @@ node
     env.NODEJS_HOME = "${tool 'NodeJS 11.2.0'}"
     env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
     sh 'npm --version'
+    triggers {
+        pollSCM 'H/2 * * * *'
+    }
 
    stage('SCM checkout') {
         checkout([$class: 'GitSCM', branches: [[name: 'Test/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
