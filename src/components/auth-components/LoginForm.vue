@@ -60,6 +60,7 @@
               Reset Form
             </v-btn>
           </v-form>
+          <recaptcha ref="recaptcha" @verify="submit"></recaptcha>
         </v-col>
       </v-row>
 
@@ -92,6 +93,7 @@
 
 import {mapActions} from 'vuex'
 import {mapGetters} from 'vuex'
+import Recaptcha from '@/components/utils/Recaptcha'
 
 export default {
     name: 'LoginForm',
@@ -112,6 +114,9 @@ export default {
         ]
 
     }),
+    components: {
+      Recaptcha
+    },
     computed: {
       ...mapGetters({
         auth: 'auth/authenticated',
@@ -122,31 +127,34 @@ export default {
       })
     },
     methods: {
-      ...mapActions({
-        loginAction: 'auth/loginAction',
-      }),
-        validate () {
+        ...mapActions({
+          loginAction: 'auth/loginAction',
+        }),
+        submit (response) {
+          console.log(response)
+        },
+          validate () {
 
             if(this.$refs.loginForm.validate()) {
-                this.doLogin();
-            };
-
-        },
-        reset () {
-            this.$refs.loginForm.reset();
-        },
-        doLogin() {
-          this.loading=true;
-          let auth = {userName: this.name, passWord: this.passWord};
-          this.loginAction(auth);
-          this.loading = true;
-          setTimeout(() => {
-              this.loading=false;
-              if(this.isLoggedIn) {
-                this.$router.push({ name: 'DashBoard' });
-              }
-            }, 2000);
-        },
-    }
+              this.$refs.recaptcha.execute();
+              this.doLogin();
+            }
+          },
+          reset () {
+              this.$refs.loginForm.reset();
+          },
+          doLogin() {
+            this.loading=true;
+            let auth = {userName: this.name, passWord: this.passWord};
+            this.loginAction(auth);
+            this.loading = true;
+            setTimeout(() => {
+                this.loading=false;
+                if(this.isLoggedIn) {
+                  this.$router.push({ name: 'DashBoard' });
+                }
+              }, 2000);
+          },
+      }
 }
 </script>
