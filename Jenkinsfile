@@ -29,6 +29,7 @@ node
         echo ENV
     }
 
+/*
     properties(
             [parameters([
                 choice(choices: ['DEV', 'TEST', 'PROD'], description: '', name: 'ENV'),
@@ -36,12 +37,12 @@ node
                 booleanParam(defaultValue: false, description: '', name: 'executeTests')
                 ])])
 
-
+*/
 
 
 
    stage('SCM checkout') {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master'], [name: '*/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/${branchName}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
    }
 
    stage('Information') {
@@ -99,31 +100,33 @@ node
     //}
 
     stage ('deploy to raiponce'){
-       echo 'deployment started'
+       echo 'deployment Dev started'
 
-        if (ENV == 'DEV') {
-            //here we have the choice : we can create the credential in jenkins/configuration/ssh servers
-            //or in the space project (so the credential can only be accessed by the project)
-            //or in jenkins/identifiants/system/identifiants globaux (so the credential can be accessed by all the projects)
+        
+        //here we have the choice : we can create the credential in jenkins/configuration/ssh servers
+        //or in the space project (so the credential can only be accessed by the project)
+        //or in jenkins/identifiants/system/identifiants globaux (so the credential can be accessed by all the projects)
 
-            sshagent(credentials: ['raiponce1-dev-ssh-key']) { //one key per tomcat
-                withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
-                    sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-                }
-                sh 'scp -r dist/* devel@raiponce1-dev.v3.abes.fr:/var/www/html/abes-hello/'
-                //sh 'scp dist.tar.gz devel@raiponce1-dev.v3.abes.fr://var/www/html/thesesinterfacebatchs/'
-                //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && tar xvzf dist.tar.gz"'
-                //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "mv /var/www/html/thesesinterfacebatchs/dist/* /var/www/html/thesesinterfacebatchs/"'
-                //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && rm dist.tar.gz && rm -d dist"'
-                //sh 'tar -xf dist.tar.gz'
+        sshagent(credentials: ['raiponce1-dev-ssh-key']) { //one key per tomcat
+            withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
+                sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
             }
-            sshagent(credentials: ['raiponce2-dev-ssh-key']) { //one key per tomcat
-                withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
-                    sh 'ssh -tt devel@raiponce2-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-                }
-                sh 'scp -r dist/* devel@raiponce2-dev.v3.abes.fr:/var/www/html/abes-hello/'
+            sh 'scp -r dist/* devel@raiponce1-dev.v3.abes.fr:/var/www/html/abes-hello/'
+            //sh 'scp dist.tar.gz devel@raiponce1-dev.v3.abes.fr://var/www/html/thesesinterfacebatchs/'
+            //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && tar xvzf dist.tar.gz"'
+            //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "mv /var/www/html/thesesinterfacebatchs/dist/* /var/www/html/thesesinterfacebatchs/"'
+            //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && rm dist.tar.gz && rm -d dist"'
+            //sh 'tar -xf dist.tar.gz'
+        
+        sshagent(credentials: ['raiponce2-dev-ssh-key']) { //one key per tomcat
+            withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
+                sh 'ssh -tt devel@raiponce2-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
             }
+            sh 'scp -r dist/* devel@raiponce2-dev.v3.abes.fr:/var/www/html/abes-hello/'
+
         }
+        }
+        /*
         if (ENV == 'TEST') {
 
             sshagent(credentials: ['raiponce1-test-ssh-key']) { //one key per tomcat
@@ -149,6 +152,7 @@ node
                 sh 'scp -r dist-prod/* devel@raiponce2.v3.abes.fr:/var/www/html/abes-hello/'
             }
         }
+        */
     }
 }
 
