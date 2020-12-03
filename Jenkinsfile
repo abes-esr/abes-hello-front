@@ -33,7 +33,7 @@ node
     }
 
     stage ('deploy to raiponce'){
-       echo 'deployment Dev started'
+       echo 'deployment ProdDev started'
 
         
         //here we have the choice : we can create the credential in jenkins/configuration/ssh servers
