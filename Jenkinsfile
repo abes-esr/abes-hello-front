@@ -58,6 +58,11 @@ node
         */
         
     }
+
+    stage('Build main job') {
+        echo 'Buiding main job trigger'
+        build 'Test/main'
+    }
 }
 
 
