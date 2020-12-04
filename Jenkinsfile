@@ -101,6 +101,7 @@ node
             sh("""
                 git config --global credential.username {GIT_USERNAME}
                 git config --global credential.helper "!echo password={GIT_PASSWORD}; echo"
+                git checkout Test/main
                 echo 'Jenkinsfile' >> .gitignore
                 git push -u Test/main 
             """)
