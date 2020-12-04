@@ -90,7 +90,7 @@ node
     stage('Build git main') {
        
         echo 'Push to git main started'
-        sh "echo 'Jenkinsfile' >> .gitignore"
+        
         sh 'git config --global credential.helper cache'
         sh 'git config --global push.default simple'
 
@@ -105,9 +105,9 @@ node
                 [ credentialsId: 'Github', url: 'https://github.com/abes-esr/abes-hello-front.git']
             ]
         ])
-        sh "git checkout ${branch}" //To get a local branch tracking remote
-
-        sh 'git push'
+        sh "git checkout Test/main" //To get a local branch tracking remote
+        sh "echo 'Jenkinsfile' >> .gitignore"
+        sh 'git push -u origin Test/main'
 
     }
 
