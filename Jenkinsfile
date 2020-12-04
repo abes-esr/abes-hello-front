@@ -91,7 +91,13 @@ node
        
         echo 'Push to git main started'
         
-        withCredentials(usernamePassword(credentialsId: 'Github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')){
+        withCredentials([[
+            $class: 'UsernamePasswordMultiBinding',
+            credentialsId: 'Github',
+            usernameVariable: 'GIT_USERNAME',
+            passwordVariable: 'GIT_PASSWORD'
+        ]])
+        {
             sh("""
                 git config --global credential.username {GIT_USERNAME}
                 git config --global credential.helper "!echo password={GIT_PASSWORD}; echo"
