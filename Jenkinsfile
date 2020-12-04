@@ -71,7 +71,7 @@ node
     stage('git main') {
         echo 'Push to git main started'
         sh "echo 'Jenkinsfile' >> .gitignore"
-        withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]){ 
+        withCredentials([usernamePassword(credentialsId: 'Github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]){ 
             git url: "https://github.com/abes-esr/abes-hello-front.git",
             branch: 'Test/main'
             sh 'git push -u origin Test/main'
