@@ -67,7 +67,7 @@ node
         
         
     }
-
+/*
     stage('git main') {
         echo 'Push to git main started'
         sh "echo 'Jenkinsfile' >> .gitignore"
@@ -85,7 +85,34 @@ node
         
         
     }
+*/
 
+    stage('Build git main') {
+       
+        echo 'Push to git main started'
+        sh "echo 'Jenkinsfile' >> .gitignore"
+        sh 'git config --global credential.helper cache'
+        sh 'git config --global push.default simple'
+
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: 'Test/main']],
+            extensions: [
+                [$class: 'CloneOption', noTags: true, reference: '', shallow: true]
+            ],
+            submoduleCfg: [],
+            userRemoteConfigs: [
+                [ credentialsId: 'Github', url: 'https://github.com/abes-esr/abes-hello-front.git']
+            ]
+        ])
+        sh "git checkout ${branch}" //To get a local branch tracking remote
+
+        sh 'git push'
+
+    }
+
+        
+    
     stage('main job prod') {
         echo 'Main job prod with trigger started'
          //sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
