@@ -90,7 +90,7 @@ node
     stage('Build git main') {
        
         echo 'Push to git main started'
-        git url: "ssh://git@github.com:abes-esr/abes-hello-front.git",
+        git url: "git@github.com:abes-esr/abes-hello-front.git",
             credentialsId: 'github_ssh_key',
             branch: 'Test/main'
             
