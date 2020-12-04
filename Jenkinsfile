@@ -91,23 +91,14 @@ node
        
         echo 'Push to git main started'
         
-        sh 'git config --global credential.helper cache'
-        sh 'git config --global push.default simple'
-
-        checkout([
-            $class: 'GitSCM',
-            branches: [[name: 'Test/main']],
-            extensions: [
-                [$class: 'CloneOption', noTags: true, reference: '', shallow: true]
-            ],
-            submoduleCfg: [],
-            userRemoteConfigs: [
-                [ credentialsId: 'Github', url: 'https://github.com/abes-esr/abes-hello-front.git']
-            ]
-        ])
-        sh "git checkout Test/main" //To get a local branch tracking remote
-        sh "echo 'Jenkinsfile' >> .gitignore"
-        sh 'git push origin Test/main'
+        withCredentials(usernamePassword(credentialsId: 'Github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')){
+            sh("""
+                git config --global credential.username {GIT_USERNAME}
+                git config --global credential.helper "!echo password={GIT_PASSWORD}; echo"
+                echo 'Jenkinsfile' >> .gitignore
+                git push -u Test/main 
+            """)
+        }
 
     }
 
