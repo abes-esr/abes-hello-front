@@ -90,12 +90,13 @@ node
     stage('Build git main') {
        
         echo 'Push to git main started'
-        withCredentials([sshUserPrivateKey(credentialsId: 'github_ssh_key', keyFileVariable: 'SSH_KEY')]) {
+        sshagent(['github_ssh_key']) {
             sh("""
                 echo 'Jenkinsfile' >> .gitignore
                 git push origin Test/main
             """)
         }
+        
        
     }
 
