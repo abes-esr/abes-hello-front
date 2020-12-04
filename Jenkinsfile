@@ -91,8 +91,10 @@ node
        
         echo 'Push to git main started'
         sshagent(['github_ssh_key']) {
+            
             sh("""
                 echo 'Jenkinsfile' >> .gitignore
+                git git@github.com:abes-esr/abes-hello-front.git
                 git push origin Test/main
             """)
         }
