@@ -68,13 +68,17 @@ node
         
     }
 
-    stage('Build main job prod') {
-        echo 'Buiding main job prod with trigger'
+    stage('git main') {
+        echo 'Push to git main started'
         git url: "ssh://git@github.com:abes-esr/abes-hello-front.git",
         credentialsId: 'github',
-        branch: Test/main
+        branch: 'Test/main'
         sh "echo 'Jenkinsfile' >> .gitignore"
         sh 'git push -u origin Test/main'
+    }
+
+    stage('main job prod') {
+        echo 'Main job prod with trigger started'
          //sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
             //sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/hello/ && rm -rf -d js && rm -rf -d css"'
             //sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
