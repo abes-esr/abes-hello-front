@@ -90,27 +90,17 @@ node
     stage('Build git main') {
        
         echo 'Push to git main started'
-        
-        withCredentials([[
-            $class: 'UsernamePasswordMultiBinding',
-            credentialsId: 'Github',
-            usernameVariable: 'GIT_USERNAME',
-            passwordVariable: 'GIT_PASSWORD'
-        ]])
-        {
+        sshagent(['github_ssh_key']) {
             sh("""
-                git config --global credential.username {GIT_USERNAME}
-                git config --global credential.helper "!echo password={GIT_PASSWORD}; echo"
                 git checkout Test/main
                 echo 'Jenkinsfile' >> .gitignore
                 git push --set-upstream origin Test/main
             """)
         }
-
+        
     }
 
         
-    
     stage('main job prod') {
         echo 'Main job prod with trigger started'
          //sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
