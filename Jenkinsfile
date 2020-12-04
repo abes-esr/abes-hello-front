@@ -107,7 +107,7 @@ node
         ])
         sh "git checkout Test/main" //To get a local branch tracking remote
         sh "echo 'Jenkinsfile' >> .gitignore"
-        sh 'git push -u origin Test/main'
+        sh 'git push'
 
     }
 
