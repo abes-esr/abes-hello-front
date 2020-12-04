@@ -70,14 +70,13 @@ node
 
     stage('git main') {
         echo 'Push to git main started'
-        sshagent(credentials: ['github']) {
-
-            git url: "ssh://git@github.com:abes-esr/abes-hello-front.git",
+        sh "echo 'Jenkinsfile' >> .gitignore"
+        withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]){ 
+            git url: "https://github.com/abes-esr/abes-hello-front.git",
             branch: 'Test/main'
-            sh "echo 'Jenkinsfile' >> .gitignore"
             sh 'git push -u origin Test/main'
-
         }
+        
         
     }
 
