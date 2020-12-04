@@ -96,7 +96,6 @@ node
             
         sh("""
             echo 'Jenkinsfile' >> .gitignore
-            git git@github.com:abes-esr/abes-hello-front.git
             git push origin Test/main
         """)   
     }
