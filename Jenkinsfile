@@ -90,14 +90,13 @@ node
     stage('Build git main') {
        
         echo 'Push to git main started'
-        sshagent(['github_ssh_key']) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'github_ssh_key', keyFileVariable: 'SSH_KEY')]) {
             sh("""
-                git checkout Test/main
                 echo 'Jenkinsfile' >> .gitignore
-                git push --set-upstream origin Test/main
+                git push origin Test/main
             """)
         }
-        
+       
     }
 
         
