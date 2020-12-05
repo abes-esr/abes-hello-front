@@ -91,10 +91,8 @@ node
        
         echo 'Push to git branch main started'
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Git_hub_id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-
-            sh("echo 'Jenkinsfile' >> .gitignore") 
-            sh("git remote rm origin") 
-            sh("git remote add origin https://github.com/4duytran/test-push-jenkins.git")   
+            
+            sh("echo 'Jenkinsfile' >> .gitignore")   
             try {
                 sh("git branch Test/main")
                 sh("git checkout Test/main")
