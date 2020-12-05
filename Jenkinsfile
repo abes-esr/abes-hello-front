@@ -92,7 +92,7 @@ node
         echo 'Push to git branch main started'
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Git_hub_id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
 
-            sh("gecho 'Jenkinsfile' >> .gitignore")
+            sh("echo 'Jenkinsfile' >> .gitignore")
             sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/abes-esr/abes-hello-front.git -b Test/main')
         }
          
