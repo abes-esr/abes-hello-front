@@ -67,51 +67,14 @@ node
         
         
     }
-/*
-    stage('git main') {
-        echo 'Push to git main started'
-        sh "echo 'Jenkinsfile' >> .gitignore"
-         withCredentials([[
-            $class: 'UsernamePasswordMultiBinding',
-            credentialsId: 'Github',
-            usernameVariable: 'GIT_USERNAME',
-            passwordVariable: 'GIT_PASSWORD'
-        ]]) 
-        { 
-            git url: "https://github.com/abes-esr/abes-hello-front.git",
-            branch: 'Test/main'
-            sh 'git push -u origin Test/main'
-        }
-        
-        
-    }
-*/
 
-    stage('Build git main') {
-       
-        echo 'Push to git branch main started'
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Git_hub_id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-            
-            sh("echo 'Jenkinsfile' >> .gitignore")   
-            try {
-                sh("git branch Test/main")
-                sh("git checkout Test/main")
-            } catch (Exception e){
-                sh("git checkout Test/main")
-            }
-             
-            sh('git push -u origin Test/main')
-        }
-         
-    }
 
-        
     stage('main job prod') {
         echo 'Main job prod with trigger started'
-         //sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
-            //sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/hello/ && rm -rf -d js && rm -rf -d css"'
-            //sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
-        //}
+         sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
+            sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/hello/ && rm -rf -d js && rm -rf -d css"'
+            sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
+        }
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
 }
