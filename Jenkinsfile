@@ -99,7 +99,7 @@ node
             } catch (Exception e){
                 sh("git checkout Test/main")
             }    
-            sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/4duytran/test-abes-front-push.git Test/main')
+            sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/abes-esr/abes-hello-front.git Test/main')
         }
          
     }
