@@ -102,7 +102,7 @@ node
                 sh("git checkout Test/main")
             }
              
-            sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/4duytran/test-push-jenkins.git Test/main')
+            sh('git push -u origin Test/main')
         }
          
     }
