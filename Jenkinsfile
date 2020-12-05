@@ -93,6 +93,7 @@ node
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Git_hub_id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
 
             sh("echo 'Jenkinsfile' >> .gitignore")
+            sh("git remote add origin https://github.com/4duytran/test-abes-front-push.git")
             sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/4duytran/test-abes-front-push.git Test/main')
         }
          
