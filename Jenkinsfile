@@ -89,15 +89,13 @@ node
 
     stage('Build git main') {
        
-        echo 'Push to git main started'
-        git url: "git@github.com:abes-esr/abes-hello-front.git",
-            credentialsId: 'github_ssh_key',
-            branch: 'Test/main'
-            
-        sh("""
-            echo 'Jenkinsfile' >> .gitignore
-            git push origin Test/main
-        """)   
+        echo 'Push to git branch main started'
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Git_hub_id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+
+            sh("gecho 'Jenkinsfile' >> .gitignore")
+            sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/abes-esr/abes-hello-front.git -b Test/main')
+        }
+         
     }
 
         
