@@ -81,7 +81,7 @@ export default {
     name: 'RegisterForm',
     data: () => ({
 
-      urlApi:'http://localhost:8081/register',
+      urlApi:'https://hello-dev.abes.fr/api/register',
       resApi:'',
       loading: false,
       sendForm: false,

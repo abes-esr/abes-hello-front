@@ -35,7 +35,7 @@
 
     data: () => ({
 
-      publicApi: 'http://localhost:8081',
+      publicApi: 'https://hello-dev.abes.fr/api/',
       resApi:'',
       loading: true,
 
