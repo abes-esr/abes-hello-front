@@ -35,7 +35,7 @@
 
     data: () => ({
 
-      publicApi: 'https://hello-dev.abes.fr/api/',
+      publicApi: 'http://cirse1-dev.v3.abes.fr:8132/Hello_Abes_back_end/api/',
       resApi:'',
       loading: true,
 

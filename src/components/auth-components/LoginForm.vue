@@ -12,6 +12,7 @@
           />
           <v-divider class="mx-4"></v-divider>
           <h1 class="mt-10">Se connecter</h1>
+          <span class="mt-10">Demo account: admin - @TestTest85</span>
         </v-col>
       </v-row>
 

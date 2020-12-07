@@ -81,7 +81,7 @@ export default {
     name: 'RegisterForm',
     data: () => ({
 
-      urlApi:'https://hello-dev.abes.fr/api/register',
+      urlApi:'http://cirse1-dev.v3.abes.fr:8132/Hello_Abes_back_end/api/register',
       resApi:'',
       loading: false,
       sendForm: false,
