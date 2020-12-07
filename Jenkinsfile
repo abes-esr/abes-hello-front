@@ -16,7 +16,7 @@ node
         pipelineTriggers([pollSCM('* * * * *')])
     ])
    stage('SCM checkout') {
-        checkout([$class: 'GitSCM', branches: [[name: 'Test/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Git_hub_id', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: 'Test/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
    }
 
    stage('Information') {
@@ -67,14 +67,58 @@ node
         
         
     }
+/*
+    stage('git main') {
+        echo 'Push to git main started'
+        sh "echo 'Jenkinsfile' >> .gitignore"
+         withCredentials([[
+            $class: 'UsernamePasswordMultiBinding',
+            credentialsId: 'Github',
+            usernameVariable: 'GIT_USERNAME',
+            passwordVariable: 'GIT_PASSWORD'
+        ]]) 
+        { 
+            git url: "https://github.com/abes-esr/abes-hello-front.git",
+            branch: 'Test/main'
+            sh 'git push -u origin Test/main'
+        }
+        
+        
+    }
+*/
 
+    stage('Build git main') {
+       
+        echo 'Push to git main started'
+        
+        sh 'git config --global credential.helper cache'
+        sh 'git config --global push.default simple'
 
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: 'Test/main']],
+            extensions: [
+                [$class: 'CloneOption', noTags: true, reference: '', shallow: true]
+            ],
+            submoduleCfg: [],
+            userRemoteConfigs: [
+                [ credentialsId: 'Github', url: 'https://github.com/abes-esr/abes-hello-front.git']
+            ]
+        ])
+        sh "git checkout Test/main" //To get a local branch tracking remote
+        sh "echo 'Jenkinsfile' >> .gitignore"
+        sh 'git push --set-upstream origin Test/main'
+
+    }
+
+        
+    
     stage('main job prod') {
         echo 'Main job prod with trigger started'
-         sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
-            sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/hello/ && rm -rf -d js && rm -rf -d css"'
-            sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
-        }
+         //sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
+            //sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/hello/ && rm -rf -d js && rm -rf -d css"'
+            //sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
+        //}
         build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
 }
