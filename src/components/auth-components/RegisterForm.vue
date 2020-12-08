@@ -118,7 +118,7 @@ export default {
             .then(res => this.resApi = res.data)
             .catch(err => {
               this.resApi = err;
-              console.log(err.response);
+              console.log(err.response.data);
               });
             this.loading=false;
           }, 2000);
