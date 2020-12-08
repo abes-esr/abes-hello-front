@@ -114,7 +114,9 @@ export default {
           this.loading = true;
           let auth = {userName: this.name, passWord: this.passWord};
           setTimeout(async () => {
-            this.resApi = await this.$http.post(this.urlApi, auth);
+            await this.$http.post(this.urlApi, auth)
+            .then(res => this.resApi = res)
+            .catch(err => this.resApi = err);
             this.loading=false;
           }, 2000);
         }
