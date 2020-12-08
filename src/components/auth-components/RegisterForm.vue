@@ -69,7 +69,7 @@
             <v-divider class="mx-4"></v-divider>
             <h1>La réponse de serveur API</h1>
             <h4 class="mt-10" v-if="loading">Loading data ...</h4>
-            <h4 class="mt-10" v-else><code>{{resApi.data}}</code></h4>
+            <h4 class="mt-10" v-else><code>{{resApi}}</code></h4>
           </v-col>
         </v-row>
     </v-container>
@@ -115,7 +115,7 @@ export default {
           let auth = {userName: this.name, passWord: this.passWord};
           setTimeout(async () => {
             await this.$http.post(this.urlApi, auth)
-            .then(res => this.resApi = res)
+            .then(res => this.resApi = res.data)
             .catch(err => this.resApi = err);
             this.loading=false;
           }, 2000);
