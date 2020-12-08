@@ -116,7 +116,7 @@ export default {
           setTimeout(async () => {
             await this.$http.post(this.urlApi, auth)
             .then(res => this.resApi = res)
-            .catch(err => this.resApi = err);
+            .catch(err => this.resApi = err.data);
             this.loading=false;
           }, 2000);
         }
