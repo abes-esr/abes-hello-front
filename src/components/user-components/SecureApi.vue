@@ -80,6 +80,7 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   name: 'SecureApi',
   data: () => ({
+
     urlApi: this.$apiUrl+'secured',
     urlCommande: this.$apiUrl+'secured/commande',
     resApi: '',
