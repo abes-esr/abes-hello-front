@@ -9,6 +9,7 @@ import store from './store'
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
+Vue.prototype.$apiUrl = ' https://hello-dev.abes.fr/api/'
 
 new Vue({
   router,

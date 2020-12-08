@@ -80,8 +80,8 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   name: 'SecureApi',
   data: () => ({
-    urlApi: 'https://hello-dev.abes.fr/api/secured',
-    urlCommande: 'https://hello-dev.abes.fr/api/secured/commande',
+    urlApi: this.$apiUrl+'secured',
+    urlCommande: this.$apiUrl+'secured/commande',
     resApi: '',
     loading: true,
     tabHeader:[

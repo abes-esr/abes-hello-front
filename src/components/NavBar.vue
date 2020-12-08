@@ -6,7 +6,7 @@
         dark
     >
       <v-toolbar-title
-          @click="$router.push('/')"
+          @click="$router.push({name: 'Home'})"
           class="display-1 Bold text"
           style="cursor:pointer">Hello-Abes
       </v-toolbar-title>
