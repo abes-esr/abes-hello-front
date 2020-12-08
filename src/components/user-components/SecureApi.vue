@@ -81,8 +81,8 @@ export default {
   name: 'SecureApi',
   data: () => ({
 
-    urlApi: this.$apiUrl+'secured',
-    urlCommande: this.$apiUrl+'secured/commande',
+    urlApi: ' https://hello-dev.abes.fr/api/secured',
+    urlCommande: ' https://hello-dev.abes.fr/api/secured/commande',
     resApi: '',
     loading: true,
     tabHeader:[
