@@ -95,6 +95,6 @@ node
             sh 'scp -r dist/* devel@raiponce1.v3.abes.fr:/var/www/html/hello/'
         }
         
-       // build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
+        //build 'Hello abes Front-MultibranchPipeline/Test%2Fmain'
     }
 }

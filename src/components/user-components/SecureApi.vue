@@ -81,8 +81,8 @@ export default {
   name: 'SecureApi',
   data: () => ({
 
-    urlApi: '/api/secured',
-    urlCommande: '/api/secured/commande',
+    urlApi: this.$route.query.page+'/api/secured',
+    urlCommande: this.$route.query.page+'/api/secured/commande',
     resApi: '',
     loading: true,
     tabHeader:[
@@ -110,7 +110,6 @@ export default {
   },
   created () {
     this.checkTokenAction(this.urlApi);
-
 
     setTimeout( async() => {
 
