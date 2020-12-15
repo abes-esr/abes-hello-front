@@ -8,7 +8,7 @@
       <v-toolbar-title
           @click="$router.push({name: 'Home'})"
           class="display-1 Bold text"
-          style="cursor:pointer">Hello-Abes
+          style="cursor:pointer">Hello-Abes-test
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
