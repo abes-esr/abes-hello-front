@@ -81,7 +81,7 @@ export default {
   name: 'SecureApi',
   data: () => ({
 
-    urlApi: this.$route.query.page+'/api/secured',
+    urlApi: 'https://hello-dev.abes.fr/api/secured',
     urlCommande: this.$route.query.page+'/api/secured/commande',
     resApi: '',
     loading: true,

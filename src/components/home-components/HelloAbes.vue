@@ -35,7 +35,7 @@
 
     data: () => ({
 
-      publicApi:  this.$route.query.page+'/api/',
+      publicApi: 'https://hello-dev.abes.fr/api/',
       resApi:'',
       loading: true,
 

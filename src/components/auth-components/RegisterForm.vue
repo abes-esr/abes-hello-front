@@ -81,7 +81,7 @@ export default {
     name: 'RegisterForm',
     data: () => ({
 
-      urlApi: this.$route.query.page+'/api/register',
+      urlApi: 'https://hello-dev.abes.fr/api/register',
       resApi:'',
       loading: false,
       sendForm: false,
