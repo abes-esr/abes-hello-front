@@ -82,7 +82,7 @@ export default {
   data: () => ({
 
     urlApi: 'https://hello-dev.abes.fr/api/secured',
-    urlCommande: this.$route.query.page+'/api/secured/commande',
+    urlCommande: 'https://hello-dev.abes.fr/api/secured/commande',
     resApi: '',
     loading: true,
     tabHeader:[
