@@ -28,20 +28,19 @@ export default class SecurePage extends Vue {
 
   async mounted(): Promise<void> {
     if(this.getIsLogged && this.secretToken !== ""){
-      this.resApi = await AxiosRequest.getPrivateMessage(this.secretToken! + "")
+      this.resApi = await AxiosRequest.getPrivateMessage(this.secretToken! + " 66")
                     .then(res => {
                       if(res.status == 200) {
                         return res.data;
                       }
                     })
                     .catch(err => {
-                      return "Can not connect to server: " + err.message + " : " + err.response.data.status;
+                      return "Can not connect to server: " + err.message ;
                     });
     }
 
     if(this.resApi !== null) {
       this.loading = false;
-      console.log(this.resApi);
     }
   }
 

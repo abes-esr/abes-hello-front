@@ -14,7 +14,7 @@ export const actions: ActionTree<UserState, RootState> = {
         commit('setUserError', res.data)
       }
     })
-      .catch(err => commit('setUserError', err.message) )
+      .catch(err => commit('setUserError', err.data) )
   },
 
   doLogout({ commit }): void {

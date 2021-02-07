@@ -46,6 +46,7 @@
             color="success"
             class="mr-4"
             @click="validate"
+            :loading="buttonLoading"
           >
             Valider
           </v-btn>
@@ -64,11 +65,13 @@
 
 <script lang="ts">
 
-import { Component, Emit, Vue } from "vue-property-decorator";
+import { Component, Emit, Vue, Prop } from "vue-property-decorator";
 
 
 @Component
 export default class LoginForm extends Vue {
+
+  @Prop() readonly buttonLoading!: boolean;
 
   name = "";
   passWord = "";

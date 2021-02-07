@@ -21,12 +21,12 @@ export abstract class AxiosRequest {
 
   }
 
-  public static async doLogin(user: any): Promise<AxiosResponse<User>> {
-    return await http.post<User>('/login', user);
+  public static async doLogin(user: any): Promise<ApiResponse> {
+    return await http.post<ApiResponse>('/login', user);
   }
 
-  public static async doRegister(user: any): Promise<AxiosResponse<User>> {
-    return await http.post<User>('/register', user);
+  public static async doRegister(user: any): Promise<ApiResponse> {
+    return await http.post<ApiResponse>('/register', user);
   }
 
 }
