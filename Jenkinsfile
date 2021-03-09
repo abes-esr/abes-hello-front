@@ -1,169 +1,263 @@
+//this is the scripted method with groovy engine
+import hudson.model.Result
 
-//https://gist.github.com/qzm/f8921c0b7032ab7a6497ea92eb605438
+node {
 
-//env config :
-//https://www.placeme.io/blog/gitlab-ci-cd-lint-test-build-deploy
-//https://stackoverflow.com/questions/11104028/process-env-node-env-is-undefined
-//https://renatello.com/vue-js-base-url-global-variables/
-node
-{
+    //Configuration
+    def gitURL = "https://github.com/abes-esr/abes-hello-front.git"
+    def gitCredentials = ''
+    def slackChannel = "#notif-helloabes"
 
-    env.NODEJS_HOME = "${tool 'NodeJS 11.2.0'}"
-    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-    sh 'npm --version'
+    def jsDirName = "dist"
+    def jsDir = "${jsDirName}/"
+    def htmlBaseDir = "/var/www/html/abes-hello/"
 
-    //if (ENV == 'DEV') {
-        //env.NODE_ENV = "dev"
-    //}
-    //if (ENV == 'TEST') {
-        //env.NODE_ENV = "test"
-    //}
-    //if (ENV == 'PROD') {
-        //env.NODE_ENV = "production"
-    //}
+    def baseUrlDev = "https://hello-dev.abes.fr"
+    def apiUrlDev = "https://hello-dev.abes.fr/api"
 
-    def ENV = params.ENV
-    def executeTests = params.executeTests
-    if(params.ENV != null) {
-        echo "env =  ${ENV}"
-        echo ENV
+    def baseUrlTest = "https://hello-test.abes.fr"
+    def apiUrlTest = "https://hello-test.abes.fr/api"
+
+    def baseUrlProd = "https://hello.abes.fr"
+    def apiUrlProd = "https://hello.abes.fr/api"
+
+    // Variables globales
+    def ENV
+    def serverHostnames = []
+    def serverCredentials = []
+    def isBuildAction
+    def executeTests
+    def isDeployAction
+
+    // Configuration du job Jenkins
+    // On garde les 5 derniers builds par branche
+    // On scanne les branches et les tags du Git
+    properties([
+            buildDiscarder(
+                    logRotator(
+                            artifactDaysToKeepStr: '',
+                            artifactNumToKeepStr: '',
+                            daysToKeepStr: '',
+                            numToKeepStr: '5')
+            ),
+            parameters([
+                    choice(choices: ['Compiler', 'Compiler & Deployer'], description: 'Que voulez-vous faire ?', name: 'ACTION'),
+                    gitParameter(
+                            branch: '',
+                            branchFilter: 'origin/(.*)',
+                            defaultValue: 'develop',
+                            description: 'Sélectionner la branche ou le tag',
+                            name: 'BRANCH_TAG',
+                            quickFilterEnabled: false,
+                            selectedValue: 'NONE',
+                            sortMode: 'DESCENDING_SMART',
+                            tagFilter: '*',
+                            type: 'PT_BRANCH_TAG'),
+                    booleanParam(defaultValue: false, description: 'Voulez-vous exécuter les tests ?', name: 'executeTests'),
+                    choice(choices: ['DEV', 'TEST', 'PROD'], description: 'Sélectionner l\'environnement cible', name: 'ENV')
+            ])
+    ])
+
+    stage('Set environnement variables') {
+        try {
+
+            env.NODEJS_HOME = "${tool 'NodeJS 11.2.0'}"
+            env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+            sh 'npm --version'
+
+            // Action a faire
+            if (params.ACTION == null) {
+                isBuildAction = false
+                isDeployAction = false
+            } else if (params.ACTION == 'Compiler') {
+                isBuildAction = true
+                isDeployAction = false
+            } else if (params.ACTION == 'Compiler & Deployer') {
+                isBuildAction = true
+                isDeployAction = true
+            } else {
+                throw new Exception("Unable to decode variable ACTION")
+            }
+            echo "isBuildAction =  ${isBuildAction}"
+            echo "isDeployAction =  ${isDeployAction}"
+
+            // Branche a deployer
+            if (params.BRANCH_TAG == null) {
+                throw new Exception("Variable BRANCH_TAG is null")
+            } else {
+                echo "Branch to deploy =  ${params.BRANCH_TAG}"
+            }
+
+            // Booleen d'execution des tests
+            if (params.executeTests == null) {
+                executeTests = false
+            } else {
+                executeTests = params.executeTests
+            }
+            echo "executeTests =  ${executeTests}"
+
+            // Environnement de deploiement
+            if (params.ENV == null) {
+                throw new Exception("Variable ENV is null")
+            } else {
+                ENV = params.ENV
+                echo "Target environnement =  ${ENV}"
+            }
+
+            if (ENV == 'DEV') {
+                serverHostnames.add('hostname.server-front-1-dev')
+                serverCredentials.add('raiponce1-dev-ssh-key')
+
+                serverHostnames.add('hostname.server-front-2-dev')
+                serverCredentials.add('raiponce2-dev-ssh-key')
+
+            } else if (ENV == 'TEST') {
+                serverHostnames.add('hostname.server-front-1-test')
+                serverCredentials.add('raiponce1-test-ssh-key')
+
+                serverHostnames.add('hostname.server-front-2-test')
+                serverCredentials.add('raiponce2-test-ssh-key')
+
+            } else if (ENV == 'PROD') {
+                serverHostnames.add('hostname.server-front-1-prod')
+                serverCredentials.add('raiponce1-prod-ssh-key')
+
+                serverHostnames.add('hostname.server-front-2-prod')
+                serverCredentials.add('raiponce2-prod-ssh-key')
+            }
+
+        } catch (e) {
+            currentBuild.result = hudson.model.Result.NOT_BUILT.toString()
+            notifySlack(slackChannel,e.getLocalizedMessage())
+            throw e
+        }
     }
 
-    properties(
-            [parameters([
-                choice(choices: ['DEV', 'TEST', 'PROD'], description: '', name: 'ENV'),
-                choice(choices: ['1.1.0', '1.2.0', '1.3.0'], description: '', name: 'VERSION'),
-                booleanParam(defaultValue: false, description: '', name: 'executeTests')
-                ])])
+    stage('SCM checkout') {
+        try {
+            checkout([
+                    $class                           : 'GitSCM',
+                    branches                         : [[name: "${params.BRANCH_TAG}"]],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions                       : [],
+                    submoduleCfg                     : [],
+                    userRemoteConfigs                : [[credentialsId: "${gitCredentials}", url: "${gitURL}"]]
+            ])
 
-
-
-
-
-   stage('SCM checkout') {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master'], [name: '*/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/abes-esr/abes-hello-front.git']]])
-   }
-
-   stage('Information') {
-       sh 'node -v'
-       sh 'npm -v'
-   }
-/*
-   stage('Config') {
-       if (ENV == 'DEV') {
-           sh 'export NODE_ENV=development'
-           sh 'export VUE_APP_BASE_URL="https://thesesinterfacebatchs.v212.abes.fr"'
-           sh 'export VUE_APP_CIRSE_URL="http://cirse1-dev.v3.abes.fr:8131"'
-           sh 'export outputDir=dist-dev/'
-           //sh 'npm run build:development'
-       }
-       if (ENV == 'TEST') {
-           sh 'export NODE_ENV=staging'
-           sh 'export VUE_APP_BASE_URL="https://thesesinterfacebatchs.v202.abes.fr"'
-           sh 'export VUE_APP_CIRSE_URL="http://cirse1-test.v3.abes.fr:8131"'
-           sh 'export outputDir=dist-test/'
-           //sh 'npm run build:staging'
-       }
-       if (ENV == 'PROD') {
-           sh 'export NODE_ENV=production'
-           sh 'export VUE_APP_BASE_URL="https://thesesinterfacebatchs.v102.abes.fr"'
-           sh 'export VUE_APP_CIRSE_URL="http://cirse1-prod.v3.abes.fr:8131"'
-           sh 'export outputDir=dist-prod/'
-           //sh 'npm run build:production'
-       }
-   }
-*/
-    stage('Dependencies') {
-        sh 'npm install'
+        } catch (e) {
+            currentBuild.result = hudson.model.Result.FAILURE.toString()
+            notifySlack(slackChannel,e.getLocalizedMessage())
+            throw e
+        }
     }
 
-    //stage('Unit Test') {
-   //     sh 'npm run unit'
-   // }
+    if ("${isBuildAction}" == 'true') {
+            // Compilation du code
 
-    //stage('E2E Test') {
-    //    sh 'npm run e2e'
-    //}
-
-
-    stage('Build') {
-        sh 'npm run build'
-    }
-
-    //stage('Artifacts') {
-        //sh 'tar -czf dist.tar.gz ./dist'
-        //stash 'dist.tar.gz'
-        //stash 'Raiponcefile'
-        //stash 'nginx.conf'
-        //archiveArtifacts artifacts: 'dist.tar.gz', fingerprint: true
-    //}
-
-    stage ('deploy to raiponce'){
-       echo 'deployment started'
-
-        if (ENV == 'DEV') {
-            //here we have the choice : we can create the credential in jenkins/configuration/ssh servers
-            //or in the space project (so the credential can only be accessed by the project)
-            //or in jenkins/identifiants/system/identifiants globaux (so the credential can be accessed by all the projects)
-
-            sshagent(credentials: ['raiponce1-dev-ssh-key']) { //one key per tomcat
-                withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
-                    sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
+         stage('Dependencies') {
+                try {
+                    sh 'npm install'
+                } catch (e) {
+                    currentBuild.result = hudson.model.Result.FAILURE.toString()
+                    notifySlack(slackChannel,e.getLocalizedMessage())
+                    throw e
                 }
-                sh 'scp -r dist/* devel@raiponce1-dev.v3.abes.fr:/var/www/html/abes-hello/'
-                //sh 'scp dist.tar.gz devel@raiponce1-dev.v3.abes.fr://var/www/html/thesesinterfacebatchs/'
-                //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && tar xvzf dist.tar.gz"'
-                //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "mv /var/www/html/thesesinterfacebatchs/dist/* /var/www/html/thesesinterfacebatchs/"'
-                //sh 'ssh -tt devel@raiponce1-dev.v3.abes.fr  "cd /var/www/html/thesesinterfacebatchs/ && rm dist.tar.gz && rm -d dist"'
-                //sh 'tar -xf dist.tar.gz'
             }
-            sshagent(credentials: ['raiponce2-dev-ssh-key']) { //one key per tomcat
-                withCredentials([usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username')]) {
-                    sh 'ssh -tt devel@raiponce2-dev.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-                }
-                sh 'scp -r dist/* devel@raiponce2-dev.v3.abes.fr:/var/www/html/abes-hello/'
-            }
-        }
-        if (ENV == 'TEST') {
 
-            sshagent(credentials: ['raiponce1-test-ssh-key']) { //one key per tomcat
-                sh 'ssh -tt devel@raiponce1-test.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-                sh 'scp -r dist/* devel@raiponce1-test.v3.abes.fr://var/www/html/abes-hello/'
-            }
-            sshagent(credentials: ['raiponce2-test-ssh-key']) { //one key per tomcat
-                sh 'ssh -tt devel@raiponce2-test.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-                sh 'scp -r dist/* devel@raiponce2-test.v3.abes.fr:/var/www/html/abes-hello/'
-            }
-        }
-        if (ENV == 'PROD') {
-            //here we have the choice : we can create the credential in jenkins/configuration/ssh servers
-            //or in the space project (so the credential can only be accessed by the project)
-            //or in jenkins/identifiants/system/identifiants globaux (so the credential can be accessed by all the projects)
-
-            sshagent(credentials: ['raiponce1-prod-ssh-key']) { //one key per tomcat
-                sh 'ssh -tt devel@raiponce1.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-                sh 'scp -r dist-prod/* devel@raiponce1.v3.abes.fr:/var/www/html/abes-hello/'
-            }
-            sshagent(credentials: ['raiponce2-prod-ssh-key']) { //one key per tomcat
-                sh 'ssh -tt devel@raiponce2.v3.abes.fr  "cd /var/www/html/abes-hello/ && rm -rf -d js && rm -rf -d css"'
-                sh 'scp -r dist-prod/* devel@raiponce2.v3.abes.fr:/var/www/html/abes-hello/'
+        stage('Build') {
+            try {
+                  if (ENV == 'DEV') {
+                       sh 'export NODE_ENV=development'
+                       sh 'export VUE_APP_BASE_URL="${baseUrlDev}"'
+                       sh 'export VUE_APP_CIRSE_URL="${apiUrlDev}"'
+                       sh 'export outputDir=${jsDirName}-dev/'
+                       sh 'npm run build:development'
+                       jsDir = "${jsDirName}-dev/"
+                   } else if (ENV == 'TEST') {
+                       sh 'export NODE_ENV=staging'
+                       sh 'export VUE_APP_BASE_URL="${baseUrlTest}"'
+                       sh 'export VUE_APP_CIRSE_URL="${apiUrlTest}"'
+                       sh 'export outputDir=${jsDirName}-test/'
+                       sh 'npm run build:staging'
+                       jsDir = "${jsDirName}-test/"
+                   } else if (ENV == 'PROD') {
+                       sh 'export NODE_ENV=production'
+                       sh 'export VUE_APP_BASE_URL="${baseUrlProd}"'
+                       sh 'export VUE_APP_CIRSE_URL="${apiUrlProd}"'
+                       sh 'export outputDir=${jsDirName}-prod/'
+                       sh 'npm run build:production'
+                       jsDir = "${jsDirName}-prod/"
+                   }
+            } catch (e) {
+                currentBuild.result = hudson.model.Result.FAILURE.toString()
+                notifySlack(slackChannel,e.getLocalizedMessage())
+                throw e
             }
         }
     }
+
+    if ("${isDeployAction}" == 'true') {
+        // Deploiement sur les serveurs
+
+        stage('deploy to front server') {
+            for (int i = 0; i < serverHostnames.size(); i++) { //Pour chaque serveur
+                try {
+                    sshagent(credentials: ["${serverCredentials[i]}"]) {
+                        withCredentials([
+                                usernamePassword(credentialsId: 'develuser', passwordVariable: 'pass', usernameVariable: 'username'),
+                                string(credentialsId: "${serverHostnames[i]}", variable: 'hostname')
+                        ]) {
+                            echo "Deploy to ${serverHostnames[i]}"
+                            echo "--------------------------"
+
+                            sh "ssh -tt ${username}@${hostname} \"cd ${htmlBaseDir} && rm -rf -d js && rm -rf -d css\""
+                            sh "scp -rf ${jsDir}* ${username}@${hostname}:${htmlBaseDir}"
+                        }
+                    }
+                } catch (e) {
+                    currentBuild.result = hudson.model.Result.FAILURE.toString()
+                    notifySlack(slackChannel, e.getLocalizedMessage())
+                    throw e
+                }
+            }
+        }
+    }
+
+    currentBuild.result = hudson.model.Result.SUCCESS.toString()
+    notifySlack(slackChannel,"Congratulation !")
 }
 
+def notifySlack(String slackChannel, String info = '') {
+    def colorCode = '#848484' // Gray
 
+    switch (currentBuild.result) {
+        case 'NOT_BUILT':
+            colorCode = '#FFA500' // Orange
+            break
+        case 'SUCCESS':
+            colorCode = '#00FF00' // Green
+            break
+        case 'UNSTABLE':
+            colorCode = '#FFFF00' // Yellow
+            break
+        case 'FAILURE':
+            colorCode = '#FF0000' // Red
+            break;
+    }
 
-   //stage('sonarqube analysis'){
-    //   withSonarQubeEnv('SonarQube Server2'){ cf : jenkins/configuration/sonarQube servers ==> between the quotes put the name we gave to the server
-     //      sh "${maventool}/bin/mvn sonar:sonar"
-     //  }
- // }
+    String message = """
+        *Jenkins Build*
+        Job name: `${env.JOB_NAME}`
+        Build number: `#${env.BUILD_NUMBER}`
+        Build status: `${currentBuild.result}`
+        Branch or tag: `${params.BRANCH_TAG}`
+        Target environment: `${params.ENV}`
+        Message: `${info}`
+        Build details: <${env.BUILD_URL}/console|See in web console>
+    """.stripIndent()
 
-
-
-
-
-
-
-
+    return slackSend(tokenCredentialId: "slack_token",
+            channel: "${slackChannel}",
+            color: colorCode,
+            message: message)
+}
