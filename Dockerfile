@@ -1,8 +1,10 @@
 FROM node:lts-alpine as build
 WORKDIR /applis
 COPY package*.json .
+COPY *.js .
+COPY src ./src
+COPY public ./public
 RUN npm install
-COPY . .
 RUN npm run build
 
 # étape de production
