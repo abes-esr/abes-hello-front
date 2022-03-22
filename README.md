@@ -1,5 +1,6 @@
 # abes-hello-front
 
+[![build-test-pubtodockerhub](https://github.com/abes-esr/abes-hello-front/actions/workflows/build-test-pubtodockerhub.yml/badge.svg)](https://github.com/abes-esr/abes-hello-front/actions/workflows/build-test-pubtodockerhub.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/abesesr/abes-hello.svg)](https://hub.docker.com/r/abesesr/abes-hello/)
 
 Application exemple type "Hello World" qui illustre notre politique de développement avec des modèles pour la partie front en VueJS.
 
