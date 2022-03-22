@@ -1,8 +1,10 @@
 # abes-hello-front
 
 
-Application exemple qui illustre notre politique de développement avec des modèles pour la partie front en VueJS
+Application exemple type "Hello World" qui illustre notre politique de développement avec des modèles pour la partie front en VueJS.
 
+Voir aussi le back ici :  
+https://github.com/abes-esr/abes-hello-back
 
 
 ## Utilisation en local avec docker
