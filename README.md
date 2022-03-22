@@ -5,7 +5,6 @@ Application exemple qui illustre notre politique de développement avec des mod�
 
 
 
-
 ## Utilisation en local avec docker
 
 ### Génération des images docker
