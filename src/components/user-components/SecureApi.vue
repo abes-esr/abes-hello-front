@@ -80,8 +80,8 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   name: 'SecureApi',
   data: () => ({
-    urlApi: 'http://localhost:8081/secured',
-    urlCommande: 'http://localhost:8081/secured/commande',
+    urlApi: process.env.VUE_APP_ROOT_API + '/secured',
+    urlCommande: process.env.VUE_APP_ROOT_API + '/secured/commande',
     resApi: '',
     loading: true,
     tabHeader:[
