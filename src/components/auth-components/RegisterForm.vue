@@ -81,7 +81,7 @@ export default {
     name: 'RegisterForm',
     data: () => ({
 
-      urlApi:'http://localhost:8081/register',
+      urlApi: process.env.VUE_APP_ROOT_API + '/register',
       resApi:'',
       loading: false,
       sendForm: false,
