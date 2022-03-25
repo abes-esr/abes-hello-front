@@ -35,7 +35,7 @@
 
     data: () => ({
 
-      publicApi: 'http://localhost:8081',
+      publicApi: process.env.VUE_APP_ROOT_API,
       resApi:'',
       loading: true,
 
