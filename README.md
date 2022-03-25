@@ -36,8 +36,8 @@ Pour le déployer en local sur sa machine, une fois la génération de l'images 
 docker run -d \
   --name abes-hello-front \
   -p 8081:80 \
-  -e ABESHELLO_VUE_APP_ROOT_API="http://127.0.0.1:8080/v1/" \
-  -e ABESHELLO_VUE_APP_RECAPTCHA_KEY_SITE="6LcjHroaAAAAAOhO6sd_1ooz5LfcyRPoYirqxsFt" \
+  -e ABESHELLO_VUE_APP_ROOT_API="http://127.0.0.1:8080/" \
+ \
   abesesr/abes-hello:latest-front
 ```
 
