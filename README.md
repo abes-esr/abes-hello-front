@@ -45,3 +45,8 @@ Pour consulter les logs :
 ```bash
 docker logs -n 100 -f abes-hello-front
 ```
+
+## Publier une nouvelle release de l'application
+
+Se référer à la procédure commune à toutes les applications opensource de l'Abes ici :  
+https://github.com/abes-esr/abes-politique-developpement/blob/main/01-Gestion%20du%20code%20source.md#publier-une-nouvelle-release-dune-application
