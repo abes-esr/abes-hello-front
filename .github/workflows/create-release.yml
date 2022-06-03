@@ -76,7 +76,7 @@ jobs:
           echo "trace1.1"
           git add .
           echo "trace2"
-          git commit -m "[skip ci]"
+          #git commit -m "[skip ci]"
           echo "trace3"
           git push
           echo "trace4"
