@@ -78,7 +78,11 @@ jobs:
           echo "trace2"
           git commit --amend -m "[skip ci]"
           echo "trace3"
-          git push
+          # A noter: push sur les deux branches car on
+          #   vient de modifier le commentaire
+          #   d'un un commit présent sur les deux branches
+          git push origin develop
+          git push origin $CURRENT_GIT_BRANCH
           echo "trace4"
 
       - name: 'Create the github release'
