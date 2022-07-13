@@ -10,7 +10,7 @@ export default {
   data () {
     return {
       name: 'Recaptcha',
-      sitekey: '6LeSNfUZAAAAACKpVKFtRqFRKwIuN_ulDXZGgP7q',
+      sitekey: '6LdPnOogAAAAAAKq2_wCCLQvUIwI8KH6UTbjEzcI',
       widgetId: 0,
     }
   },
