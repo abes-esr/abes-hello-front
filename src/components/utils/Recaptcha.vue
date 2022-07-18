@@ -10,7 +10,7 @@ export default {
   data () {
     return {
       name: 'Recaptcha',
-      sitekey: '6LeSNfUZAAAAACKpVKFtRqFRKwIuN_ulDXZGgP7q',
+      sitekey: process.env.VUE_APP_RECAPTCHA_SITEKEY,
       widgetId: 0,
     }
   },
