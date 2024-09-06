@@ -74,7 +74,7 @@ jobs:
           npm config set tag-version-prefix ''
           npm config set git-tag-version false
           npm version $NEW_TAG         
-          sed -i "s#Version: [0-9]+\.[0-9]+\.[0-9]+#Version: $NEW_TAG#g" README.md
+          sed -i "s#Version: [0-9]+\.[0-9]+\.[0-9]+(-SNAPSHOT)?#Version: $NEW_TAG#g" README.md
           git add .
           git commit -m "Version $NEW_TAG"
           git tag $NEW_TAG
@@ -86,7 +86,7 @@ jobs:
           git switch develop
           git merge main -m "Merge main to develop [skip ci]"
           npm version $NEW_SNAPSHOT_TAG
-          sed -i "s#Version: [0-9]+\.[0-9]+\.[0-9]+#Version: $NEW_SNAPSHOT_TAG#g" README.md
+          sed -i "s#Version: [0-9]+\.[0-9]+\.[0-9]+(-SNAPSHOT)?#Version: $NEW_SNAPSHOT_TAG#g" README.md
           git add .
           git commit -m "Version $NEW_SNAPSHOT_TAG [skip ci]"
           git push
