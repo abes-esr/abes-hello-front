@@ -7,7 +7,7 @@ Application exemple type "Hello World" qui illustre la politique de développeme
 Voir aussi le back ici :  
 https://github.com/abes-esr/abes-hello-back
 
-
+Version: 0.0.0-SNAPSHOT
 ## Développements
 
 ### Utilisation en local avec Docker
