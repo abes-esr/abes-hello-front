@@ -1,7 +1,5 @@
 <template>
-
   <v-container fluid>
-
     <div>
       <v-row class="text-center">
         <v-col cols="12">
@@ -12,7 +10,7 @@
               height="100"
           />
           <v-divider class="mx-4"></v-divider>
-          <h1 class="mt-10">Bienvenue à l'Abes : {{user}}</h1>
+          <h1 class="mt-10">Bienvenue à l'Abes : {{ user }}</h1>
         </v-col>
       </v-row>
     </div>
@@ -33,26 +31,28 @@
             :items-per-page="5"
             class="elevation-1"
           >
-          <template v-slot:item="{ item }">
-            <tr>
-              <td>{{item.name}}</td>
-              <td>{{item.price}}</td>  
-            </tr>
-          </template>
-          <template slot="body.append">
-            <tr class="pink--text">
+            <!-- Slot pour afficher les éléments de la table -->
+            <template v-slot:item="{ item }">
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}</td>
+              </tr>
+            </template>
+
+            <!-- Slot pour afficher la ligne de totals à la fin du tableau -->
+            <template v-slot:body.append>
+              <tr class="pink--text">
                 <th class="title">Totals</th>
-                <th class="title">{{ sumField(commande.products,'price') }}</th>
-            </tr>
-          </template>
+                <th class="title">{{ sumField(commande.products, 'price') }}</th>
+              </tr>
+            </template>
           </v-data-table>
-          
         </v-col>
       </v-row>
-    </div>  
+    </div>
 
     <div v-if="!loading">
-      <v-row class="text-center" >
+      <v-row class="text-center">
         <v-col
             md="6"
             offset-md="3">
@@ -70,12 +70,10 @@
     </div>
 
   </v-container>
-
 </template>
 
 <script>
-
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'SecureApi',
@@ -84,7 +82,7 @@ export default {
     urlCommande: process.env.VUE_APP_ROOT_API + '/secured/commande',
     resApi: '',
     loading: true,
-    tabHeader:[
+    tabHeader: [
       {
         text: 'Produit',
         align: 'left',
@@ -95,7 +93,6 @@ export default {
         text: 'Prix',
         value: 'price',
       },
-      
     ],
     listCommande: [],
   }),
@@ -103,25 +100,22 @@ export default {
     ...mapGetters({
       isLoggedIn: 'auth/isLogged',
       token: 'authToken/authenticated',
-      user: 'auth/user', 
+      user: 'auth/user',
     }),
-    
   },
-  created () {
+  created() {
     this.checkTokenAction(this.urlApi);
 
-
-    setTimeout( async() => {
-
-      if(this.token !== null ) {
-          let config = {
+    setTimeout(async () => {
+      if (this.token !== null) {
+        let config = {
           headers: {
-            Authorization: 'Bearer '+this.token,
+            Authorization: 'Bearer ' + this.token,
           },
         };
 
-        let apiReq = await this.$http.get(this.urlApi,config);
-        let commandReq = await this.$http.get(this.urlCommande,config)
+        let apiReq = await this.$http.get(this.urlApi, config);
+        let commandReq = await this.$http.get(this.urlCommande, config);
         await this.$http.all([apiReq, commandReq])
           .then(this.$http.spread((first_response, second_response) => {
             this.loading = false;
@@ -132,24 +126,23 @@ export default {
             this.resApi = error;
             this.$router.push({ name: 'LoginPage' });
             this.loading = false;
-          })
+          });
       }
     }, 2000);
-
-    
   },
-
   methods: {
-
     ...mapActions({
       checkTokenAction: 'authToken/sendHeaderToken',
     }),
-    
-    sumField(commandeList,key) {
-        // sum data in give key (property)
-        return commandeList.reduce((a, b) => a + (b[key] || 0), 0)
-        
-    }
+
+    sumField(commandeList, key) {
+      // Calcul de la somme des données selon la clé donnée
+      return commandeList.reduce((a, b) => a + (b[key] || 0), 0);
+    },
   },
 }
 </script>
+
+<style scoped>
+/* Ajoutez votre style spécifique ici */
+</style>

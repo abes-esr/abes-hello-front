@@ -1,10 +1,6 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store'
 import Home from '@/views/Home.vue'
-
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -15,9 +11,6 @@ const routes = [
   {
     path: '/login',
     name: 'LoginPage',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "Login" */ '../views/LoginPage')
   },
   {
@@ -43,8 +36,9 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
-  routes
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
 })
 
 router.beforeEach((to, from, next) => {
@@ -60,7 +54,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
-
-
 
 export default router

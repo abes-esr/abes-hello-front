@@ -1,6 +1,6 @@
 ###
 # Phase de compilation de l'appli vuejs
-FROM node:16.14.0 as build-image
+FROM node:16.14.0 AS build-image
 WORKDIR /build/
 # Mise en cache docker pour le téléchargement
 # des dépendances npm (répertoire node_modules/)
@@ -26,15 +26,18 @@ COPY ./src/                         /build/src/
 COPY ./public/                      /build/public/
 RUN npm run build
 
-
-
+# On s'assure que le docker-entrypoint soit bien compréhensible et executable par linux
+# Lié au problème de CRLF->LF notamment par l'édition dans Windows
+COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
+RUN apt-get update && apt-get install -y dos2unix
+RUN dos2unix /docker-entrypoint.sh
 
 ###
 # Serveur web (nginx) pour exec l'appli vuejs
-FROM nginx:1.20.2 as front-image
+FROM nginx:1.20.2 AS front-image
 COPY --from=build-image /build/dist/ /usr/share/nginx/html.orig/
 COPY ./docker/nginx-default.conf /etc/nginx/conf.d/default.conf
-COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+COPY --from=build-image /docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80

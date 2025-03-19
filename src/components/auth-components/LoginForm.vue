@@ -15,10 +15,10 @@
         </v-col>
       </v-row>
 
-      <v-row class="text-center">
-        <v-col cols="12">
+      <v-row class="text-center" justify="center">
+        <v-col cols="4" >
           <v-form
-              class="col-4 offset-4 mt-15"
+              class="mt-15"
               ref="loginForm"
               v-model="valid"
               lazy-validation
@@ -32,7 +32,7 @@
             ></v-text-field>
 
             <v-text-field
-                label="Mot de pass"
+                label="Mot de passe"
                 v-model="passWord"
                 :min="8"
                 :type="value ? 'password' : 'text'"
