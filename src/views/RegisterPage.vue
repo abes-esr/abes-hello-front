@@ -5,14 +5,8 @@
     
 </template>
 
-<script>
+<script setup>
 
 import RegisterForm from '@/components/auth-components/RegisterForm';
-export default {
-    name: 'RegisterPage',
-    components: {
-      RegisterForm,
-    }
-}
 
 </script>

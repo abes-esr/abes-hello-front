@@ -6,7 +6,7 @@
       <v-row class="text-center">
         <v-col cols="12">
           <v-img
-              :src="require('@/assets/picture/logo_abes.jpg')"
+              src="src/assets/picture/abeslogo130.svg"
               class="my-3"
               contain
               height="100"
@@ -33,18 +33,18 @@
             :items-per-page="5"
             class="elevation-1"
           >
-          <template v-slot:item="{ item }">
-            <tr>
-              <td>{{item.name}}</td>
-              <td>{{item.price}}</td>  
-            </tr>
-          </template>
-          <template slot="body.append">
-            <tr class="pink--text">
-                <th class="title">Totals</th>
-                <th class="title">{{ sumField(commande.products,'price') }}</th>
-            </tr>
-          </template>
+          <v-sheet v-slot:item="{ item }">
+              <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+              </tr>
+          </v-sheet>
+          <v-sheet slot="body.append">
+              <tr class="pink--text">
+                  <th class="title">Totals</th>
+                  <th class="title">{{ sumField(commande.products,'price') }}</th>
+              </tr>
+          </v-sheet>
           </v-data-table>
           
         </v-col>
@@ -53,18 +53,17 @@
 
     <div v-if="!loading">
       <v-row class="text-center" >
-        <v-col
-            md="6"
-            offset-md="3">
+        <v-col cols="12">
+          <h3 class="mb-5">La réponse de serveur API</h3>
           <v-divider class="mx-4"></v-divider>
-          <h1>La réponse de serveur API</h1>
-          <h4 class="mt-10">
-            <v-card
-                elevation="2"
-                class="pa-3"
-            ><code>{{ resApi }}</code>
-            </v-card>
-          </h4>
+        </v-col>
+      </v-row>
+
+      <v-row class="text-center">
+        <v-col class="d-flex justify-center" cols="12">
+          <v-sheet class="responseFromServer" max-width="500">
+            {{ resApi }}
+          </v-sheet>
         </v-col>
       </v-row>
     </div>
@@ -75,13 +74,15 @@
 
 <script>
 
-import {mapActions, mapGetters} from 'vuex'
+// TODO convertir en composition api
+
+// import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'SecureApi',
   data: () => ({
-    urlApi: process.env.VUE_APP_ROOT_API + '/secured',
-    urlCommande: process.env.VUE_APP_ROOT_API + '/secured/commande',
+    urlApi: import.meta.env.VITE_APP_ROOT_API + '/secured',
+    urlCommande: import.meta.env.VITE_APP_ROOT_API + '/secured/commande',
     resApi: '',
     loading: true,
     tabHeader:[
@@ -153,3 +154,18 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+
+.responseFromServer {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: #dfdfdf !important;
+  color: black !important;
+  font-family: "Courier New", sans-serif !important;
+  font-size: 0.9em !important;
+  font-weight: 600 !important;
+}
+</style>

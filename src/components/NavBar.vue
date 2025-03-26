@@ -1,23 +1,15 @@
 <template>
   <nav>
-    <v-app-bar
-        app
-        color="primary"
-        dark
-    >
-      <v-toolbar-title
-          @click="$router.push('/')"
-          class="display-1 Bold text"
-          style="cursor:pointer">Hello-Abes
+    <v-app-bar class="py-2" app color="primary" dark>
+      <img class="ml-2" alt="logo Abes" src="@/assets/picture/abeslogo130.svg" height="60">
+      <v-toolbar-title class="display-1 Bold text" @click="router.push('/')" style="cursor:pointer">
+        Hello-Abes
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <div v-for="link in links" :key="link.text">
-        <v-btn
-            :to="link.route"
-            text
-        >
+        <v-btn :to="link.route" text>
           <span class="mr-2">{{ link.namePage }}</span>
         </v-btn>
       </div>
@@ -26,21 +18,30 @@
   </nav>
 </template>
 
-<script>
+<script setup>
+  import {useRouter} from "vue-router";
 
-  import store from "@/store";
-  import router from "@/router";
+  const router = useRouter();
 
-  export default {
-    name: 'NavBar',
-    data: () => ({
-      links: [
-        {'namePage': 'Api-Public', 'route': '/'},
-        {'namePage': 'Api-Privé', 'route': '/secure'},
-        {'namePage': 'Se connecter', 'route': '/login'},
-        {'namePage': 'S\'inscrire', 'route': '/register'},
-      ]
-    }),
-  }
+  const links = [
+    {'namePage': 'Api-Public', 'route': '/'},
+    {'namePage': 'Api-Privé', 'route': '/secure'},
+    {'namePage': 'Se connecter', 'route': '/login'},
+    {'namePage': 'S\'inscrire', 'route': '/register'},
+  ]
+
+  // TODO tester le code ci-dessus et si ok alors supprimer le code ci-dessous
+
+  // export default {
+  //   name: 'NavBar',
+  //   data: () => ({
+  //     links: [
+  //       {'namePage': 'Api-Public', 'route': '/'},
+  //       {'namePage': 'Api-Privé', 'route': '/secure'},
+  //       {'namePage': 'Se connecter', 'route': '/login'},
+  //       {'namePage': 'S\'inscrire', 'route': '/register'},
+  //     ]
+  //   }),
+  // }
 
 </script>

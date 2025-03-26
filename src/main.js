@@ -1,18 +1,38 @@
-import Vue from 'vue'
+// Vue
+import { createApp } from "vue"
+
+// Router
+import router from './router/router'
+
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from "vuetify"
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+// Components
 import App from './App.vue'
-import router from './router'
-import Axios from 'axios'
-import vuetify from './plugins/vuetify';
-import store from './store'
+// import Axios from 'axios'
+import { createPinia } from "pinia";
 
+// TODO continuer à intégrer Pinia dans les fichiers du dossier 'store'
 
+const vuetify = createVuetify({
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi,
+    },
+  },
+  components,
+  directives,
+})
 
-Vue.config.productionTip = false;
-Vue.prototype.$http = Axios;
+const pinia = createPinia();
 
-new Vue({
-  router,
-  vuetify,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+// Vue.config.productionTip = false;
+// Vue.prototype.$http = Axios;
+
+createApp(App).use(vuetify).use(pinia).use(router).mount('#app')

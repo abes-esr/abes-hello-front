@@ -5,14 +5,8 @@
     
 </template>
 
-<script>
+<script setup>
 
 import UserHome from '@/components/user-components/UserHome';
-export default {
-    name: 'DashBoard',
-    components: {
-        UserHome
-    }
-}
 
 </script>

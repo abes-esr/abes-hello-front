@@ -1,18 +1,12 @@
 <template>
   <div class="secure-page">
-    <secure-api />
+<!--    // TODO réactiver le composant secure-api-->
+<!--    <secure-api />-->
   </div>
 </template>
 
-<script>
+<script setup>
 
-import SecureApi from '@/components/user-components/SecureApi';
-
-export default {
-  name: 'SecureApiPage',
-  components: {
-    SecureApi,
-  }
-}
+// import SecureApi from '@/components/user-components/SecureApi';
 
 </script>

@@ -6,6 +6,9 @@
 </template>
 
 <script>
+
+// TODO convertir en composition api
+
 export default {
   data () {
     return {

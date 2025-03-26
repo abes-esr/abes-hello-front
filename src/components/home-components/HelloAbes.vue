@@ -1,59 +1,53 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('@/assets/picture/logo_abes.jpg')"
-          class="my-3"
-          contain
-          height="100"
-        />
-      </v-col>
-    </v-row>
 
     <v-row class="text-center">
       <v-col cols="12">
-        <h3 class="mb-5">La réponse de serveur API</h3>
+        <h1 class="mb-4">La réponse de serveur API</h1>
         <v-divider class="mx-4"></v-divider>
       </v-col>
     </v-row>
     
-    <v-row class="text-center">
-      <v-col cols="12">
-        <h4 class="mt-10" v-if="loading">Loading data ...</h4>
-        <h4 class="mt-10" v-else><code>{{resApi}}</code></h4>
+    <v-row class="text-center mt-8">
+      <v-col class="d-flex justify-center" cols="12">
+        <h4 v-if="loading">Loading data ...</h4>
+        <v-sheet v-else class="responseFromServer" max-width="500">
+          {{ resApi }}
+        </v-sheet>
       </v-col>
     </v-row>
     
   </v-container>
 </template>
 
-<script>
+<script setup>
 
-  export default {
-    name: 'HelloAbes',
+import {onMounted, ref} from "vue";
+import HelloAbesBackService from "@/service/HelloAbesBackService";
 
-    data: () => ({
+const resApi = ref('');
+const loading = ref(true);
 
-      publicApi: process.env.VUE_APP_ROOT_API,
-      resApi:'',
-      loading: true,
+onMounted(() => {
+  HelloAbesBackService.apiTestConnexion().then(response => {
+    resApi.value = response.data.response;
+    loading.value = false;
+  })
+})
 
-    }),
-    created: function() {
-      this.$http.get(this.publicApi)
-      .then(res => {
-        setTimeout(() => {
-          this.resApi = res.data;
-          this.loading = false;
-        }, 2000)
-        
-      })
-      .catch(error => {
-        this.resApi = error;
-        this.loading = false;
-      })
-    
-    }
-  }
 </script>
+
+<style scoped>
+
+.responseFromServer {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: #dfdfdf !important;
+  color: black !important;
+  font-family: "Courier New", sans-serif !important;
+  font-size: 0.9em !important;
+  font-weight: 600 !important;
+}
+</style>

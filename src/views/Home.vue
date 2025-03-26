@@ -1,17 +1,18 @@
 <template>
-  <div class="home">
     <HelloAbes />
-  </div>
 </template>
 
-<script>
+<script setup>
 // @ is an alias to /src
-import HelloAbes from '@/components/home-components/HelloAbes'
+import HelloAbes from '@/components/home-components/HelloAbes.vue'
 
-export default {
-  name: 'Home',
-  components: {
-    HelloAbes
-  }
-}
+
+// TODO supprimer ce code mort
+
+// export default {
+//   name: 'Home',
+//   components: {
+//     HelloAbes
+//   }
+// }
 </script>
