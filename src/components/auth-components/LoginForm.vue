@@ -1,47 +1,43 @@
 <template>
-
-    <v-container fluid>
+    <v-container>
 
       <v-row class="text-center">
         <v-col cols="12">
-          <v-img
-              src="src/assets/picture/abeslogo130.svg"
-              class="my-3"
-              contain
-              height="100"
-          />
+          <h1 class="mb-4">Se connecter</h1>
           <v-divider class="mx-4"></v-divider>
-          <h1 class="mt-10">Se connecter</h1>
         </v-col>
       </v-row>
 
-      <v-row class="text-center">
-        <v-col cols="12">
+      <v-row class="text-center mt-8">
+        <v-col class="d-flex justify-center" cols="12">
           <v-form
-              class="col-4 offset-4 mt-15"
+              class="col-8"
               ref="loginForm"
               v-model="valid"
               lazy-validation
           >
             <v-text-field
+                label="Nom utilisateur"
                 v-model="name"
                 :counter="10"
                 :rules="nameRules"
-                label="Nom utilisateur"
                 required
+                width="400"
             ></v-text-field>
 
             <v-text-field
                 label="Mot de pass"
                 v-model="passWord"
                 :min="8"
-                :type="value ? 'password' : 'text'"
+                :type="isPasswordIconVisible ? 'password' : 'text'"
                 :rules="passwordRules"
-                :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append="() => (value = !value)"
+                :append-inner-icon="isPasswordIconVisible ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append-inner="() => changePasswordIcon()"
                 counter
                 required
+                width="400"
             ></v-text-field>
+
             <v-btn
                 :disabled="!valid"
                 color="success"
@@ -103,7 +99,7 @@ const loginForm = ref(null)
 const name = ref("");
 const passWord = ref("");
 const loading = ref(false);
-const value = true;
+const isPasswordIconVisible = ref(true);
 const valid = ref(false);
 const nameRules = [
   v => !!v || 'Name is required',
@@ -139,6 +135,9 @@ const errorApi = computed(() => {
   return userAuth().errorApi;
 });
 
+function changePasswordIcon() {
+  isPasswordIconVisible.value = !isPasswordIconVisible.value;
+}
 
 function submit (response) {
   console.log(response)

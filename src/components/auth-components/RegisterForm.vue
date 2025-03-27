@@ -4,10 +4,6 @@
     <v-row class="text-center">
       <v-col cols="12">
         <h1 class="mb-4">S'inscrire</h1>
-
-<!--        // TODO résoudre le problème d'import des icônes -->
-        <v-icon color="green-darken-2" icon="mdi-home" size="large"></v-icon>
-
         <v-divider class="mx-4"></v-divider>
       </v-col>
     </v-row>
@@ -33,10 +29,10 @@
             label="Mot de passe"
             v-model="passWord"
             :min="8"
-            :type="value ? 'password' : 'text'"
+            :type="isPasswordIconVisible ? 'password' : 'text'"
             :rules=passwordRules
-            :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="() => (value = !value)"
+            :append-inner-icon="isPasswordIconVisible ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="() => changePasswordIcon()"
             counter
             required
             width="400"
@@ -87,7 +83,7 @@ const registerForm = ref(null);
 const name = ref("");
 const passWord = ref("");
 const loading = ref(false);
-const value = true;
+const isPasswordIconVisible = ref(true);
 const valid = ref(false)
 const sendForm = ref(false);
 const nameRules = [
@@ -107,6 +103,10 @@ watch(() => {
     }
   })
 })
+
+function changePasswordIcon() {
+  isPasswordIconVisible.value = !isPasswordIconVisible.value;
+}
 
 function validate () {
   sendForm.value = true;
