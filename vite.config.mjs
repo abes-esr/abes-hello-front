@@ -1,20 +1,22 @@
+// Plugins
+import Vue from '@vitejs/plugin-vue'
+import {transformAssetUrls} from 'vite-plugin-vuetify'
+
 // Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
-// import { dirname, resolve } from 'node:path'
 import packageJson from './package.json'
 
-// Plugins
-import Vue from '@vitejs/plugin-vue'
-// import vueDevTools from 'vite-plugin-vue-devtools'
-
-// const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		Vue(),
-		// vueDevTools(),
+		Vue({
+			template: {
+				transformAssetUrls: {
+					base: null,
+					includeAbsolute: false,
+				},
+			},
+		}),
 	],
 	define: {
     'process.env': {
