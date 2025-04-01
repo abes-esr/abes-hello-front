@@ -1,19 +1,19 @@
 <template>
   <v-app>
-    <NavBarLogged v-if="isLoggedIn" />
-    <NavBar v-else />
+    <NavBarLogged v-if="isLoggedIn"/>
+    <NavBar v-else/>
     <v-main class="my-10">
       <RouterView/>
     </v-main>
-
-<!--    // TODO finaliser l'ajustement des tailles des composants principaux (NavBarLogged, NavBar, Footer)-->
-    <Footer style="flex-basis: 0;" />
-<!--    // TODO implémenter la barre de cookies correct -->
+    <Footer style="flex-basis: 0;"/>
   </v-app>
 </template>
 
 <script setup>
+// TODO finaliser l'ajustement des tailles des composants principaux (NavBarLogged, NavBar, Footer)
 // TODO passer tous les composants en composition API
+// TODO résoudre l'erreur front "Uncaught TypeError: Node.removeChild: Argument 1 is not an object."
+
 import { computed } from 'vue'
 import { userAuth } from '@/store/userAuth'
 
@@ -26,24 +26,4 @@ const isLoggedIn = computed(() => {
   return userAuth().isLoggedIn
 })
 
-// TODO tester l'intégralité du workflow et si ok alors supprimer le code mort ci-dessous
-//
-//
-// export default {
-//   name: 'App',
-//
-//   components: {
-//     NavBar,
-//     NavBarLogged,
-//     CookieBar,
-//   },
-//   data: () => ({
-//     //
-//   }),
-//   computed: {
-//     ...mapGetters({
-//       isLoggedIn: 'auth/isLogged',
-//     }),
-//   },
-// };
 </script>

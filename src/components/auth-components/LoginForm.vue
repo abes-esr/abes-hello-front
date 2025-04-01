@@ -5,6 +5,18 @@
         <v-col cols="12">
           <h1 class="mb-4">Se connecter</h1>
           <v-divider class="mx-4"></v-divider>
+          <v-alert
+              class="my-5"
+              v-model="isAlertErrorVisible"
+              border="start"
+              close-label="Close Alert"
+              color="red"
+              title="Erreur"
+              variant="outlined"
+              closable
+          >
+            {{ errorApiMessage }}
+          </v-alert>
         </v-col>
       </v-row>
 
@@ -26,6 +38,7 @@
             ></v-text-field>
 
             <v-text-field
+                class="mt-4"
                 label="Mot de pass"
                 v-model="passWord"
                 :min="8"
@@ -39,9 +52,9 @@
             ></v-text-field>
 
             <v-btn
+                class="mr-4 mt-4"
                 :disabled="!valid"
                 color="success"
-                class="mr-4"
                 @click="validate"
                 :loading="loading"
             >
@@ -49,8 +62,8 @@
             </v-btn>
 
             <v-btn
+                class="ml-4 mt-4"
                 color="error"
-                class="mr-4"
                 @click="reset"
             >
               Reset Form
@@ -61,25 +74,22 @@
         </v-col>
       </v-row>
 
-      <div v-if="errorApi && !loading">
-
-        <v-row class="text-center" >
-          <v-col cols="12">
-            <h3 class="mb-5">La réponse de serveur API</h3>
-            <v-divider class="mx-4"></v-divider>
-          </v-col>
-        </v-row>
-
-        <v-row class="text-center">
-          <v-col class="d-flex justify-center" cols="12">
-            <v-sheet class="responseFromServer" max-width="500">
-              {{ resApi }}
-            </v-sheet>
-          </v-col>
-        </v-row>
-
-      </div>
-
+<!--      // TODO vérifier la pertinence de garder cet affichage-->
+<!--      <div v-if="responseFromApi !== null && !loading">-->
+<!--        <v-row class="text-center">-->
+<!--          <v-col cols="12">-->
+<!--            <h3 class="mb-5">La réponse de serveur API</h3>-->
+<!--            <v-divider class="mx-4"></v-divider>-->
+<!--          </v-col>-->
+<!--        </v-row>-->
+<!--        <v-row class="text-center">-->
+<!--          <v-col class="d-flex justify-center" cols="12">-->
+<!--            <v-sheet class="responseFromServer" max-width="500">-->
+<!--              {{ responseFromApi }}-->
+<!--            </v-sheet>-->
+<!--          </v-col>-->
+<!--        </v-row>-->
+<!--      </div>-->
 
     </v-container>
 
@@ -87,9 +97,10 @@
 
 <script setup>
 
-import {computed, ref, watch} from "vue";
-import {useRouter} from "vue-router";
+import { computed, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 import { userAuth } from '@/store/userAuth'
+import helloAbesBackService from "@/service/HelloAbesBackService";
 // TODO réactiver le recaptcha
 // import Recaptcha from '@/components/utils/Recaptcha'
 
@@ -101,39 +112,49 @@ const passWord = ref("");
 const loading = ref(false);
 const isPasswordIconVisible = ref(true);
 const valid = ref(false);
+const isAlertErrorVisible = ref(false);
 const nameRules = [
   v => !!v || 'Name is required',
   v => (v && v.length <= 10) || 'Name must be less than 10 characters',
 ];
 const passwordRules = [
   v => !!v || 'Password is required',
-  v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
+  v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{8,}/.test(v) || 'Password must be valid',
 ];
+
+// TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back
+// ancienne regex du mot de passe sur le front => (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})
+
+const user = computed(() => {
+  return userAuth().getUser;
+});
+
+const token = computed(() => {
+  return userAuth().getToken;
+})
+
+const responseFromApi = computed(() => {
+  return userAuth().getResponseFromApi;
+})
+
+const isLoggedIn = computed(() => {
+  return userAuth().getIsLogged;
+});
+
+const errorApiMessage = computed(() => {
+  return userAuth().getErrorApiMessage;
+});
 
 // Permet de vérifier si le formulaire est correct afin d'activer le bouton de validation
 watch(() => {
   loginForm.value?.validate().then(({valide: isValid}) => {
     if (isValid != null) {
       valid.value = true;
+    } else {
+      valid.value = false;
     }
   })
 })
-
-const user = computed(() => {
-  return userAuth().user;
-});
-
-const isLoggedIn = computed(() => {
-  return userAuth().isLoggedIn;
-});
-
-const resApi = computed(() => {
-  return userAuth().resApi;
-})
-
-const errorApi = computed(() => {
-  return userAuth().errorApi;
-});
 
 function changePasswordIcon() {
   isPasswordIconVisible.value = !isPasswordIconVisible.value;
@@ -144,7 +165,7 @@ function submit (response) {
 }
 
 function validate () {
-  if(valid === true) {
+  if(valid.value === true) {
     // TODO réactiver le recaptcha
     // recaptcha.execute();
     doLogin();
@@ -157,11 +178,18 @@ function reset () {
   valid.value = false;
 }
 
-function doLogin() {
+async function doLogin() {
   loading.value = true;
-  let auth = {userName: name.value, passWord: passWord.value};
-  // TODO tester le loginAction
-  userAuth().loginAction(auth)
+  try {
+    let auth = {userName: name.value, passWord: passWord.value};
+    const response = await helloAbesBackService.login(auth)
+    isAlertErrorVisible.value = false;
+  } catch (error) {
+    isAlertErrorVisible.value = true;
+    loading.value = false;
+  } finally {
+    loading.value = false;
+  }
   loading.value = true;
   setTimeout(() => {
       loading.value = false;

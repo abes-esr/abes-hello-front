@@ -5,6 +5,30 @@
       <v-col cols="12">
         <h1 class="mb-4">S'inscrire</h1>
         <v-divider class="mx-4"></v-divider>
+        <v-alert
+            class="my-5"
+            v-model="isAlertErrorVisible"
+            border="start"
+            close-label="Close Alert"
+            color="red"
+            title="Erreur"
+            variant="outlined"
+            closable
+        >
+          {{ errorApiMessage }}
+        </v-alert>
+        <v-alert
+            class="my-5"
+            v-model="isRequestSuccess"
+            border="start"
+            close-label="Close Alert"
+            color="green"
+            title="Succès"
+            variant="outlined"
+            closable
+        >
+          {{ responseFromApi }}
+        </v-alert>
       </v-col>
     </v-row>
 
@@ -26,6 +50,7 @@
           ></v-text-field>
 
           <v-text-field
+            class="mt-4"
             label="Mot de passe"
             v-model="passWord"
             :min="8"
@@ -39,45 +64,37 @@
           ></v-text-field>
 
           <v-btn
+              class="mr-4 mt-4"
               :disabled="!valid"
               color="success"
-              class="mr-4"
               @click="validate"
               :loading="loading"
           >
             Valider
           </v-btn>
 
-          <v-btn class="mr-4" color="error" @click="reset">
+          <v-btn
+              class="ml-4 mt-4"
+              color="error"
+              @click="reset"
+          >
             Reset Form
           </v-btn>
         </v-form>
       </v-col>
     </v-row>
 
-      <v-row class="text-center" v-if="sendForm">
-        <v-col cols="12">
-          <h3 class="mb-5">La réponse de serveur API</h3>
-          <v-divider class="mx-4"></v-divider>
-        </v-col>
-      </v-row>
-
-      <v-row class="text-center" v-if="sendForm">
-        <v-col class="d-flex justify-center" cols="12">
-          <h4 v-if="loading">Loading data ...</h4>
-          <v-sheet v-else class="responseFromServer" max-width="500">
-            {{ resApi.data }}
-          </v-sheet>
-        </v-col>
-      </v-row>
-
     </v-container>
 
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
+import { computed, ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import { userAuth } from "@/store/userAuth";
 import HelloAbesBackService from "@/service/HelloAbesBackService";
+
+const router = useRouter();
 
 const registerForm = ref(null);
 const name = ref("");
@@ -85,21 +102,42 @@ const passWord = ref("");
 const loading = ref(false);
 const isPasswordIconVisible = ref(true);
 const valid = ref(false)
-const sendForm = ref(false);
+const isAlertErrorVisible = ref(false);
 const nameRules = [
   v => !!v || 'Name is required',
   v => (v && v.length <= 10) || 'Name must be less than 10 characters'
 ];
 const passwordRules = [
   v => !!v || 'Password is required',
-  v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
+  v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{8,}/.test(v) || 'Password must be valid',
 ];
+
+// TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back
+// ancienne regex du mot de passe sur le front => v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
+
+const isRequestSuccess = computed(() => {
+  return userAuth().getisRequestSuccess;
+})
+
+const responseFromApi = computed(() => {
+  return userAuth().getResponseFromApi;
+})
+
+const isLoggedIn = computed(() => {
+  return userAuth().getIsLogged;
+})
+
+const errorApiMessage = computed(() => {
+  return userAuth().getErrorApiMessage;
+});
 
 // Permet de vérifier si le formulaire est correct afin d'activer le bouton de validation
 watch(() => {
   registerForm.value?.validate().then(({valide: isValid}) => {
     if (isValid != null) {
       valid.value = true;
+    } else {
+      valid.value = false;
     }
   })
 })
@@ -109,8 +147,10 @@ function changePasswordIcon() {
 }
 
 function validate () {
-  sendForm.value = true;
-  sendApi();
+  // sendForm.value = true;
+  if(valid.value === true) {
+    sendApi();
+  }
 }
 
 function reset () {
@@ -119,71 +159,29 @@ function reset () {
   valid.value = false;
 }
 
-function sendApi() {
-  let auth = {userName: name.value, passWord: passWord.value};
-  HelloAbesBackService.sendApi(auth);
-  loading.value = false;
+async function sendApi() {
+  loading.value = true;
+  try {
+    let auth = {userName: name.value, passWord: passWord.value};
+    const response = await HelloAbesBackService.sendApi(auth);
+    isAlertErrorVisible.value = false;
+  } catch (error) {
+    isAlertErrorVisible.value = true;
+    loading.value = false;
+  } finally {
+    loading.value = false;
+  }
+  loading.value = true;
+  setTimeout(() => {
+      loading.value = false;
+      if(isLoggedIn) {
+        router.push('/login');
+      }
+  }, 4000);
 }
 
-// TODO tester le code ci-dessus et si ok supprimer le code mort ci-dessous
-
-// export default {
-//     name: 'RegisterForm',
-//     data: () => ({
-//
-//       urlApi: import.meta.env.VITE_APP_ROOT_API + '/register',
-//       resApi:'',
-//       loading: false,
-//       sendForm: false,
-//       name:'',
-//       passWord: "",
-//       value: true,
-//       valid: true,
-//       nameRules: [
-//       v => !!v || 'Name is required',
-//       v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-//       ],
-//       passwordRules: [
-//           v => !!v || 'Password is required',
-//           v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
-//       ]
-//
-//     }),
-//     methods: {
-//
-//         validate () {
-//           if(this.$refs.form.validate()) {
-//             this.sendForm=true;
-//             this.sendApi();
-//           };
-//         },
-//         reset () {
-//           this.$refs.form.reset();
-//         },
-//         async sendApi() {
-//           this.loading = true;
-//           let auth = {userName: this.name, passWord: this.passWord};
-//           setTimeout(async () => {
-//             this.resApi = await this.$http.post(this.urlApi, auth);
-//             this.loading=false;
-//           }, 2000);
-//         }
-//
-//     },
-// }
 </script>
 
-<style scoped>
+<style>
 
-.responseFromServer {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background-color: #dfdfdf !important;
-  color: black !important;
-  font-family: "Courier New", sans-serif !important;
-  font-size: 0.9em !important;
-  font-weight: 600 !important;
-}
 </style>

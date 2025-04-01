@@ -17,6 +17,8 @@
 <script setup>
 import {computed} from "vue";
 
+// TODO intégrer dans le projet les pages cibles des liens dans le code html ci-dessus
+
 const currentYear = computed(() => new Date().getFullYear())
 
 </script>
