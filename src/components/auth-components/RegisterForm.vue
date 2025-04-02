@@ -116,7 +116,7 @@ const passwordRules = [
 // ancienne regex du mot de passe sur le front => v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
 
 const isRequestSuccess = computed(() => {
-  return userAuth().getisRequestSuccess;
+  return userAuth().getIsRequestSuccess;
 })
 
 const responseFromApi = computed(() => {
@@ -165,19 +165,19 @@ async function sendApi() {
     let auth = {userName: name.value, passWord: passWord.value};
     const response = await HelloAbesBackService.sendApi(auth);
     isAlertErrorVisible.value = false;
-  } catch (error) {
-    isAlertErrorVisible.value = true;
-    loading.value = false;
-  } finally {
-    loading.value = false;
-  }
-  loading.value = true;
-  setTimeout(() => {
+    setTimeout(() => {
       loading.value = false;
       if(isLoggedIn) {
-        router.push('/login');
+        userAuth().setRequestSuccess(false);
+        router.push('/dashboard');
       }
-  }, 4000);
+    }, 4000);
+  } catch (error) {
+    isAlertErrorVisible.value = true;
+  } finally {
+    loading.value = false;
+    reset();
+  }
 }
 
 </script>

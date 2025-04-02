@@ -22,17 +22,19 @@ const routes = [
     path: '/secure',
     name: 'SecureApiPage',
     component: () => import("@/views/SecureApiPage.vue"),
-    meta: {
-      requiresAuth: true,
-    }
+    meta: { requiresAuth: true },
+    // meta: {
+    //   requiresAuth: true,
+    // }
   },
   {
     path: '/dashboard',
     name: 'DashBoard',
     component: () => import("@/views/DashBoard.vue"),
-    meta: {
-      requiresAuth: true,
-    }
+    meta: { requiresAuth: true },
+    // meta: {
+    //   requiresAuth: true,
+    // }
   }
 ]
 
@@ -42,7 +44,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let isLoggedIn = userAuth().isLogged;
+  let isLoggedIn = userAuth().getIsLogged;
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (!isLoggedIn) {
       next('/login');

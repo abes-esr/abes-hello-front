@@ -74,23 +74,6 @@
         </v-col>
       </v-row>
 
-<!--      // TODO vérifier la pertinence de garder cet affichage-->
-<!--      <div v-if="responseFromApi !== null && !loading">-->
-<!--        <v-row class="text-center">-->
-<!--          <v-col cols="12">-->
-<!--            <h3 class="mb-5">La réponse de serveur API</h3>-->
-<!--            <v-divider class="mx-4"></v-divider>-->
-<!--          </v-col>-->
-<!--        </v-row>-->
-<!--        <v-row class="text-center">-->
-<!--          <v-col class="d-flex justify-center" cols="12">-->
-<!--            <v-sheet class="responseFromServer" max-width="500">-->
-<!--              {{ responseFromApi }}-->
-<!--            </v-sheet>-->
-<!--          </v-col>-->
-<!--        </v-row>-->
-<!--      </div>-->
-
     </v-container>
 
 </template>
@@ -183,99 +166,29 @@ async function doLogin() {
   try {
     let auth = {userName: name.value, passWord: passWord.value};
     const response = await helloAbesBackService.login(auth)
+    userAuth().setRequestSuccess(false);
     isAlertErrorVisible.value = false;
   } catch (error) {
     isAlertErrorVisible.value = true;
-    loading.value = false;
   } finally {
     loading.value = false;
+    reset();
+
+    // setTimeout(() => {
+    //   loading.value = false;
+    //   if(isLoggedIn) {
+    //     console.log("timeout")
+    //     router.push('/dashboard');
+    //   }
+    // }, 2000);
   }
-  loading.value = true;
-  setTimeout(() => {
-      loading.value = false;
-      if(isLoggedIn) {
-        router.push('/dashboard');
-      }
-    }, 2000);
+  if(isLoggedIn) {
+    await router.push('/secure');
+  }
 }
 
-// TODO tester le code ci-dessus et si ok supprimer le code mort ci-dessous
-
-// export default {
-//     name: 'LoginForm',
-//     data: () => ({
-//
-//         name:'',
-//         passWord: "",
-//         loading: false,
-//         value: true,
-//         valid: true,
-//         nameRules: [
-//         v => !!v || 'Name is required',
-//         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-//         ],
-//         passwordRules: [
-//             v => !!v || 'Password is required',
-//             v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
-//         ]
-//
-//     }),
-//     components: {
-//       Recaptcha
-//     },
-//     computed: {
-//       ...mapGetters({
-//         auth: 'auth/authenticated',
-//         user: 'auth/user',
-//         isLoggedIn: 'auth/isLogged',
-//         resApi: 'auth/resApi',
-//         errorApi: 'auth/errorApi',
-//       })
-//     },
-//     methods: {
-//         ...mapActions({
-//           loginAction: 'auth/loginAction',
-//         }),
-//         submit (response) {
-//           console.log(response)
-//         },
-//           validate () {
-//
-//             if(this.$refs.loginForm.validate()) {
-//               this.$refs.recaptcha.execute();
-//               this.doLogin();
-//             }
-//           },
-//           reset () {
-//               this.$refs.loginForm.reset();
-//           },
-//           doLogin() {
-//             this.loading=true;
-//             let auth = {userName: this.name, passWord: this.passWord};
-//             this.loginAction(auth);
-//             this.loading = true;
-//             setTimeout(() => {
-//                 this.loading=false;
-//                 if(this.isLoggedIn) {
-//                   this.$router.push({ name: 'DashBoard' });
-//                 }
-//               }, 2000);
-//           },
-//       }
-// }
 </script>
 
-<style scoped>
+<style>
 
-.responseFromServer {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background-color: #dfdfdf !important;
-  color: black !important;
-  font-family: "Courier New", sans-serif !important;
-  font-size: 0.9em !important;
-  font-weight: 600 !important;
-}
 </style>

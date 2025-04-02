@@ -11,10 +11,8 @@
 
 <script setup>
 // TODO finaliser l'ajustement des tailles des composants principaux (NavBarLogged, NavBar, Footer)
-// TODO passer tous les composants en composition API
-// TODO résoudre l'erreur front "Uncaught TypeError: Node.removeChild: Argument 1 is not an object."
 
-import { computed } from 'vue'
+import { ref, watch} from 'vue'
 import { userAuth } from '@/store/userAuth'
 
 import { RouterView } from "vue-router";
@@ -22,8 +20,15 @@ import NavBar from "@/components/NavBar";
 import NavBarLogged from "@/components/NavBarLogged";
 import Footer from "@/views/Footer.vue";
 
-const isLoggedIn = computed(() => {
-  return userAuth().isLoggedIn
+const isLoggedIn = ref(false);
+
+watch(() => {
+  isLoggedIn.value = userAuth().getIsLogged;
+
 })
+
+// const isLoggedIn = computed(() => {
+//   return userAuth().getIsLogged;
+// })
 
 </script>

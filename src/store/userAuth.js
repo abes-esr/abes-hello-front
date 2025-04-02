@@ -18,7 +18,7 @@ export const userAuth = defineStore('userAuth', {
         getErrorApi: (state) => state.errorApi,
         getErrorApiMessage: (state) => state.errorApiMessage,
         getIsLogged: (state) => state.isLoggedIn,
-        getisRequestSuccess: (state) => state.isRequestSuccess,
+        getIsRequestSuccess: (state) => state.isRequestSuccess,
         getResponseFromApi: (state) => state.responseFromApi,
     },
     actions: {
@@ -27,6 +27,7 @@ export const userAuth = defineStore('userAuth', {
             this.user = user;
             this.token = token;
             this.isRequestSuccess = true;
+            this.isLoggedIn = true;
             sessionStorage.setItem('user', JSON.stringify(this.user));
             sessionStorage.setItem('token', this.token);
         },
@@ -34,11 +35,15 @@ export const userAuth = defineStore('userAuth', {
             this.authenticated = false;
             this.user = null;
             this.token = null;
+            this.isLoggedIn = false;
             sessionStorage.setItem('user', JSON.stringify(this.user));
             sessionStorage.setItem('token', this.token);
         },
         setResponseFromApi(response) {
             this.responseFromApi = response;
+        },
+        setRequestSuccess(stateRequestSuccess) {
+            this.isRequestSuccess = stateRequestSuccess;
         },
         setUser(user, token){
             this.user = user;
