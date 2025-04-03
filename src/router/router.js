@@ -29,6 +29,16 @@ const routes = [
     name: 'DashBoard',
     component: () => import("@/views/DashBoard.vue"),
     meta: { requiresAuth: true },
+  },
+  {
+    path: '/donneesPersonnelles',
+    name: 'DonneesPersonnelles',
+    component: () => import('@/views/informations/DonneesPersonnelles.vue')
+  },
+  {
+    path: '/mentionsLegales',
+    name: 'MentionsLegales',
+    component: () => import('@/views/informations/MentionsLegales.vue')
   }
 ]
 
