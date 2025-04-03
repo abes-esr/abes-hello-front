@@ -1,7 +1,8 @@
 <template>
-  <v-footer style="bottom: 0; left: 0; width: 100%; height: auto; max-height: 60px" class="mt-auto py-0" color="primary">
+  <v-footer style="bottom: 0; left: 0; width: 100%; height: auto; max-height: 80px" class="mt-auto py-2" color="primary">
     <div class="d-flex flex-wrap justify-space-between align-center mt-0 mb-0" style="width: 100%">
       <div class="d-flex flex-wrap justify-start align-center text-body-2">
+        <img class="ml-2" alt="logo Abes" src="src/assets/picture/logo-mesr.svg" height="60">
         <a class="ma-2 text-white text-decoration-none" href="https://abes.fr">{{ currentYear }} - ABES</a>
       </div>
       <div class="d-flex flex-wrap justify-end align-center text-body-2">
