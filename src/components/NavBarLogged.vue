@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar class="py-2" app color="primary" dark>
       <img class="ml-2" alt="logo Abes" src="src/assets/picture/abeslogo130.svg" height="60">
       <v-toolbar-title class="display-1 Bold text" @click="router.push('/')" style="cursor:pointer">
         Hello-Abes
