@@ -69,7 +69,7 @@
               Reset Form
             </v-btn>
           </v-form>
-<!--          // TODO réactiver le recaptcha -->
+<!--          // TODO voir si nécessaire de réactiver le recaptcha et adapter son code le cas échéant -->
 <!--          <recaptcha ref="recaptcha" @verify="submit"></recaptcha>-->
         </v-col>
       </v-row>
@@ -84,7 +84,7 @@ import { computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { userAuth } from '@/store/userAuth'
 import helloAbesBackService from "@/service/HelloAbesBackService";
-// TODO réactiver le recaptcha
+// TODO voir si nécessaire de réactiver le recaptcha et adapter son code le cas échéant
 // import Recaptcha from '@/components/utils/Recaptcha'
 
 const router = useRouter();
@@ -105,20 +105,8 @@ const passwordRules = [
   v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{8,}/.test(v) || 'Password must be valid',
 ];
 
-// TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back
+// TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back. La regex ci-dessous est l'ancienne du front et semble plus large
 // ancienne regex du mot de passe sur le front => (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})
-
-const user = computed(() => {
-  return userAuth().getUser;
-});
-
-const token = computed(() => {
-  return userAuth().getToken;
-})
-
-const responseFromApi = computed(() => {
-  return userAuth().getResponseFromApi;
-})
 
 const isLoggedIn = computed(() => {
   return userAuth().getIsLogged;
@@ -131,11 +119,7 @@ const errorApiMessage = computed(() => {
 // Permet de vérifier si le formulaire est correct afin d'activer le bouton de validation
 watch(() => {
   loginForm.value?.validate().then(({valide: isValid}) => {
-    if (isValid != null) {
-      valid.value = true;
-    } else {
-      valid.value = false;
-    }
+    valid.value = isValid != null;
   })
 })
 
@@ -143,13 +127,9 @@ function changePasswordIcon() {
   isPasswordIconVisible.value = !isPasswordIconVisible.value;
 }
 
-function submit (response) {
-  console.log(response)
-}
-
 function validate () {
   if(valid.value === true) {
-    // TODO réactiver le recaptcha
+    // TODO voir si nécessaire de réactiver le recaptcha et adapter son code le cas échéant
     // recaptcha.execute();
     doLogin();
   }
@@ -173,14 +153,6 @@ async function doLogin() {
   } finally {
     loading.value = false;
     reset();
-
-    // setTimeout(() => {
-    //   loading.value = false;
-    //   if(isLoggedIn) {
-    //     console.log("timeout")
-    //     router.push('/dashboard');
-    //   }
-    // }, 2000);
   }
   if(isLoggedIn) {
     await router.push('/secure');

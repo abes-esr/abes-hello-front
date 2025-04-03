@@ -14,7 +14,7 @@
         </v-btn>
       </div>
 
-      <v-btn @click="logout" text>
+      <v-btn @click="logout" text class="mr-4">
         <span class="mr-2">Se déconnecter</span>
       </v-btn>
 

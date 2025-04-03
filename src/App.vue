@@ -24,11 +24,6 @@ const isLoggedIn = ref(false);
 
 watch(() => {
   isLoggedIn.value = userAuth().getIsLogged;
-
 })
-
-// const isLoggedIn = computed(() => {
-//   return userAuth().getIsLogged;
-// })
 
 </script>

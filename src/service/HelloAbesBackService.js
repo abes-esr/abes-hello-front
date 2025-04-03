@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { userAuth } from "@/store/userAuth";
+import {userAuth} from "@/store/userAuth";
 
 export class HelloAbesBackService {
     constructor() {
@@ -11,10 +11,7 @@ export class HelloAbesBackService {
         // ajout de l'intercepteur
         this.client.interceptors.response.use(
             (response) => {
-                console.log("interceptor.response response")
-                // TODO tester la validité de l'inscription de la réponse dans le store et si correct alors ne pas renvoyer la réponse au composant
                 if (response.data.accessToken) {
-                    console.log("cas du accessToken : " + response.data.userName + " / " + response.data.accessToken)
                     userAuth().setLoginData(response.data.userName, response.data.accessToken);
                 } else if (response.data.passWord) {
                     userAuth().setLoginData(response.data.userName, response.data.passWord)
@@ -34,9 +31,9 @@ export class HelloAbesBackService {
                         userAuth().setError(error.response.data.error)
                     }
                 } else if (error.request) {
-                    console.error("interceptors.response error.request")
+                    console.log("Erreur lors de la requête : " + error)
                 } else {
-                    console.error("interceptors.response else", error.message);
+                    console.log("Erreur non déterminée : " + error);
                 }
                 return Promise.reject(error);
             }
@@ -50,10 +47,6 @@ export class HelloAbesBackService {
     sendApi(auth) {
         return this.client.post('/register', auth)
             .then((response) => {
-                const userData = {
-                    accessToken: response.passWord,
-                    userName: response.userName,
-                }
                 userAuth().setResponseFromApi("Votre inscription a bien été enregistrée.")
                 return "Success";
             })
@@ -65,16 +58,37 @@ export class HelloAbesBackService {
     login(auth) {
         return this.client.post('/login', auth)
             .then((response) => {
-                const userData = {
+                return {
                     accessToken: response.accessToken,
                     userName: response.userName,
-                }
-                // TODO placer les informations dans le store via Pinia
-                return userData;
+                };
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            })
+    }
+
+    getAccessToCommandsList() {
+        const configTest = { headers: {'Authorization': 'Bearer ' + userAuth().getToken} };
+        return this.client.get('/secured', configTest)
+            .then((response) => {
+                return response;
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            })
+    }
+
+    getCommandsListFromApi() {
+        const configTest = { headers: {'Authorization': 'Bearer ' + userAuth().getToken} };
+        return this.client.get('/secured/commande', configTest)
+            .then((response) => {
+                return response.data;
             })
             .catch(error => {
                 return Promise.reject(error);
             })
     }
 }
+
 export default new HelloAbesBackService();

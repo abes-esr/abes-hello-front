@@ -23,18 +23,12 @@ const routes = [
     name: 'SecureApiPage',
     component: () => import("@/views/SecureApiPage.vue"),
     meta: { requiresAuth: true },
-    // meta: {
-    //   requiresAuth: true,
-    // }
   },
   {
     path: '/dashboard',
     name: 'DashBoard',
     component: () => import("@/views/DashBoard.vue"),
     meta: { requiresAuth: true },
-    // meta: {
-    //   requiresAuth: true,
-    // }
   }
 ]
 

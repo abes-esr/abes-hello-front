@@ -112,7 +112,7 @@ const passwordRules = [
   v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{8,}/.test(v) || 'Password must be valid',
 ];
 
-// TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back
+// TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back. La regex ci-dessous est l'ancienne du front et semble plus large
 // ancienne regex du mot de passe sur le front => v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
 
 const isRequestSuccess = computed(() => {
@@ -134,11 +134,7 @@ const errorApiMessage = computed(() => {
 // Permet de vérifier si le formulaire est correct afin d'activer le bouton de validation
 watch(() => {
   registerForm.value?.validate().then(({valide: isValid}) => {
-    if (isValid != null) {
-      valid.value = true;
-    } else {
-      valid.value = false;
-    }
+    valid.value = isValid != null;
   })
 })
 
@@ -147,7 +143,6 @@ function changePasswordIcon() {
 }
 
 function validate () {
-  // sendForm.value = true;
   if(valid.value === true) {
     sendApi();
   }
