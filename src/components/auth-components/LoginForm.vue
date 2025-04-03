@@ -69,8 +69,6 @@
               Reset Form
             </v-btn>
           </v-form>
-<!--          // TODO voir si nécessaire de réactiver le recaptcha et adapter son code le cas échéant -->
-<!--          <recaptcha ref="recaptcha" @verify="submit"></recaptcha>-->
         </v-col>
       </v-row>
 
@@ -84,8 +82,6 @@ import { computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { userAuth } from '@/store/userAuth'
 import helloAbesBackService from "@/service/HelloAbesBackService";
-// TODO voir si nécessaire de réactiver le recaptcha et adapter son code le cas échéant
-// import Recaptcha from '@/components/utils/Recaptcha'
 
 const router = useRouter();
 
@@ -129,8 +125,6 @@ function changePasswordIcon() {
 
 function validate () {
   if(valid.value === true) {
-    // TODO voir si nécessaire de réactiver le recaptcha et adapter son code le cas échéant
-    // recaptcha.execute();
     doLogin();
   }
 }

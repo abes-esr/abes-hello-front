@@ -10,8 +10,6 @@
 </template>
 
 <script setup>
-// TODO finaliser l'ajustement des tailles des composants principaux (NavBarLogged, NavBar, Footer)
-
 import { ref, watch} from 'vue'
 import { userAuth } from '@/store/userAuth'
 
