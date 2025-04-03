@@ -1,5 +1,5 @@
 // Plugins
-import Vue from '@vitejs/plugin-vue'
+import vue from '@vitejs/plugin-vue'
 import {transformAssetUrls} from 'vite-plugin-vuetify'
 
 // Utilities
@@ -9,7 +9,7 @@ import packageJson from './package.json'
 
 export default defineConfig({
 	plugins: [
-		Vue({
+		vue({
 			template: {
 				transformAssetUrls: {
 					base: null,
