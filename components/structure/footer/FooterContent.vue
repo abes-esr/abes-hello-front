@@ -1,8 +1,7 @@
 <template>
-  <v-footer style="bottom: 0; left: 0; width: 100%; height: auto; max-height: 80px" class="mt-auto py-2" color="primary">
     <div class="d-flex flex-wrap justify-space-between align-center mt-0 mb-0" style="width: 100%">
       <div class="d-flex flex-wrap justify-start align-center text-body-2">
-        <img class="ml-2" alt="logo Abes" src="src/assets/picture/logo-mesr.svg" height="60">
+        <img class="ml-2" alt="logo Abes" src="/pictures/logo-mesr.svg" height="60">
         <a class="ma-2 text-white text-decoration-none" href="https://abes.fr">{{ currentYear }} - ABES</a>
       </div>
       <div class="d-flex flex-wrap justify-end align-center text-body-2">
@@ -18,14 +17,11 @@
         ></v-btn>
       </div>
     </div>
-  </v-footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {computed} from "vue";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
 const currentYear = computed(() => new Date().getFullYear())
 const btnsLinksDatas = [
   {
@@ -54,10 +50,10 @@ const btnsLinksDatas = [
   }
 ]
 
-function goToDestinationPage(isExternalLink, link) {
+function goToDestinationPage(isExternalLink:boolean, link:string) {
   if(isExternalLink) {
     window.open(link);
-  } else router.push(link)
+  } else navigateTo(link)
 }
 
 </script>

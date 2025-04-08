@@ -14,9 +14,9 @@ import { ref, watch} from 'vue'
 import { userAuth } from '@/store/userAuth'
 
 import { RouterView } from "vue-router";
-import NavBar from "@/components/NavBar";
+import NavBar from "~/components/structure/header/NavBar.vue";
 import NavBarLogged from "@/components/NavBarLogged";
-import Footer from "@/views/Footer.vue";
+import Footer from "~/components/structure/Footer.vue";
 
 const isLoggedIn = ref(false);
 
