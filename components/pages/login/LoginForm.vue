@@ -80,8 +80,8 @@
 
 import { computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { userAuth } from '@/store/userAuth'
-import helloAbesBackService from "@/service/HelloAbesBackService";
+import { userAuth } from '~/composables/userAuth'
+import helloAbesBackService from "~/service/HelloAbesBackService";
 
 const router = useRouter();
 
@@ -149,7 +149,7 @@ async function doLogin() {
     reset();
   }
   if(isLoggedIn) {
-    await router.push('/secure');
+    await router.push('/accont');
   }
 }
 

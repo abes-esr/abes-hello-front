@@ -1,12 +1,12 @@
 <template>
     <div class="dashboard">
-        <UserHome />
+        <OrdersList />
     </div>
     
 </template>
 
 <script setup>
 
-import UserHome from '@/components/user-components/UserHome';
+import OrdersList from "./orders/OrdersList.vue";
 
 </script>

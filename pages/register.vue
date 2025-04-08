@@ -1,3 +1,6 @@
 <template>
-    <p>Register</p>
+    <RegisterPage />
 </template>
+<script setup lang="ts">
+import RegisterPage from "~/components/pages/RegisterPage.vue";
+</script>

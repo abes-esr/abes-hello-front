@@ -1,6 +1,6 @@
 import { createRouter, createMemoryHistory } from 'vue-router'
-import { userAuth } from '@/store/userAuth'
-import Home from '@/views/Home.vue'
+import { userAuth } from '~/composables/userAuth'
+import Home from '~/views/Home.vue'
 
 const routes = [
   {

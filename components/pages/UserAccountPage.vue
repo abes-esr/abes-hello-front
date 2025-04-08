@@ -1,11 +1,11 @@
 <template>
   <div class="secure-page">
-    <secure-api />
+    <UserAccount />
   </div>
 </template>
 
 <script setup>
 
-import SecureApi from '@/components/user-components/SecureApi';
+import UserAccount from "./userAccount/UserAccount.vue";
 
 </script>

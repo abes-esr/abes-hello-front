@@ -4,6 +4,7 @@
 
 <script setup>
 
-import HelloAbes from '@/components/home-components/HelloAbes.vue'
+import HelloAbes from "~/components/pages/home/HelloAbes.vue";
 
 </script>
+

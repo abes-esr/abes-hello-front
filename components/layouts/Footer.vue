@@ -5,6 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import FooterContent from "~/components/structure/footer/FooterContent.vue";
+import FooterContent from "~/components/layouts/footer/FooterContent.vue";
 
 </script>

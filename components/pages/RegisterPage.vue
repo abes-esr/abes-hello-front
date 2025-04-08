@@ -7,6 +7,6 @@
 
 <script setup>
 
-import RegisterForm from '@/components/auth-components/RegisterForm';
+import RegisterForm from '~/components/auth-components/RegisterForm';
 
 </script>

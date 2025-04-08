@@ -23,7 +23,7 @@
 <script setup>
 
 import {onMounted, ref} from "vue";
-import HelloAbesBackService from "@/service/HelloAbesBackService";
+import HelloAbesBackService from "~/composables/HelloAbesBackService";
 
 const resApi = ref('');
 const loading = ref(true);

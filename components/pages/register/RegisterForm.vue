@@ -91,8 +91,8 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { userAuth } from "@/store/userAuth";
-import HelloAbesBackService from "@/service/HelloAbesBackService";
+import { userAuth } from "~/composables/userAuth";
+import HelloAbesBackService from "~/service/HelloAbesBackService";
 
 const router = useRouter();
 
@@ -164,7 +164,7 @@ async function sendApi() {
       loading.value = false;
       if(isLoggedIn) {
         userAuth().setRequestSuccess(false);
-        router.push('/dashboard');
+        router.push('/orders');
       }
     }, 4000);
   } catch (error) {

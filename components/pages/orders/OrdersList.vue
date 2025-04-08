@@ -59,9 +59,9 @@
 
 <script setup>
 
-import { userAuth } from '@/store/userAuth'
+import { userAuth } from '~/composables/userAuth'
 import {computed, onMounted, ref} from "vue";
-import helloAbesBackService from "@/service/HelloAbesBackService";
+import helloAbesBackService from "~/service/HelloAbesBackService";
 import {useRouter} from "vue-router";
 
 const resApi = ref('');

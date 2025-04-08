@@ -31,7 +31,7 @@
 
   const links = [
     {'namePage': 'Api-Public', 'route': '/'},
-    {'namePage': 'Api-Privé', 'route': '/secure'},
+    {'namePage': 'Api-Privé', 'route': '/account'},
     {'namePage': 'Se connecter', 'route': '/login'},
     {'namePage': 'S\'inscrire', 'route': '/register'},
   ]

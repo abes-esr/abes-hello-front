@@ -1,7 +1,7 @@
 <template>
   <nav>
     <v-app-bar class="py-2" app color="primary" dark>
-      <img class="ml-2" alt="logo Abes" src="../../public/pictures/abeslogo130.svg" height="60">
+      <img class="ml-2" alt="logo Abes" src="/public/pictures/abeslogo130.svg" height="60">
       <v-toolbar-title class="display-1 Bold text" @click="router.push('/')" style="cursor:pointer">
         Hello-Abes
       </v-toolbar-title>
@@ -24,14 +24,14 @@
 
 <script setup>
   import { useRouter } from "vue-router";
-  import { userAuth } from "@/store/userAuth";
+  import { userAuth } from "~/composables/userAuth";
 
   const router = useRouter();
 
   const links = [
       {'namePage': 'Api-Public','route': '/'},
-      {'namePage': 'Api-Privé','route': '/secure'},
-      {'namePage': 'Tableau de bord','route': '/dashboard'},
+      {'namePage': 'Api-Privé','route': '/account'},
+      {'namePage': 'Tableau de bord','route': '/orders'},
     ]
 
   function logout() {

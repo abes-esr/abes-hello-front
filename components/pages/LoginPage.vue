@@ -7,6 +7,6 @@
 
 <script setup>
 
-import LoginForm from '@/components/auth-components/LoginForm';
+import LoginForm from '~/components/auth-components/LoginForm';
 
 </script>

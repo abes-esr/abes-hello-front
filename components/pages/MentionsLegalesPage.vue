@@ -1,10 +1,10 @@
 <template>
-  <NavBar></NavBar>
+  <MentionsLegales />
 </template>
 
 <script setup lang="ts">
 
-import NavBar from "~/components/layouts/header/NavBar.vue";
+import MentionsLegales from "~/pages/mentionsLegales.vue";
 </script>
 
 <style scoped>
