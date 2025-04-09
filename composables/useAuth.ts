@@ -1,86 +1,104 @@
-export type User = Record<string, unknown>;
+import axios from "axios";
+
+export type User = {
+  userName: string;
+};
+
+export type LoginResponse = {
+  userName: string;
+  accessToken: string;
+};
+
+export type LoginPayload = {
+  userName: string;
+  passWord: string;
+};
 
 export const useAuth = () => {
-  const user = useState<User | null>("user", () => {
-    const localStorageUser = sessionStorage.getItem("user");
-    if (localStorageUser) {
-      return JSON.parse(localStorageUser);
+  const user = ref<User | null>(null);
+  const token = ref<string | null>(null);
+  const errorApi = ref<boolean>(false);
+  const errorApiMessage = ref<string | null>(null);
+  const isRequestSuccess = ref<boolean>(false);
+  const responseFromApi = ref<string | null>(null);
+
+  // Initialiser 'user' depuis sessionStorage si disponible
+  onMounted(() => {
+    if (import.meta.env.CLIENT) {
+      console.log("recuperation du user");
+      const sessionStorageUser = sessionStorage.getItem("user");
+      if (sessionStorageUser) {
+        user.value = JSON.parse(sessionStorageUser);
+      }
+      token.value = sessionStorage.getItem("token");
     }
-    return null;
-  });
-  const token = useState<string | null>("token", () =>
-    sessionStorage.getItem("token")
-  );
-  const authenticated = computed(() => !!token.value);
-  const errorApi = useState<boolean>("errorApi", () => false);
-  const errorApiMessage = useState<string | null>(
-    "errorApiMessage",
-    () => null
-  );
-  const isRequestSuccess = useState<boolean>("isRequestSuccess", () => false);
-  const responseFromApi = useState<string | null>(
-    "responseFromApi",
-    () => null
-  );
-  const isLoggedIn = useState<boolean>("isLoggedIn", () => false);
-
-  watch(user, (newUser) => {
-    sessionStorage.setItem("user", JSON.stringify(newUser));
   });
 
-  watch(token, (newToken) => {
-    sessionStorage.setItem("token", JSON.stringify(newToken));
+  // Computed property pour déterminer si l'utilisateur est connecté
+  const isLoggedIn = computed(() => {
+    return !!token.value && !!user.value;
   });
 
-  const setLoginData = (userData: User, tokenData: string) => {
-    user.value = userData;
-    token.value = tokenData;
-    isRequestSuccess.value = true;
-    isLoggedIn.value = true;
+  // Effectue les mises à jour dans sessionStorage
+  watchEffect(() => {
+    if (import.meta.env.CLIENT) {
+      console.log("mise a jour local");
+      if (user.value) {
+        sessionStorage.setItem("user", JSON.stringify(user.value));
+      } else {
+        sessionStorage.removeItem("user");
+      }
+
+      sessionStorage.setItem("token", token.value ?? "");
+    }
+  });
+
+  watch(isLoggedIn, async (newValue) => {
+    console.log("useAuth isLoggedIn changed:", newValue);
+    await nextTick();
+    console.log("DOM refreshed");
+  });
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get<User>("/api/me");
+      user.value = response.data;
+    } catch {
+      logout();
+    }
   };
 
-  const logout = () => {
+  watch(user, (newvalue) => {
+    console.log("user changed", newvalue);
+  });
+
+  const login = async (payload: LoginPayload) => {
+    const response = await axios.post<LoginResponse>("/api/login", payload);
+    console.log(response, user.value, token.value, isLoggedIn.value);
+    user.value = { userName: response.data.userName };
+    token.value = response.data.accessToken;
+    console.log(response, user.value, token.value, isLoggedIn.value);
+  };
+
+  const logout = async () => {
+    await axios.post("/api/logout");
     user.value = null;
     token.value = null;
-    isLoggedIn.value = false;
+    console.log("logout", user.value, token.value, isLoggedIn.value);
   };
 
-  const setResponseFromApi = (response: string) => {
-    responseFromApi.value = response;
-  };
-
-  const setRequestSuccess = (stateRequestSuccess: boolean) => {
-    isRequestSuccess.value = stateRequestSuccess;
-  };
-
-  const setError = (errorMessage: string) => {
-    errorApi.value = true;
-    errorApiMessage.value = errorMessage;
-  };
-
-  // Refactor plus intéressant
-
-  const login = () => {
-    // Faire l'appel API
-    // Mettre à jour directement les valeurs
-  };
-
-  // Cela permettrait de retourner uniquement une fonction de login qui gérerait l'état des variables directement et il n'y aurait plus de nécessité à utiliser et retourner les autres fonctions du dessus
+  console.log("useAuth", user.value, token.value, isLoggedIn.value);
 
   return {
     user,
     token,
-    authenticated,
     errorApi,
     errorApiMessage,
     isRequestSuccess,
     responseFromApi,
     isLoggedIn,
-    setLoginData,
     logout,
-    setResponseFromApi,
-    setRequestSuccess,
-    setError,
     login,
+    fetchUser,
   };
 };

@@ -1,12 +1,17 @@
 <template>
-  <OrdersPage />
+  <ClientOnly>
+    <Header />
+    <OrdersPage />
+  </ClientOnly>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts">import Header from "~/components/layouts/Header.vue";
+
 
 import OrdersPage from "~/components/pages/OrdersPage.vue";
-
-useAuthorizationMiddleware();
+definePageMeta({
+  middleware: ['auth'],
+});
 </script>
 
 <style scoped></style>

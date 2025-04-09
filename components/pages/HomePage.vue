@@ -7,4 +7,3 @@
 import HelloAbes from "~/components/pages/home/HelloAbes.vue";
 
 </script>
-

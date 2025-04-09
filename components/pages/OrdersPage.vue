@@ -2,11 +2,11 @@
     <div class="dashboard">
         <OrdersList />
     </div>
-    
+
 </template>
 
 <script setup>
 
-import OrdersList from "./orders/OrdersList.vue";
+import OrdersList from "~/components/pages/orders/OrdersList.vue";
 
 </script>

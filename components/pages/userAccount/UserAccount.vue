@@ -6,7 +6,7 @@
       <v-row class="text-center">
         <v-col cols="12">
           <h1 class="mt-10 mb-4">Bienvenue à l'Abes : {{ user }}</h1>
-          <v-img src="pictures/abeslogo130.svg" class="my-3" contain height="200" />
+          <v-img src="/pictures/abeslogo130.svg" class="my-3" contain height="200" />
         </v-col>
       </v-row>
     </div>
@@ -23,13 +23,13 @@
         </v-col>
       </v-row>
 
-      <v-row class="text-center">
+      <!-- <v-row class="text-center">
         <v-col class="d-flex justify-center" cols="12">
           <v-sheet class="responseFromServer" max-width="500">
             {{ resApi }}
           </v-sheet>
         </v-col>
-      </v-row>
+      </v-row> -->
     </div>
 
   </v-container>
@@ -38,36 +38,35 @@
 
 <script setup>
 
-import { computed, onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-// import { userAuth } from "~/stores/userAuth";
-import helloAbesBackService from "~/composables/HelloAbesBackService";
+// import { computed, ref } from "vue";
+// // import { userAuth } from "~/stores/userAuth";
+// // import helloAbesBackService from "~/composables/HelloAbesBackService";
 
-const resApi = ref('');
-const loading = ref(true);
-const user = computed(() => {
-  return userAuth().getUser;
-})
+// const resApi = ref('');
+// const loading = ref(true);
+// const user = computed(() => {
+//   return userAuth().getUser;
+// })
 
-onMounted(() => {
-  getCommandsList();
-})
+// // onMounted(() => {
+// //   getCommandsList();
+// // })
 
-function getCommandsList() {
-  setTimeout(async () => {
-    if (userAuth().getToken !== null) {
-      try {
-        const apiReq = await helloAbesBackService.getAccessToCommandsList();
-        loading.value = false;
-        resApi.value = apiReq.data.response;
-      } catch {
-        resApi.value = "error";
-        await useRouter().push('/login');
-        loading.value = false;
-      }
-    }
-  }, 2000);
-}
+// // function getCommandsList() {
+// //   setTimeout(async () => {
+// //     if (userAuth().getToken !== null) {
+// //       try {
+// //         const apiReq = await helloAbesBackService.getAccessToCommandsList();
+// //         loading.value = false;
+// //         resApi.value = apiReq.data.response;
+// //       } catch {
+// //         resApi.value = "error";
+// //         await useRouter().push('/login');
+// //         loading.value = false;
+// //       }
+// //     }
+// //   }, 2000);
+// // }
 
 </script>
 
