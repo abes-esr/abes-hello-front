@@ -1,19 +1,14 @@
 <template>
   <v-app>
-    <Header />
+    <Header/>
     <v-main>
-      <NuxtPage></NuxtPage>
+      <NuxtPage/>
     </v-main>
-    <Footer />
+    <Footer/>
   </v-app>
 </template>
 
 <script setup lang="ts">
-
 import Header from "~/components/layouts/Header.vue";
 import Footer from "~/components/layouts/Footer.vue";
 </script>
-
-<style scoped>
-
-</style>
