@@ -1,4 +1,4 @@
-import { userAuth } from "~/composables/userAuth";
+import { userAuth } from "~/stores/userAuth";
 
 export default defineNuxtRouteMiddleware((to, from) => {
     let isLoggedIn = userAuth().getIsLogged;

@@ -50,7 +50,7 @@
 
 import {computed, onMounted, ref} from "vue";
 import { useRouter } from "vue-router";
-import { userAuth } from "~/composables/userAuth";
+import { userAuth } from "~/stores/userAuth";
 import helloAbesBackService from "~/service/HelloAbesBackService";
 
 const resApi = ref('');

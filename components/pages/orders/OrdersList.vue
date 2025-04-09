@@ -59,7 +59,7 @@
 
 <script setup>
 
-import { userAuth } from '~/composables/userAuth'
+import { userAuth } from '~/stores/userAuth'
 import {computed, onMounted, ref} from "vue";
 import helloAbesBackService from "~/service/HelloAbesBackService";
 import {useRouter} from "vue-router";

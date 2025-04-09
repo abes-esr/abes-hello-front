@@ -24,7 +24,7 @@
 
 <script setup>
   import { useRouter } from "vue-router";
-  import { userAuth } from "~/composables/userAuth";
+  import { userAuth } from "~/stores/userAuth";
 
   const router = useRouter();
 

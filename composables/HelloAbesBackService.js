@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {userAuth} from "~/composables/userAuth";
+import {userAuth} from "~/stores/userAuth";
 
 export class HelloAbesBackService {
     constructor() {
