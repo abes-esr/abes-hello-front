@@ -4,29 +4,13 @@
     <v-row class="text-center">
       <v-col cols="12">
         <h1 class="mb-4">S'inscrire</h1>
-        <v-divider class="mx-4"></v-divider>
-        <v-alert
-            class="my-5"
-            v-model="isAlertErrorVisible"
-            border="start"
-            close-label="Close Alert"
-            color="red"
-            title="Erreur"
-            variant="outlined"
-            closable
-        >
+        <v-divider class="mx-4" />
+        <v-alert v-model="isAlertErrorVisible" class="my-5" border="start" close-label="Close Alert" color="red"
+          title="Erreur" variant="outlined" closable>
           {{ errorApiMessage }}
         </v-alert>
-        <v-alert
-            class="my-5"
-            v-model="isRequestSuccess"
-            border="start"
-            close-label="Close Alert"
-            color="green"
-            title="Succès"
-            variant="outlined"
-            closable
-        >
+        <v-alert v-model="isRequestSuccess" class="my-5" border="start" close-label="Close Alert" color="green"
+          title="Succès" variant="outlined" closable>
           {{ responseFromApi }}
         </v-alert>
       </v-col>
@@ -34,65 +18,34 @@
 
     <v-row class="text-center mt-8">
       <v-col class="d-flex justify-center" cols="12">
-        <v-form
-          class="col-8"
-          ref="registerForm"
-          v-model="valid"
-          lazy-validation
-        >
-          <v-text-field
-            label="Nom utilisateur"
-            v-model="name"
-            :counter="10"
-            :rules=nameRules
-            required
-            width="400"
-          ></v-text-field>
+        <v-form ref="registerForm" v-model="valid" class="col-8" lazy-validation>
+          <v-text-field v-model="name" label="Nom utilisateur" :counter="10" :rules=nameRules required width="400" />
 
-          <v-text-field
-            class="mt-4"
-            label="Mot de passe"
-            v-model="passWord"
-            :min="8"
-            :type="isPasswordIconVisible ? 'password' : 'text'"
-            :rules=passwordRules
-            :append-inner-icon="isPasswordIconVisible ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append-inner="() => changePasswordIcon()"
-            counter
-            required
-            width="400"
-          ></v-text-field>
+          <v-text-field v-model="passWord" class="mt-4" label="Mot de passe" :min="8"
+            :type="isPasswordIconVisible ? 'password' : 'text'" :rules=passwordRules
+            :append-inner-icon="isPasswordIconVisible ? 'mdi-eye' : 'mdi-eye-off'" counter required width="400"
+            @click:append-inner="() => changePasswordIcon()" />
 
-          <v-btn
-              class="mr-4 mt-4"
-              :disabled="!valid"
-              color="success"
-              @click="validate"
-              :loading="loading"
-          >
+          <v-btn class="mr-4 mt-4" :disabled="!valid" color="success" :loading="loading" @click="validate">
             Valider
           </v-btn>
 
-          <v-btn
-              class="ml-4 mt-4"
-              color="error"
-              @click="reset"
-          >
+          <v-btn class="ml-4 mt-4" color="error" @click="reset">
             Reset Form
           </v-btn>
         </v-form>
       </v-col>
     </v-row>
 
-    </v-container>
+  </v-container>
 
 </template>
 
 <script setup>
 import { computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { userAuth } from "~/stores/userAuth";
-import HelloAbesBackService from "~/service/HelloAbesBackService";
+// import { userAuth } from "~/stores/userAuth";
+import HelloAbesBackService from "~/composables/HelloAbesBackService";
 
 const router = useRouter();
 
@@ -133,7 +86,7 @@ const errorApiMessage = computed(() => {
 
 // Permet de vérifier si le formulaire est correct afin d'activer le bouton de validation
 watch(() => {
-  registerForm.value?.validate().then(({valide: isValid}) => {
+  registerForm.value?.validate().then(({ valide: isValid }) => {
     valid.value = isValid != null;
   })
 })
@@ -142,13 +95,13 @@ function changePasswordIcon() {
   isPasswordIconVisible.value = !isPasswordIconVisible.value;
 }
 
-function validate () {
-  if(valid.value === true) {
+function validate() {
+  if (valid.value === true) {
     sendApi();
   }
 }
 
-function reset () {
+function reset() {
   name.value = '';
   passWord.value = '';
   valid.value = false;
@@ -157,12 +110,12 @@ function reset () {
 async function sendApi() {
   loading.value = true;
   try {
-    let auth = {userName: name.value, passWord: passWord.value};
+    const auth = { userName: name.value, passWord: passWord.value };
     const response = await HelloAbesBackService.sendApi(auth);
     isAlertErrorVisible.value = false;
     setTimeout(() => {
       loading.value = false;
-      if(isLoggedIn) {
+      if (isLoggedIn.value) {
         userAuth().setRequestSuccess(false);
         router.push('/orders');
       }
@@ -177,6 +130,4 @@ async function sendApi() {
 
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -3,4 +3,7 @@
 </template>
 <script setup lang="ts">
 import UserAccountPage from "~/components/pages/UserAccountPage.vue";
+
+useAuthorizationMiddleware()
+
 </script>

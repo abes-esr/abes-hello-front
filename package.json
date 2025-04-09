@@ -24,6 +24,7 @@
     "axios": "^1.8.2",
     "esbuild": "^0.25.0",
     "nuxt": "^3.16.2",
+    "nuxt-auth-utils": "^0.5.19",
     "pinia": "^3.0.1",
     "vue": "^3.2.25",
     "vue-router": "^4.5.0",

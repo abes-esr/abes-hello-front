@@ -6,30 +6,20 @@
       <v-row class="text-center">
         <v-col cols="12">
           <h1 class="mt-10 mb-4">Bienvenue à l'Abes : {{ user }}</h1>
-          <v-img
-              src="src/assets/picture/abeslogo130.svg"
-              class="my-3"
-              contain
-              height="200"
-          />
+          <v-img src="pictures/abeslogo130.svg" class="my-3" contain height="200" />
         </v-col>
       </v-row>
     </div>
 
     <div v-if="loading" class="text-center mt-10">
-      <v-progress-circular v-if="loading"
-                           :size="70"
-                           :width="7"
-                           color="blue"
-                           indeterminate
-      ></v-progress-circular>
+      <v-progress-circular v-if="loading" :size="70" :width="7" color="blue" indeterminate />
     </div>
 
     <div v-if="!loading">
-      <v-row class="text-center" >
+      <v-row class="text-center">
         <v-col cols="12">
           <h3 class="mb-5">La réponse de serveur API</h3>
-          <v-divider class="mx-4"></v-divider>
+          <v-divider class="mx-4" />
         </v-col>
       </v-row>
 
@@ -48,10 +38,10 @@
 
 <script setup>
 
-import {computed, onMounted, ref} from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { userAuth } from "~/stores/userAuth";
-import helloAbesBackService from "~/service/HelloAbesBackService";
+// import { userAuth } from "~/stores/userAuth";
+import helloAbesBackService from "~/composables/HelloAbesBackService";
 
 const resApi = ref('');
 const loading = ref(true);
@@ -64,10 +54,10 @@ onMounted(() => {
 })
 
 function getCommandsList() {
-  setTimeout( async() => {
-    if(userAuth().getToken !== null ) {
+  setTimeout(async () => {
+    if (userAuth().getToken !== null) {
       try {
-        let apiReq = await helloAbesBackService.getAccessToCommandsList();
+        const apiReq = await helloAbesBackService.getAccessToCommandsList();
         loading.value = false;
         resApi.value = apiReq.data.response;
       } catch {
@@ -82,7 +72,6 @@ function getCommandsList() {
 </script>
 
 <style scoped>
-
 .responseFromServer {
   padding-top: 6px;
   padding-bottom: 6px;
