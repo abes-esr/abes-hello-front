@@ -21,21 +21,7 @@
 </template>
 
 <script setup>
-
-import { ref } from "vue";
-import { useHealthCheckApi } from "~/composables/useHealthCheckApi";
-
-const resApi = ref('');
-const loading = ref(true);
-
-const { apiTestConnexion } = useHealthCheckApi();
-
-onMounted(() => {
-  apiTestConnexion().then(response => {
-    resApi.value = response.data.response;
-    loading.value = false;
-  })
-})
+const { data: resApi, loading } = await useAPI("/");
 
 </script>
 

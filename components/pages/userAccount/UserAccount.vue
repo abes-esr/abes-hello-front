@@ -5,7 +5,7 @@
     <div>
       <v-row class="text-center">
         <v-col cols="12">
-          <h1 class="mt-10 mb-4">Bienvenue à l'Abes : {{ user.userName }}</h1>
+          <h1 class="mt-10 mb-4">Bienvenue à l'Abes : {{ user?.userName }}</h1>
           <v-img src="/pictures/abeslogo130.svg" class="my-3" contain height="200" />
         </v-col>
       </v-row>
@@ -38,32 +38,8 @@
 
 <script setup>
 
-import { ref } from "vue";
-import { useUserAccount } from "~/composables/useUserAccount";
-
-const resApi = ref('');
-const loading = ref(true);
-
-const { getAccessToCommandsList } = useUserAccount();
-const { token, user } = useAuth();
-
-onMounted(() => {
-  getCommandsList();
-})
-
-async function getCommandsList() {
-    if (token !== null) {
-      try {
-        const response = await getAccessToCommandsList();
-        loading.value = false;
-        resApi.value = response.data.response;
-      } catch {
-        resApi.value = "error";
-        await navigateTo('/login');
-        loading.value = false;
-      }
-    }
-}
+const { user } = useAuth();
+const { data: resApi, loading } = await useAPI('/secured')
 
 </script>
 

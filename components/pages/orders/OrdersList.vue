@@ -2,13 +2,13 @@
 
   <v-container fluid>
 
-    <!-- <v-row class="text-center">
+    <v-row class="text-center">
       <v-col class="d-flex justify-center" cols="12">
         <v-sheet class="responseFromServer" max-width="500">
-          {{ user }}
+          {{ user?.userName }}
         </v-sheet>
       </v-col>
-    </v-row> -->
+    </v-row>
 
     <v-row class="text-center">
       <v-col class="d-flex justify-center" cols="12">
@@ -17,7 +17,7 @@
       <v-divider class="mx-4 mb-4" />
     </v-row>
 
-    <!-- <div v-if="loading" class="text-center mt-10">
+    <div v-if="loading" class="text-center mt-10">
       <v-progress-circular v-if="loading" :size="70" :width="7" color="blue" indeterminate />
     </div>
     <div v-for="commande in listCommande" :key="commande.id">
@@ -40,7 +40,7 @@
           </v-table>
         </v-col>
       </v-row>
-    </div> -->
+    </div>
 
   </v-container>
 
@@ -48,58 +48,25 @@
 
 <script setup>
 
-// import { userAuth } from '~/stores/userAuth'
-// import { computed, onMounted, ref } from "vue";
-// // import helloAbesBackService from "~/composables/HelloAbesBackService";
+import { ref } from "vue";
+const { user } = useAuth();
+const { data: listCommande, loading } = await useAPI('/secured/commande');
 
-// const resApi = ref('');
-// const loading = ref(true);
-// const listCommande = ref([]);
-// const tabHeader = ref([
-//   {
-//     title: 'Produit',
-//     value: 'name',
-//     sortable: false,
-//   },
-//   {
-//     title: 'Prix',
-//     value: 'price',
-//   }
-// ])
+const tabHeader = ref([
+  {
+    title: 'Produit',
+    value: 'name',
+    sortable: false,
+  },
+  {
+    title: 'Prix',
+    value: 'price',
+  }
+])
 
-// const user = computed(() => {
-//   return userAuth().getUser;
-// });
-
-// onMounted(() => {
-//   getCommandsList();
-// })
-
-// function sumField(commandeList, key) {
-//   return commandeList.reduce((a, b) => a + (b[key] || 0), 0)
-// }
-
-// // function getCommandsList() {
-// //   setTimeout(async () => {
-// //     if (userAuth().getToken !== null) {
-
-// //       const apiReq = await helloAbesBackService.getAccessToCommandsList();
-// //       const apiCommand = await helloAbesBackService.getCommandsListFromApi();
-
-// //       Promise.all([apiReq, apiCommand])
-// //         .then((response) => {
-// //           loading.value = false;
-// //           resApi.value = response[0].data.response;
-// //           listCommande.value = response[1];
-// //         })
-// //         .catch(error => {
-// //           resApi.value = error;
-// //           useRouter().push('/login');
-// //           loading.value = false;
-// //         })
-// //     }
-// //   }, 2000);
-// // }
+function sumField(commandeList, key) {
+  return commandeList.reduce((a, b) => a + (b[key] || 0), 0)
+}
 
 </script>
 

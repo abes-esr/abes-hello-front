@@ -26,13 +26,11 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    "@nuxt/content",
     "@nuxt/eslint",
     "@nuxt/icon",
     "@nuxt/fonts",
     "@nuxt/test-utils",
     "@nuxt/ui",
     "vuetify-nuxt-module",
-    "nuxt-auth-utils",
   ],
 });

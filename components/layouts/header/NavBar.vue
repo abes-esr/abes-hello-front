@@ -4,24 +4,27 @@
       <img class="ml-2" alt="logo Abes" src="/pictures/abeslogo130.svg" height="60">
 
 
-        <v-toolbar-title class="display-1 Bold text">
-          <NuxtLink to="/public">
-<!--            // todo Vérifier la mise en page du titre (voir pour une mise en place d'un ficheir global CSS)-->
-            Hello-Abes
-          </NuxtLink>
-        </v-toolbar-title>
+      <v-toolbar-title class="display-1 Bold text">
+        <NuxtLink to="/">
+          <!--            // todo Vérifier la mise en page du titre (voir pour une mise en place d'un ficheir global CSS)-->
+          Hello-Abes
+        </NuxtLink>
+      </v-toolbar-title>
 
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
-      <div v-for="link in links" :key="link.text" class="mr-4">
-        <NuxtLink :to=link.route>
-<!--          // TODO refaire l'affichage des boutons -->
+      <div v-for="link in links" :key="link.text">
+        <NuxtLink v-if="link.enabled" :to=link.route class="mr-4">
           <v-btn text>
             <span class="mr-2">{{ link.namePage }}</span>
           </v-btn>
         </NuxtLink>
       </div>
+
+      <v-btn v-if="user" text class="mr-4" @click="callLogout">
+        <span class="mr-2">Se déconnecter</span>
+      </v-btn>
 
     </v-app-bar>
   </nav>
@@ -29,11 +32,19 @@
 
 <script setup>
 
-  const links = [
-    {'namePage': 'Api-Public', 'route': '/'},
-    {'namePage': 'Api-Privé', 'route': '/account'},
-    {'namePage': 'Se connecter', 'route': '/login'},
-    {'namePage': 'S\'inscrire', 'route': '/register'},
-  ]
+import { useAuth } from "~~/composables/useAuth";
+
+const { logout, user } = useAuth();
+const links = computed(() => [
+  { 'namePage': 'Api-Public', 'route': '/', enabled: true },
+  { 'namePage': 'Api-Privé', 'route': '/account', enabled: true },
+  { 'namePage': 'Se connecter', 'route': '/login', enabled: !user.value },
+  { 'namePage': 'S\'inscrire', 'route': '/register', enabled: !user.value },
+  { 'namePage': 'Tableau de bord', 'route': '/orders', enabled: !!user.value },
+])
+
+async function callLogout() {
+  await logout();
+}
 
 </script>
