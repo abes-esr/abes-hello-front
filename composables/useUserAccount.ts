@@ -7,14 +7,14 @@ export const useUserAccount = () => {
 
     const getAccessToCommandsList = async () => {
         const configTest = {
-            headers: { Authorization: "Bearer " + token },
+            headers: { Authorization: "Bearer " + token.value },
         };
         return await client.get("/secured", configTest);
     }
 
     const getCommandsListFromApi = async () => {
         const configTest = {
-            headers: { Authorization: "Bearer " + token },
+            headers: { Authorization: "Bearer " + token.value },
         };
         return await client.get("/secured/commande", configTest);
     }
