@@ -7,6 +7,6 @@
 
 <script setup>
 
-import RegisterForm from '~/components/pages/register/RegisterForm.vue';
+import RegisterForm from '~~/components/pages/register/RegisterForm.vue';
 
 </script>

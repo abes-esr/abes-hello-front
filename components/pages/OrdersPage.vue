@@ -7,6 +7,6 @@
 
 <script setup>
 
-import OrdersList from "~/components/pages/orders/OrdersList.vue";
+import OrdersList from "~~/components/pages/orders/OrdersList.vue";
 
 </script>

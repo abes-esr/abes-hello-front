@@ -1,11 +1,8 @@
 <template>
-    <ClientOnly>
-        <Header />
-        <HomePage />
-    </ClientOnly>
+    <HomePage />
 </template>
 
-<script setup>import Header from "~/components/layouts/Header.vue";
+<script setup>
 
-import HomePage from "~/components/pages/HomePage.vue";
+import HomePage from "~~/components/pages/HomePage.vue";
 </script>

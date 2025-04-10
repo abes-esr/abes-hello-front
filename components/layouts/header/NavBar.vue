@@ -5,7 +5,7 @@
 
 
         <v-toolbar-title class="display-1 Bold text">
-          <NuxtLink to="/">
+          <NuxtLink to="/public">
 <!--            // todo Vérifier la mise en page du titre (voir pour une mise en place d'un ficheir global CSS)-->
             Hello-Abes
           </NuxtLink>

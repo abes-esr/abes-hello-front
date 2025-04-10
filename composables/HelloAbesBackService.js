@@ -52,61 +52,61 @@ export class HelloAbesBackService {
     return this.client.get("/");
   }
 
-  sendApi(auth) {
-    return this.client
-      .post("/register", auth)
-      .then(() => {
-        userAuth().setResponseFromApi(
-          "Votre inscription a bien été enregistrée."
-        );
-        return "Success";
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
-  }
+  // sendApi(auth) {
+  //   return this.client
+  //     .post("/register", auth)
+  //     .then(() => {
+  //       userAuth().setResponseFromApi(
+  //         "Votre inscription a bien été enregistrée."
+  //       );
+  //       return "Success";
+  //     })
+  //     .catch((error) => {
+  //       return Promise.reject(error);
+  //     });
+  // }
 
-  login(auth) {
-    return this.client
-      .post("/login", auth)
-      .then((response) => {
-        return {
-          accessToken: response.accessToken,
-          userName: response.userName,
-        };
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
-  }
+  // login(auth) {
+  //   return this.client
+  //     .post("/login", auth)
+  //     .then((response) => {
+  //       return {
+  //         accessToken: response.accessToken,
+  //         userName: response.userName,
+  //       };
+  //     })
+  //     .catch((error) => {
+  //       return Promise.reject(error);
+  //     });
+  // }
 
-  getAccessToCommandsList() {
-    const configTest = {
-      headers: { Authorization: "Bearer " + userAuth().getToken },
-    };
-    return this.client
-      .get("/secured", configTest)
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
-  }
-
-  getCommandsListFromApi() {
-    const configTest = {
-      headers: { Authorization: "Bearer " + userAuth().getToken },
-    };
-    return this.client
-      .get("/secured/commande", configTest)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
-  }
+  // getAccessToCommandsList() {
+  //   const configTest = {
+  //     headers: { Authorization: "Bearer " + userAuth().getToken },
+  //   };
+  //   return this.client
+  //     .get("/secured", configTest)
+  //     .then((response) => {
+  //       return response;
+  //     })
+  //     .catch((error) => {
+  //       return Promise.reject(error);
+  //     });
+  // }
+  //
+  // getCommandsListFromApi() {
+  //   const configTest = {
+  //     headers: { Authorization: "Bearer " + userAuth().getToken },
+  //   };
+  //   return this.client
+  //     .get("/secured/commande", configTest)
+  //     .then((response) => {
+  //       return response.data;
+  //     })
+  //     .catch((error) => {
+  //       return Promise.reject(error);
+  //     });
+  // }
 }
 
 export default new HelloAbesBackService();

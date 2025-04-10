@@ -9,18 +9,28 @@ export type LoginResponse = {
   accessToken: string;
 };
 
+export type RegisterPayload = {
+  userName: string;
+  passWord: string;
+}
+
+export type RegisterResponse= {
+  userName: string;
+  accessToken: string;
+}
+
 export type LoginPayload = {
   userName: string;
   passWord: string;
 };
 
 export const useAuth = () => {
-  const user = ref<User | null>(null);
-  const token = ref<string | null>(null);
-  const errorApi = ref<boolean>(false);
-  const errorApiMessage = ref<string | null>(null);
-  const isRequestSuccess = ref<boolean>(false);
-  const responseFromApi = ref<string | null>(null);
+  const user = useState<User | null>("user", () => null);
+  const token = useState<string | null>("token", () => null);
+  const errorApi = useState<boolean>("errorApi", () => false);
+  const errorApiMessage = useState<string | null>("errorApiMessage", () => null);
+  const isRequestSuccess = useState<boolean>("isRequestSuccess", () => false);
+  const responseFromApi = useState<string | null>("responseFromApi", () => null);
 
   // Initialiser 'user' depuis sessionStorage si disponible
   onMounted(() => {
@@ -36,6 +46,7 @@ export const useAuth = () => {
 
   // Computed property pour déterminer si l'utilisateur est connecté
   const isLoggedIn = computed(() => {
+    console.log("useAuth, const IsloggedIn computed : " + token.value + " / " + user.value)
     return !!token.value && !!user.value;
   });
 
@@ -54,7 +65,6 @@ export const useAuth = () => {
   });
 
   watch(isLoggedIn, async (newValue) => {
-    console.log("useAuth isLoggedIn changed:", newValue);
     await nextTick();
     console.log("DOM refreshed");
   });
@@ -64,20 +74,36 @@ export const useAuth = () => {
       const response = await axios.get<User>("/api/me");
       user.value = response.data;
     } catch {
-      logout();
+      await logout();
     }
   };
 
-  watch(user, (newvalue) => {
-    console.log("user changed", newvalue);
-  });
+  const register = async (payload: RegisterPayload) => {
+    try {
+      const response = await axios.post<RegisterResponse>("/api/register", payload);
+      responseFromApi.value = "Votre inscription a bien été enregistrée. Vous pouvez maintenant vous connecter";
+      isRequestSuccess.value = true;
+      console.log("const resgister : ", user.value, token.value, isLoggedIn.value);
+    } catch (error) {
+      errorApiMessage.value = "Votre inscription a échoué. Veuillez recommencer.";
+      isRequestSuccess.value = false;
+      console.log(error);
+      throw error;
+    }
+  };
+
 
   const login = async (payload: LoginPayload) => {
-    const response = await axios.post<LoginResponse>("/api/login", payload);
-    console.log(response, user.value, token.value, isLoggedIn.value);
-    user.value = { userName: response.data.userName };
-    token.value = response.data.accessToken;
-    console.log(response, user.value, token.value, isLoggedIn.value);
+    try {
+      const response = await axios.post<LoginResponse>("/api/login", payload);
+      user.value = { userName: response.data.userName };
+      token.value = response.data.accessToken;
+      console.log("const login : ", user.value, token.value, isLoggedIn.value);
+    } catch (error) {
+      responseFromApi.value = "Une erreur est survenue. Veuillez recommencer.";
+      isRequestSuccess.value = false;
+      console.log(error)
+    }
   };
 
   const logout = async () => {
@@ -87,8 +113,6 @@ export const useAuth = () => {
     console.log("logout", user.value, token.value, isLoggedIn.value);
   };
 
-  console.log("useAuth", user.value, token.value, isLoggedIn.value);
-
   return {
     user,
     token,
@@ -97,8 +121,9 @@ export const useAuth = () => {
     isRequestSuccess,
     responseFromApi,
     isLoggedIn,
-    logout,
+    register,
     login,
+    logout,
     fetchUser,
   };
 };

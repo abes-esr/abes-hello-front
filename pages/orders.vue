@@ -1,17 +1,14 @@
 <template>
-  <ClientOnly>
-    <Header />
-    <OrdersPage />
-  </ClientOnly>
+  <OrdersPage />
 </template>
 
-<script setup lang="ts">import Header from "~/components/layouts/Header.vue";
+<script setup lang="ts">
+import OrdersPage from "~~/components/pages/OrdersPage.vue";
 
-
-import OrdersPage from "~/components/pages/OrdersPage.vue";
 definePageMeta({
-  middleware: ['auth'],
+  middleware: ['user-only'],
 });
+
 </script>
 
 <style scoped></style>

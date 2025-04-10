@@ -9,6 +9,10 @@
           title="Erreur" variant="outlined" closable>
           {{ errorApiMessage }}
         </v-alert>
+        <v-alert v-model="isRequestSuccess" class="my-5" border="start" close-label="Close Alert" color="green"
+                 title="Succès" variant="outlined" closable>
+          {{ responseFromApi }}
+        </v-alert>
       </v-col>
     </v-row>
 
@@ -40,10 +44,10 @@
 
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuth } from "~/composables/useAuth";
+import { useAuth } from "~~/composables/useAuth";
 
 const router = useRouter();
-const { isLoggedIn, login, errorApiMessage } = useAuth();
+const { isRequestSuccess, responseFromApi, isLoggedIn, login, errorApiMessage } = useAuth();
 const loginForm = ref(null)
 const name = ref("");
 const passWord = ref("");

@@ -8,31 +8,34 @@
       </v-col>
     </v-row>
 
-    <!-- <v-row class="text-center mt-8">
+    <v-row class="text-center mt-8">
       <v-col class="d-flex justify-center" cols="12">
         <h4 v-if="loading">Loading data ...</h4>
         <v-sheet v-else class="responseFromServer" max-width="500">
           {{ resApi }}
         </v-sheet>
       </v-col>
-    </v-row> -->
+    </v-row>
 
   </v-container>
 </template>
 
 <script setup>
 
-// import { ref } from "vue";
+import { ref } from "vue";
+import { useHealthCheckApi } from "~/composables/useHealthCheckApi";
 
-// const resApi = ref('');
-// const loading = ref(true);
+const resApi = ref('');
+const loading = ref(true);
 
-// // onMounted(() => {
-// //   HelloAbesBackService.apiTestConnexion().then(response => {
-// //     resApi.value = response.data.response;
-// //     loading.value = false;
-// //   })
-// // })
+const { apiTestConnexion } = useHealthCheckApi();
+
+onMounted(() => {
+  apiTestConnexion().then(response => {
+    resApi.value = response.data.response;
+    loading.value = false;
+  })
+})
 
 </script>
 

@@ -1,10 +1,13 @@
 <template>
-    <ClientOnly>
-        <Header />
-        <RegisterPage />
-    </ClientOnly>
+    <RegisterPage />
 </template>
-<script setup lang="ts">import Header from "~/components/layouts/Header.vue";
 
-import RegisterPage from "~/components/pages/RegisterPage.vue";
+<script setup lang="ts">
+import RegisterPage from "~~/components/pages/RegisterPage.vue";
+
+definePageMeta({
+  middleware: [
+      'guest-only',
+  ]
+})
 </script>
