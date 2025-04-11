@@ -49,7 +49,6 @@ export const useAuth = () => {
   });
 
   watch(token, (newValue) => {
-    console.log("newToken", newValue);
     if (newValue) {
       localStorage.setItem("token", newValue);
     } else {
@@ -60,10 +59,8 @@ export const useAuth = () => {
   const fetchUser = async () => {
     try {
       const response = await axios.get<User>("/api/me");
-      console.log("user retrieved");
       user.value = response.data;
     } catch {
-      console.log("user not retrieved");
       await logout();
     }
   };

@@ -29,11 +29,9 @@ import '~/assets/css/global.css'
 const nuxtApp = useNuxtApp();
 const loading = ref(false);
 nuxtApp.hook("page:start", () => {
-  console.log('page started')
   loading.value = true;
 });
 nuxtApp.hook("page:finish", () => {
-  console.log('page finished')
   loading.value = false;
 });
 

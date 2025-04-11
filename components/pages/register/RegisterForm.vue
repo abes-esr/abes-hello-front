@@ -95,9 +95,8 @@ async function callRegister() {
     const auth = { userName: name.value, passWord: passWord.value };
     await register(auth);
     isAlertErrorVisible.value = false;
-    console.log("redirection register")
     navigateTo('/login');
-  } catch (error) {
+  } catch {
     isAlertErrorVisible.value = true;
   } finally {
     loading.value = false;
