@@ -1,0 +1,17 @@
+.git
+dist
+node_modules
+.nyc_output
+coverage
+logs
+.data
+.idea
+.nuxt
+.output
+.dockerignore
+Dockerfile
+docker-compose.yml
+.vscode
+.github
+.gitignore
+Jenkinsfile

@@ -40,9 +40,11 @@ export const useAuth = () => {
   const isLoggedIn = computed(() => !!user.value && !!token.value);
 
   onMounted(async () => {
-    fetchUser();
     if (import.meta.client) {
       token.value = localStorage.getItem("token");
+      if (token.value) {
+        fetchUser();
+      }
     }
   });
 

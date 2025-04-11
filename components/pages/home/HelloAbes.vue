@@ -8,11 +8,16 @@
       </v-col>
     </v-row>
 
-    <v-row class="text-center mt-8">
+    <v-row v-if="!data" class="text-center mt-8">
       <v-col class="d-flex justify-center" cols="12">
-        <h4 v-if="loading">Loading data ...</h4>
-        <v-sheet v-else class="responseFromServer" max-width="500">
-          {{ resApi }}
+        <h4>Loading data ...</h4>
+      </v-col>
+    </v-row>
+
+    <v-row v-else class="text-center mt-8">
+      <v-col class="d-flex justify-center" cols="12">
+        <v-sheet class="responseFromServer" max-width="500">
+          {{ data }}
         </v-sheet>
       </v-col>
     </v-row>
@@ -21,8 +26,7 @@
 </template>
 
 <script setup>
-const { data: resApi, loading } = await useAPI("/");
-
+const { data } = await useAPI("/");
 </script>
 
 <style scoped>

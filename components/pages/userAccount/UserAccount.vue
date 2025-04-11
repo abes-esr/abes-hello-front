@@ -6,16 +6,16 @@
       <v-row class="text-center">
         <v-col cols="12">
           <h1 class="mt-10 mb-4">Bienvenue à l'Abes : {{ user?.userName }}</h1>
-          <v-img src="/pictures/abeslogo130.svg" class="my-3" contain height="200" />
+          <v-img src="/pictures/abesLogo130.svg" class="my-3" contain height="200" />
         </v-col>
       </v-row>
     </div>
 
-    <div v-if="loading" class="text-center mt-10">
-      <v-progress-circular v-if="loading" :size="70" :width="7" color="blue" indeterminate />
+    <div v-if="!resApi" class="text-center mt-10">
+      <v-progress-circular :size="70" :width="7" color="blue" indeterminate />
     </div>
 
-    <div v-if="!loading">
+    <div v-else>
       <v-row class="text-center">
         <v-col cols="12">
           <h3 class="mb-5">La réponse de serveur API</h3>
@@ -39,7 +39,7 @@
 <script setup>
 
 const { user } = useAuth();
-const { data: resApi, loading } = await useAPI('/secured')
+const { data: resApi } = await useAPI('/secured')
 
 </script>
 

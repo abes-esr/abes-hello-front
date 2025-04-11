@@ -6,8 +6,13 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     const config = useRuntimeConfig();
     const apiUrl = config.apiUrl;
+
+    console.log(body, apiUrl);
+
     const response = await axios.post(`${apiUrl}/login`, body);
     const { accessToken, userName } = response.data;
+
+    console.log(accessToken, userName);
 
     setCookie(event, "auth_token", accessToken, {
       httpOnly: true,
@@ -18,16 +23,16 @@ export default defineEventHandler(async (event) => {
     });
 
     return { userName, accessToken };
-  } catch (error: unknown) {
+  } catch (error: any) {
     if (error instanceof AxiosError) {
       throw createError({
         statusCode: error.response?.status ?? 500,
-        statusMessage: error.response?.data?.message ?? "Login failed",
+        statusMessage: error.response?.data?.message ?? error.message,
       });
     }
     throw createError({
       statusCode: 500,
-      statusMessage: "Login failed",
+      statusMessage: error.message,
     });
   }
 });

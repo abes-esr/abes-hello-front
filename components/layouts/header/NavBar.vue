@@ -1,12 +1,12 @@
 <template>
   <nav>
-    <v-app-bar class="py-2" app color="primary" dark>
-      <img class="ml-2" alt="logo Abes" src="/pictures/abeslogo130.svg" height="60">
+    <v-app-bar app color="primary" dark>
+      <img class="ml-2" alt="logo Abes" src="/pictures/abesLogo130.svg" height="60">
 
 
       <v-toolbar-title class="display-1 Bold text">
         <NuxtLink to="/">
-          <!--            // todo Vérifier la mise en page du titre (voir pour une mise en place d'un ficheir global CSS)-->
+          <!-- // todo Vérifier la mise en page du titre (voir pour une mise en place d'un ficheir global CSS)-->
           Hello-Abes
         </NuxtLink>
       </v-toolbar-title>

@@ -17,8 +17,8 @@
       <v-divider class="mx-4 mb-4" />
     </v-row>
 
-    <div v-if="loading" class="text-center mt-10">
-      <v-progress-circular v-if="loading" :size="70" :width="7" color="blue" indeterminate />
+    <div v-if="!listCommande" class="text-center mt-10">
+      <v-progress-circular :size="70" :width="7" color="blue" indeterminate />
     </div>
     <div v-for="commande in listCommande" :key="commande.id">
       <v-row>
@@ -28,7 +28,8 @@
             <h3>Fournisseur - {{ commande.fournisseur.name }}</h3>
           </div>
 
-          <v-data-table :headers="tabHeader" :items="commande.products" item-key="id" :items-per-page="5"
+          <v-data-table
+:headers="tabHeader" :items="commande.products" item-key="id" :items-per-page="5"
             class="elevation-1" />
           <v-table class="elevation-1">
             <tbody>
@@ -50,7 +51,7 @@
 
 import { ref } from "vue";
 const { user } = useAuth();
-const { data: listCommande, loading } = await useAPI('/secured/commande');
+const { data: listCommande } = await useAPI('/secured/commande');
 
 const tabHeader = ref([
   {
