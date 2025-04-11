@@ -1,8 +1,5 @@
 <template>
-    <div class="register">
-        <RegisterForm />
-    </div>
-
+    <RegisterForm />
 </template>
 
 <script setup>

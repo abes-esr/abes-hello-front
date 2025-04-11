@@ -4,9 +4,5 @@
 
 <script setup lang="ts">
 
-import MentionsLegales from "~~/pages/mentionsLegales.vue";
+import MentionsLegales from "~~/components/pages/informations/MentionsLegales.vue";
 </script>
-
-<style scoped>
-
-</style>

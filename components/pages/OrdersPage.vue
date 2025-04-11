@@ -1,8 +1,5 @@
 <template>
-    <div class="dashboard">
-        <OrdersList />
-    </div>
-
+    <OrdersList />
 </template>
 
 <script setup>

@@ -1,7 +1,5 @@
 <template>
-  <div class="secure-page">
-    <UserAccount />
-  </div>
+  <UserAccount />
 </template>
 
 <script setup>

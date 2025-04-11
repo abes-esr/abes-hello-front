@@ -3,9 +3,11 @@ export default defineNuxtRouteMiddleware(async () => {
 
   // Vérification côté serveur à l'initialisation
   onMounted(async () => {
+    console.log("user verify");
     try {
       await fetchUser();
     } catch {
+      console.log("user serveur not loggedIn");
       navigateTo("/login");
     }
   });

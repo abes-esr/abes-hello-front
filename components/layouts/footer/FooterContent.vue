@@ -1,26 +1,20 @@
 <template>
-    <div class="d-flex flex-wrap justify-space-between align-center mt-0 mb-0" style="width: 100%">
-      <div class="d-flex flex-wrap justify-start align-center text-body-2">
-        <img class="ml-2" alt="logo Abes" src="/pictures/logo-mesr.svg" height="60">
-        <a class="ma-2 text-white text-decoration-none" href="https://abes.fr">{{ currentYear }} - ABES</a>
-      </div>
-      <div class="d-flex flex-wrap justify-end align-center text-body-2">
-        <v-btn
-            v-for="btnLinkData in btnsLinksDatas"
-            :key:="btnLinkData"
-            :text="btnLinkData.text"
-            @click="goToDestinationPage(btnLinkData.goToExternalSite, btnLinkData.link)"
-            v-tooltip:top="btnLinkData.tooltip"
-            elevation="0"
-            variant="text"
-            size="x-small"
-        ></v-btn>
-      </div>
+  <div class="d-flex flex-wrap justify-space-between align-center mt-0 mb-0" style="width: 100%">
+    <NextLink to="https://abes.fr" class="d-flex flex-wrap justify-start align-center text-body-2">
+      <img class="mr-4" alt="logo Abes" src="/pictures/logo-mesr.svg" height="60">
+      <p class="text-white text-decoration-none">{{ currentYear }} - ABES</p>
+    </NextLink>
+    <div class="d-flex flex-wrap justify-end align-center text-body-2">
+      <NuxtLink v-for="btnLinkData in btnsLinksDatas" :key="btnLinkData" :to=btnLinkData.link>
+        <v-btn v-tooltip:top="btnLinkData.tooltip" :text="btnLinkData.text" elevation="0" variant="text"
+          size="x-small" />
+      </NuxtLink>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {computed} from "vue";
+import { computed } from "vue";
 
 const currentYear = computed(() => new Date().getFullYear())
 const btnsLinksDatas = [
@@ -50,8 +44,8 @@ const btnsLinksDatas = [
   }
 ]
 
-function goToDestinationPage(isExternalLink:boolean, link:string) {
-  if(isExternalLink) {
+function goToDestinationPage(isExternalLink: boolean, link: string) {
+  if (isExternalLink) {
     window.open(link);
   } else navigateTo(link)
 }

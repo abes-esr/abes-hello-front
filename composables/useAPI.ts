@@ -7,7 +7,6 @@ export function useAPI<T>(
   const { $api } = useNuxtApp();
 
   return useFetch(url, {
-    server: false,
     ...options,
     $fetch: $api,
   });

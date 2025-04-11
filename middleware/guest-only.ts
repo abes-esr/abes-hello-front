@@ -3,10 +3,12 @@ export default defineNuxtRouteMiddleware(async () => {
 
   // Vérification côté serveur à l'initialisation
   onMounted(async () => {
+    console.log("guest verify");
     try {
       await fetchUser();
-      navigateTo("/login");
+      navigateTo("/account");
     } catch {
+      console.log("guest serveur not loggedIn");
       return;
     }
   });
@@ -14,8 +16,8 @@ export default defineNuxtRouteMiddleware(async () => {
   // Vérification côté client au changement
   watch(isLoggedIn, (newValue) => {
     console.log("guest-only", newValue);
-    if (!newValue) {
-      navigateTo("/login");
+    if (newValue) {
+      navigateTo("/account");
     }
   });
 });
