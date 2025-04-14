@@ -1,19 +1,15 @@
-import type { UseFetchOptions } from "nuxt/app";
-import axios from "axios";
+import {type AxiosInstance} from "axios";
 
 export function useAPI<T>(
   url: string,
-  // url: string | (() => string),
-  options?: UseFetchOptions<T>
 ) {
-  const { $api } = useNuxtApp();
+  const client = useNuxtApp().$clientAxiosApi as AxiosInstance;
 
-  return async () => {
-    await axios.get(url);
+  const get = async () => {
+    return await client.get(url);
   }
 
-  // return useFetch(url, {
-  //   ...options,
-  //   $fetch: $api,
-  // });
+  return {
+    get,
+  }
 }

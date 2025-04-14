@@ -39,20 +39,6 @@
 <script setup>
 
 const { user } = useAuth();
-const { data: resApi } = await useAPI('/secured')
+const { data: resApi } = await useAPI('/secured').get();
 
 </script>
-
-<style scoped>
-.responseFromServer {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background-color: #dfdfdf !important;
-  color: black !important;
-  font-family: "Courier New", sans-serif !important;
-  font-size: 0.9em !important;
-  font-weight: 600 !important;
-}
-</style>
