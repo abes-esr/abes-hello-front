@@ -12,7 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     },
     async onResponseError({ response }) {
       if (response.status === 401 || response.status === 403) {
-        // Redirige l'utilisateur si il n'est pas connecté où si il n'a pas les droits
+        // Redirige l'utilisateur s'il n'est pas connecté où s'il n'a pas les droits
         await nuxtApp.runWithContext(() => navigateTo("/login"));
       } else if (response.status.toString().startsWith("5")) {
         // Cas où le serveur n'est pas disponible
