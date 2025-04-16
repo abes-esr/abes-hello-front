@@ -40,10 +40,11 @@ export const useAuth = () => {
 
   onMounted(async () => {
     if (import.meta.client) {
-      token.value = localStorage.getItem("token");
-      if (token.value) {
+      const storedToken = localStorage.getItem("token");
+      if (token.value != storedToken && token.value) {
         fetchUser();
       }
+      token.value = storedToken;
     }
   });
 
