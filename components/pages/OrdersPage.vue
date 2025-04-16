@@ -1,7 +1,5 @@
 <template>
-    <ClientOnly>
-        <OrdersList />
-    </ClientOnly>
+    <OrdersList />
 </template>
 
 <script setup>

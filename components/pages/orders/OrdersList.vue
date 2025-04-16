@@ -1,7 +1,6 @@
 <template>
 
   <v-container fluid>
-
     <v-row class="text-center">
       <v-col class="d-flex justify-center" cols="12">
         <v-sheet class="responseFromServer" max-width="500">
@@ -16,10 +15,6 @@
       </v-col>
       <v-divider class="mx-4 mb-4" />
     </v-row>
-
-    <div v-if="!listCommande" class="text-center mt-10">
-      <v-progress-circular :size="70" :width="7" color="blue" indeterminate />
-    </div>
     <div v-for="commande in listCommande" :key="commande.id">
       <v-row>
         <v-col md="6" offset-md="3">
@@ -27,7 +22,6 @@
             <h3>Commande - {{ commande.id }}</h3>
             <h3>Fournisseur - {{ commande.fournisseur.name }}</h3>
           </div>
-
           <v-data-table :headers="tabHeader" :items="commande.products" item-key="id" :items-per-page="5"
             class="elevation-1" />
           <v-table class="elevation-1">
@@ -41,7 +35,6 @@
         </v-col>
       </v-row>
     </div>
-
   </v-container>
 
 </template>

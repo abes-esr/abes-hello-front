@@ -22,6 +22,12 @@ export type LoginPayload = {
   passWord: string;
 };
 
+export type FetchUserResponse = {
+  user: User;
+  timeout: number;
+  accessToken: string;
+};
+
 export const useAuth = () => {
   const client = useNuxtApi();
   const user = useState<User | null>("user", () => null);
@@ -38,16 +44,6 @@ export const useAuth = () => {
   );
   const isLoggedIn = computed(() => !!user.value && !!token.value);
 
-  onMounted(async () => {
-    if (import.meta.client) {
-      const storedToken = localStorage.getItem("token");
-      if (token.value != storedToken && token.value) {
-        fetchUser();
-      }
-      token.value = storedToken;
-    }
-  });
-
   watch(token, (newValue) => {
     if (newValue) {
       localStorage.setItem("token", newValue);
@@ -58,8 +54,10 @@ export const useAuth = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await client.get<User>("/api/me");
-      user.value = response.data;
+      token.value = localStorage.getItem("token");
+      const response = await client.get<FetchUserResponse>("/api/me");
+      user.value = response.data.user;
+      token.value = response.data.accessToken;
     } catch {
       await logout();
     }

@@ -1,7 +1,5 @@
 <template>
-    <ClientOnly>
-        <HelloAbes />
-    </ClientOnly>
+    <HelloAbes />
 </template>
 
 <script setup>

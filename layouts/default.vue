@@ -2,9 +2,11 @@
   <v-app>
     <Header />
     <v-main class="mt-16">
-      <div v-if="loading" style="position: absolute; width: 100vw; height: 100vh; top: 0; left: 0; z-index: 100;"
+      <div
+v-if="loading" style="position: absolute; width: 100vw; height: 100vh; top: 0; left: 0; z-index: 100;"
         class="d-flex align-center justify-center">
-        <v-sheet :elevation="24" :height="200" :width="200" color="white" rounded
+        <v-sheet
+:elevation="24" :height="200" :width="200" color="white" rounded
           class="d-flex align-center justify-center mr-4">
           <v-row class="text-center">
             <v-col cols="12">
@@ -22,10 +24,11 @@
 </template>
 
 <script setup lang="ts">
+import '~/assets/css/global.css';
 import Footer from "~~/components/layouts/Footer.vue";
 import Header from "~~/components/layouts/Header.vue";
-import '~/assets/css/global.css'
 
+const {fetchUser} = useAuth();
 const nuxtApp = useNuxtApp();
 const loading = ref(false);
 nuxtApp.hook("page:start", () => {
@@ -33,6 +36,10 @@ nuxtApp.hook("page:start", () => {
 });
 nuxtApp.hook("page:finish", () => {
   loading.value = false;
-});
+}); 
+
+onMounted(async () => {
+  await fetchUser();
+})
 
 </script>
