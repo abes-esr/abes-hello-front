@@ -1,5 +1,7 @@
 <template>
-  <UserAccount />
+  <ClientOnly>
+    <UserAccount />
+  </ClientOnly>
 </template>
 
 <script setup>

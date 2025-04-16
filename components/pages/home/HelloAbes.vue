@@ -29,5 +29,6 @@
 import { useSpringbootApi } from '~/composables/useSpringbootApi';
 
 const client = useSpringbootApi();
+console.log("client", client)
 const { data } = await client.get("/")
 </script>
