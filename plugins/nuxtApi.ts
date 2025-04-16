@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const clientAxiosNuxtServeur = axios.create();
+  const client = axios.create();
 
-  clientAxiosNuxtServeur.interceptors.response.use(
+  client.interceptors.response.use(
     (response) => {
       return response;
     },
@@ -30,10 +30,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   );
 
-  // Expose to useNuxtApp().$clientAxiosNuxtServeur
+  // Expose to useNuxtApp().$nuxtApi
   return {
     provide: {
-      clientAxiosNuxtServeur: clientAxiosNuxtServeur,
+      nuxtApi: client,
     },
   };
 });

@@ -39,6 +39,7 @@
 <script setup>
 
 const { user } = useAuth();
-const { data: resApi } = await useAPI('/secured').get();
+const client = useSpringbootApi()
+const { data: resApi } = await client.get('/secured');
 
 </script>

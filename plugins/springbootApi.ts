@@ -4,12 +4,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     const { token } = useAuth();
     const config = useRuntimeConfig();
 
-    const clientAxiosApi = axios.create({
+    const client = axios.create({
         baseURL: config.public.apiURL, // cf nuxt.config.ts
     });
 
     // Ajout de l'intercepteur
-    clientAxiosApi.interceptors.request.use(
+    client.interceptors.request.use(
         (config) => {
             if (token.value) {
                 // Si le token existe alors on l'envoie au serveur
@@ -22,7 +22,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
     );
 
-    clientAxiosApi.interceptors.response.use(
+    client.interceptors.response.use(
         (response) => {
             return response;
         },
@@ -50,10 +50,10 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
     )
 
-    // Expose to useNuxtApp().$clientAxiosApi
+    // Expose to useNuxtApp().$springbootApi
     return {
         provide: {
-            clientAxiosApi: clientAxiosApi,
+            springbootApi: client,
         },
     };
 });

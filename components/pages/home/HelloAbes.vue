@@ -26,5 +26,8 @@
 </template>
 
 <script setup>
-const { data } = await useAPI("/").get();
+import { useSpringbootApi } from '~/composables/useSpringbootApi';
+
+const client = useSpringbootApi();
+const { data } = await client.get("/")
 </script>

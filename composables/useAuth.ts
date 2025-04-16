@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export type User = {
   userName: string;
 };
@@ -25,6 +23,7 @@ export type LoginPayload = {
 };
 
 export const useAuth = () => {
+  const client = useNuxtApi();
   const user = useState<User | null>("user", () => null);
   const token = useState<string | null>("token", () => null);
   const errorApi = useState<boolean>("errorApi", () => false);
@@ -58,7 +57,7 @@ export const useAuth = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get<User>("/api/me");
+      const response = await client.get<User>("/api/me");
       user.value = response.data;
     } catch {
       await logout();
@@ -67,7 +66,7 @@ export const useAuth = () => {
 
   const register = async (payload: RegisterPayload) => {
     try {
-      await axios.post<RegisterResponse>("/api/register", payload);
+      await client.post<RegisterResponse>("/api/register", payload);
       responseFromApi.value =
         "Votre inscription a bien été enregistrée. Vous pouvez maintenant vous connecter";
       isRequestSuccess.value = true;
@@ -81,7 +80,7 @@ export const useAuth = () => {
 
   const login = async (payload: LoginPayload) => {
     try {
-      const response = await axios.post<LoginResponse>("/api/login", payload);
+      const response = await client.post<LoginResponse>("/api/login", payload);
       user.value = { userName: response.data.userName };
       token.value = response.data.accessToken;
     } catch {
@@ -91,7 +90,7 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
-    await axios.post("/api/logout");
+    await client.post("/api/logout");
     user.value = null;
     token.value = null;
   };

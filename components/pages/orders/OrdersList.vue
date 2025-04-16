@@ -28,8 +28,7 @@
             <h3>Fournisseur - {{ commande.fournisseur.name }}</h3>
           </div>
 
-          <v-data-table
-:headers="tabHeader" :items="commande.products" item-key="id" :items-per-page="5"
+          <v-data-table :headers="tabHeader" :items="commande.products" item-key="id" :items-per-page="5"
             class="elevation-1" />
           <v-table class="elevation-1">
             <tbody>
@@ -51,7 +50,8 @@
 
 import { ref } from "vue";
 const { user } = useAuth();
-const { data: listCommande } = await useAPI('/secured/commande').get();
+const client = useSpringbootApi()
+const { data: listCommande } = await client.get('/secured/commande');
 
 const tabHeader = ref([
   {
