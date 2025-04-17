@@ -5,7 +5,8 @@
       <p class="text-white text-decoration-none">{{ currentYear }} - ABES</p>
     </NuxtLink>
     <div class="d-flex flex-wrap justify-end align-center text-body-2">
-      <NuxtLink v-for="btnLinkData in btnsLinksDatas" :target="btnLinkData.goToExternalSite" :key="btnLinkData.text" :to="btnLinkData.link">
+      <NuxtLink v-for="btnLinkData in btnsLinksDatas" :key="btnLinkData.text" :target="btnLinkData.goToExternalSite"
+        :to="btnLinkData.link">
         <v-btn v-tooltip:top="btnLinkData.tooltip" :text="btnLinkData.text" elevation="0" variant="text"
           size="x-small" />
       </NuxtLink>
@@ -14,13 +15,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 
 const currentYear = computed(() => new Date().getFullYear())
 const btnsLinksDatas = [
   {
     text: 'Donnees Personnelles',
-    link: 'donneesPersonnelles',
+    link: 'privacy-policy',
     tooltip: 'lien qui amène à la page traitant des données personnelles',
     goToExternalSite: "_self",
   },
@@ -32,7 +32,7 @@ const btnsLinksDatas = [
   },
   {
     text: 'Mentions légales',
-    link: 'mentionsLegales',
+    link: 'legals',
     tooltip: 'Lien qui amène à la page traitant des mentions légales',
     goToExternalSite: "_self",
   },
@@ -44,10 +44,5 @@ const btnsLinksDatas = [
   }
 ]
 
-function goToDestinationPage(isExternalLink: boolean, link: string) {
-  if (isExternalLink) {
-    window.open(link);
-  } else navigateTo(link)
-}
 
 </script>

@@ -1,3 +1,5 @@
+import { useNuxtApi } from "~/composables/useNuxtApi";
+
 export type User = {
   userName: string;
 };
