@@ -5,8 +5,8 @@
     <div>
       <v-row class="text-center">
         <v-col cols="12">
-          <h1 class="mt-10 mb-4">Bienvenue à l'Abes : {{ user?.userName }}</h1>
-          <v-img src="/pictures/abesLogo130.svg" class="my-3" contain height="200" />
+          <h1 class="mt-10 mb-4">Bienvenue à l'Abes.</h1>
+          <p class="successMessage">Vous êtes loggé en temps que : {{ user?.userName }}</p>
         </v-col>
       </v-row>
     </div>
@@ -16,17 +16,17 @@
     </div>
 
     <div v-else>
-      <v-row class="text-center">
+      <v-row class="text-center mt-10">
         <v-col cols="12">
-          <h3 class="mb-5">La réponse de serveur API</h3>
           <v-divider class="mx-4" />
+          <h3 class="mt-5">Réponse privée du serveur (abes-hello-back) : </h3>
         </v-col>
       </v-row>
 
       <v-row class="text-center">
         <v-col class="d-flex justify-center" cols="12">
           <v-sheet class="responseFromServer" max-width="500">
-            {{ resApi }}
+            {{ resApi?.response }}
           </v-sheet>
         </v-col>
       </v-row>

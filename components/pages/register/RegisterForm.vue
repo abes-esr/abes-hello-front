@@ -5,10 +5,6 @@
       <v-col cols="12">
         <h1 class="mb-4">S'inscrire</h1>
         <v-divider class="mx-4" />
-        <v-alert v-model="isAlertErrorVisible" class="my-5" border="start" close-label="Close Alert" color="red"
-          title="Erreur" variant="outlined" closable>
-          {{ errorApiMessage }}
-        </v-alert>
       </v-col>
     </v-row>
 
@@ -37,8 +33,11 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from "vue";
+import { useAuth } from "~~/composables/useAuth";
+
+const { errorApiMessage, register } = useAuth()
 
 const registerForm = ref(null);
 const name = ref("");
@@ -59,7 +58,7 @@ const passwordRules = [
 // TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back. La regex ci-dessous est l'ancienne du front et semble plus large
 // ancienne regex du mot de passe sur le front => v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
 
-const { isLoggedIn, errorApiMessage, register } = useAuth()
+
 
 // Permet de vérifier si le formulaire est correct afin d'activer le bouton de validation
 watch(() => {

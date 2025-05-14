@@ -71,9 +71,11 @@ export const useAuth = () => {
       responseFromApi.value =
         "Votre inscription a bien été enregistrée. Vous pouvez maintenant vous connecter";
       isRequestSuccess.value = true;
+      errorApi.value = false;
+      errorApiMessage.value = null;
     } catch (error) {
-      errorApiMessage.value =
-        "Votre inscription a échoué. Veuillez recommencer.";
+      errorApi.value = true;
+      errorApiMessage.value = "Votre inscription a échoué. Veuillez recommencer.";
       isRequestSuccess.value = false;
       throw error;
     }
@@ -84,9 +86,14 @@ export const useAuth = () => {
       const response = await client.post<LoginResponse>("/api/login", payload);
       user.value = { userName: response.data.userName };
       token.value = response.data.accessToken;
-    } catch {
+      errorApi.value = false;
+      errorApiMessage.value = null;
+    } catch (error) {
+      errorApi.value = true;
+      errorApiMessage.value = "Une erreur est survenue. Veuillez recommencer.";
       responseFromApi.value = "Une erreur est survenue. Veuillez recommencer.";
       isRequestSuccess.value = false;
+      throw error;
     }
   };
 

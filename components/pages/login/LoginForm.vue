@@ -4,15 +4,12 @@
     <v-row class="text-center">
       <v-col cols="12">
         <h1 class="mb-4">Se connecter</h1>
+        <span style="font-style: italic">
+          <p>Identifiant de test :</p>
+          <p>- nom : demoUser1</p>
+          <p>- mot de passe : @TestTest85</p>
+        </span>
         <v-divider class="mx-4" />
-        <v-alert v-model="isAlertErrorVisible" class="my-5" border="start" close-label="Close Alert" color="red"
-          title="Erreur" variant="outlined" closable>
-          {{ errorApiMessage }}
-        </v-alert>
-        <v-alert v-model="isRequestSuccess" class="my-5" border="start" close-label="Close Alert" color="green"
-          title="Succès" variant="outlined" closable>
-          {{ responseFromApi }}
-        </v-alert>
       </v-col>
     </v-row>
 
@@ -44,7 +41,7 @@
 
 import { useAuth } from "~~/composables/useAuth";
 
-const { isRequestSuccess, responseFromApi, login, errorApiMessage } = useAuth();
+const { isRequestSuccess, responseFromApi, login, errorApiMessage, errorApi } = useAuth();
 const loginForm = ref(null)
 const name = ref("");
 const passWord = ref("");
@@ -75,6 +72,11 @@ function validate() {
 }
 
 function reset() {
+  isAlertErrorVisible.value = false;
+  res();
+}
+
+function res() {
   name.value = "";
   passWord.value = "";
   valid.value = false;
@@ -90,7 +92,7 @@ async function doLogin() {
     isAlertErrorVisible.value = true;
   } finally {
     loading.value = false;
-    reset();
+    res();
   }
 }
 

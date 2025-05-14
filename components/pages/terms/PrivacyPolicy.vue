@@ -30,7 +30,7 @@
           de votre navigateur, cependant votre expérience utilisateur risque
           d’être dégradée.
         </p><br>
-        <table style="border: solid 1px black">
+        <table class="privacyPoliceTableBorder">
           <thead>
           <tr>
             <th>Nom du cookie</th>
@@ -52,7 +52,7 @@
           En vue d’adapter le site aux demandes de ses visiteurs, nous mesurons le nombre de visites, le nombre de pages vues ainsi que l'activité des visiteurs sur le site et leur fréquence de retour.
           PIWIK, l'outil de statistiques utilisé par l'ABES, génère les cookies suivants :
         </p><br>
-        <table style="border: solid 1px black">
+        <table class="privacyPoliceTableBorder">
           <thead>
           <tr>
             <th>Nom du cookie</th>

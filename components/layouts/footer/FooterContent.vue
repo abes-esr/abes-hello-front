@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-wrap justify-space-between align-center mt-0 mb-0" style="width: 100%">
+  <v-sheet class="d-flex flex-wrap justify-space-between align-center mt-0 mb-0" width="100%" color="primary" >
     <NuxtLink to="https://abes.fr" class="d-flex flex-wrap justify-start align-center text-body-2">
       <img class="mr-4" alt="logo Abes" src="/pictures/logo-mesr.svg" height="60">
       <p class="text-white text-decoration-none">{{ currentYear }} - ABES</p>
@@ -11,7 +11,7 @@
           size="x-small" />
       </NuxtLink>
     </div>
-  </div>
+  </v-sheet>
 </template>
 
 <script setup lang="ts">

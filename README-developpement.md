@@ -10,6 +10,11 @@ Cette branche de l'application **abes-hello** concerne le front en Nuxt.
 Le serveur Nuxt gère les appels vers l'api **abes-hello**, disponible à cette adresse :  
 https://github.com/abes-esr/abes-hello-back
 
+
+## Architecture du projet
+
+![](public/pictures/Hello-Abes-Fonrt-Nuxt.svg)
+
 ## Installation et lancement de l'application
 
 ### Installation

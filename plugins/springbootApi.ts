@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const { token } = useAuth();
+    const { token, errorApi, errorApiMessage } = useAuth();
     const config = useRuntimeConfig();
 
     const client = axios.create({
@@ -32,7 +32,8 @@ export default defineNuxtPlugin((nuxtApp) => {
                 if (statusCode === 401 || statusCode === 403) {
                     // Redirige l'utilisateur s'il n'est pas connecté où s'il n'a pas les droits
                     await nuxtApp.runWithContext(() => navigateTo("/login"));
-                    // TODO passer le message d'erreur en plus de la redirection
+                    errorApi.value = true;
+                    errorApiMessage.value = "Vous devez être loggé pour accéder à cette ressource."
                 } else if (statusCode.toString().startsWith("5")) {
                     // Cas où le serveur n'est pas disponible
                     throw new Error("Une erreur interne est survenue.");
