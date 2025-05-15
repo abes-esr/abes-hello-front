@@ -51,7 +51,7 @@ Voici ci-après le détail des répertoires.
 
 ### Assets
 
-Le répertoire assets/ est utilisé pour ajouter tous les actifs du site Web que l'outil de création traitera.
+Le répertoire assets/ est utilisé pour ajouter toutes les ressources du site Web traitées lors du build.
 
 Répertoire contenant le fichier **global.css** du projet.
 
@@ -71,10 +71,6 @@ Répertoire contenant les fichiers:
 - **useAuth.ts** qui gère l'authentification de l'application notamment via les appels vers le serveur Nuxt.
 - **useSpringbootApi.ts** qui injecte le plugin **[springbootApi.ts](/plugins/springbootApi.ts)** (chemin d'accès _/plugins/springbootApi.ts_)
 - **useNuxtApi.ts** qui injecte le plugin **[nuxtApi.ts](/plugins/nuxtApi.ts)** (chemin d'accès _/plugins/nuxtApi.ts_)
-
-### Docker
-
-Répertoire contenant les fichiers de configuration nécessaire à la dockerisation du projet.
 
 ### Layouts
 

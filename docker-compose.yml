@@ -1,8 +1,8 @@
 services:
   web:
     container_name: hello-abes-nuxt
-    build: .
+    build: ../../Desktop/Nouveau dossier
     ports:
       - 7081:80
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    environment:
+      API_URL: ${API_URL}

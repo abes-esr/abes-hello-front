@@ -36,17 +36,18 @@ export default defineNuxtPlugin((nuxtApp) => {
                     errorApiMessage.value = "Vous devez être loggé pour accéder à cette ressource."
                 } else if (statusCode.toString().startsWith("5")) {
                     // Cas où le serveur n'est pas disponible
-                    throw new Error("Une erreur interne est survenue.");
+                    showError("Erreur serveur : la requête n'a pas pu aboutir.");
                 } else if(error.response.data.debugMessage) {
                     // Cas où l'api renvoi un message d'erreur personnalisé
-                    throw new Error(error.response.data.debugMessage);
+                    showError(error.response.data.debugMessage);
                 } else {
-                    throw new Error("Une erreur interne est survenue.");
+                    showError("Une erreur interne est survenue.");
                 }
             } else if (error.request) {
-                throw new Error("Erreur lors de la requête : " + error)
+
+                showError("Erreur : le serveur n'est pas disponible")
             } else {
-                throw new Error("Une erreur interne est survenue.");
+                showError("Une erreur interne est survenue.");
             }
         }
     )

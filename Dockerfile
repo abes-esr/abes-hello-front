@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # Copy the entire project
-COPY . ./
+COPY ../../Desktop/Nouveau%20dossier ./
 
 ENV API_URL=http://host.docker.internal:8081/api
 
@@ -24,12 +24,10 @@ WORKDIR /app
 
 # Only `.output` folder is needed from the build stage
 COPY --from=build /app/.output/ ./
-COPY .env /app/.env
 
 # Change the port and host
 ENV PORT=80
 ENV HOST=0.0.0.0
-ENV API_URL=http://host.docker.internal:8081/api
 
 EXPOSE 80
 

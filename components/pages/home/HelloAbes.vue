@@ -36,20 +36,10 @@
 
 <script setup>
 import { useSpringbootApi } from '~/composables/useSpringbootApi';
-import { showError } from "#imports";
 const { token } = useAuth();
 
 const client = useSpringbootApi();
 
-// Cette structure d'appel permet d'éviter un plantage du front à son démarrage dans le cas où le back n'est pas démarré.
-const { data } = await useAsyncData('data', async () => {
-  try {
-    const response = await client.get("");
-    return response.data
-  } catch (e) {
-    showError('Erreur : le serveur n\'est pas disponible')
-    throw new Error('Impossible de se connecter à API')
-  }
-})
+const { data } = await client.get("");
 
 </script>
