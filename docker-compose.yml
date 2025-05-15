@@ -1,7 +1,7 @@
 services:
   web:
     container_name: hello-abes-nuxt
-    build: ../../Desktop/Nouveau dossier
+    build: .
     ports:
       - 7081:80
     environment:

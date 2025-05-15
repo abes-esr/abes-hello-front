@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # Copy the entire project
-COPY ../../Desktop/Nouveau%20dossier ./
+COPY . ./
 
 ENV API_URL=http://host.docker.internal:8081/api
 
