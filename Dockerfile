@@ -24,7 +24,7 @@ WORKDIR /app
 
 # Only `.output` folder is needed from the build stage
 COPY --from=build /app/.output/ ./
-COPY .env.docker /app/.env
+COPY .env /app/.env
 
 # Change the port and host
 ENV PORT=80
