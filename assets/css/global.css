@@ -1,0 +1,59 @@
+header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-height: 80px;
+}
+
+.loadingPopup {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.responseFromServer {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: #dfdfdf !important;
+  color: black !important;
+  font-family: "Courier New", sans-serif !important;
+  font-size: 0.9em !important;
+  font-weight: 600 !important;
+}
+
+.warningMessage {
+  color: red !important;
+}
+
+.successMessage {
+  color: green !important;
+}
+
+.titleNavbarProp {
+  z-index: 9999;
+  position: absolute;
+  margin-top: 31px;
+  margin-left: 190px;
+  font-size: 0.9em;
+  font-style: oblique;
+}
+
+.privacyPoliceTableBorder {
+  border: solid 1px black;
+}

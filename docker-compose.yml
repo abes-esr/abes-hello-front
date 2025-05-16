@@ -1,0 +1,8 @@
+services:
+  web:
+    container_name: hello-abes-nuxt
+    build: .
+    ports:
+      - 7081:80
+    environment:
+      API_URL: ${API_URL}
