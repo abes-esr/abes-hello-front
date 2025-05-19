@@ -2,7 +2,6 @@
 
 FROM node:23-slim AS build
 WORKDIR /app
-COPY ./docker/nuxt_env_placeholder .env
 
 # Copy package.json and your lockfile, here we add pnpm-lock.yaml for illustration
 COPY package.json package-lock.json ./
@@ -12,6 +11,9 @@ RUN npm ci
 
 # Copy the entire project
 COPY . ./
+
+ARG API_URL
+ENV API_URL=$API_URL
 
 # Build the project
 RUN npm run build
