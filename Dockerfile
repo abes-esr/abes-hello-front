@@ -2,6 +2,7 @@
 
 FROM node:23-slim AS build
 WORKDIR /app
+COPY ./docker/nuxt_env_placeholder .env
 
 # Copy package.json and your lockfile, here we add pnpm-lock.yaml for illustration
 COPY package.json package-lock.json ./
