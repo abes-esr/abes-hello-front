@@ -19,7 +19,7 @@ RUN npm run build
 
 # Build Stage 2
 
-FROM node:23-slim
+FROM node:23-slim as front-image
 WORKDIR /app
 
 # Only `.output` folder is needed from the build stage
