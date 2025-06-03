@@ -7,8 +7,6 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig();
     const apiUrl = config.apiUrl;
 
-    console.log("CONSOLE LOG ICI !!! " + apiUrl)
-
     const response = await axios.post(`${apiUrl}/login`, body);
     const { accessToken, userName } = response.data;
 
