@@ -6,6 +6,6 @@ services:
       args:
         API_URL: ${API_URL}
     ports:
-      - "7080:80"
+      - "7083:80"
     environment:
       API_URL: ${API_URL}
