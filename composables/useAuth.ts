@@ -57,7 +57,7 @@ export const useAuth = () => {
   const fetchUser = async () => {
     try {
       token.value = localStorage.getItem("token");
-      const response = await client.get<FetchUserResponse>("/api/me");
+      const response = await client.get<FetchUserResponse>("/api/v1/me");
       user.value = response.data.user;
       token.value = response.data.accessToken;
     } catch {
@@ -67,7 +67,7 @@ export const useAuth = () => {
 
   const register = async (payload: RegisterPayload) => {
     try {
-      await client.post<RegisterResponse>("/api/register", payload);
+      await client.post<RegisterResponse>("/api/v1/register", payload);
       responseFromApi.value =
         "Votre inscription a bien été enregistrée. Vous pouvez maintenant vous connecter";
       isRequestSuccess.value = true;
@@ -83,7 +83,7 @@ export const useAuth = () => {
 
   const login = async (payload: LoginPayload) => {
     try {
-      const response = await client.post<LoginResponse>("/api/login", payload);
+      const response = await client.post<LoginResponse>("/api/v1/login", payload);
       user.value = { userName: response.data.userName };
       token.value = response.data.accessToken;
       errorApi.value = false;
@@ -98,7 +98,7 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
-    await client.post("/api/logout");
+    await client.post("/api/v1/logout");
     user.value = null;
     token.value = null;
   };
