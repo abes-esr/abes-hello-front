@@ -35,10 +35,8 @@ export const useAuth = () => {
   const user = useState<User | null>("user", () => null);
   const token = useState<string | null>("token", () => null);
   const errorApi = useState<boolean>("errorApi", () => false);
-  const errorApiMessage = useState<string | null>(
-    "errorApiMessage",
-    () => null
-  );
+  const errorApiMessage = useState<string | null>("errorApiMessage",() => null);
+  const errorApiMessageSecondLine = useState<string | null>("errorApiMessageSecondeLine", () => null);
   const isRequestSuccess = useState<boolean>("isRequestSuccess", () => false);
   const responseFromApi = useState<string | null>(
     "responseFromApi",
@@ -108,6 +106,7 @@ export const useAuth = () => {
     token,
     errorApi,
     errorApiMessage,
+    errorApiMessageSecondLine,
     isRequestSuccess,
     responseFromApi,
     isLoggedIn,
