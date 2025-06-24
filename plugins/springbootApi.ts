@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const { token, errorApi, errorApiMessage } = useAuth();
+    const { token, errorApi, errorApiMessage, errorApiMessageSecondLine } = useAuth();
     const config = useRuntimeConfig();
 
     const client = axios.create({
@@ -33,7 +33,8 @@ export default defineNuxtPlugin((nuxtApp) => {
                     // Redirige l'utilisateur s'il n'est pas connecté où s'il n'a pas les droits
                     await nuxtApp.runWithContext(() => navigateTo("/login"));
                     errorApi.value = true;
-                    errorApiMessage.value = "Vous devez être loggé pour accéder à cette ressource."
+                    errorApiMessage.value = "La ressource à laquelle vous avez tenté d'accéder ne peut être atteinte."
+                    errorApiMessageSecondLine.value = "Merci de vous logger sur cette page. Si vous n'avez pas de compte, vous pouvez en créer un en passant par la page S'INSCRIRE."
                 } else if (statusCode.toString().startsWith("5")) {
                     // Cas où le serveur n'est pas disponible
                     showError("Erreur serveur : la requête n'a pas pu aboutir.");

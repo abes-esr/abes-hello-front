@@ -22,7 +22,8 @@
       <div class="d-flex justify-center mb-6">
         <v-alert v-model="errorApi" class="my-5 mx-20" border="start" close-label="Close Alert" color="red" max-width="800"
                  title="Erreur" variant="outlined" closable>
-          {{ errorApiMessage }}
+          <p>{{ errorApiMessage }}</p>
+          <p>{{ errorApiMessageSecondLine }}</p>
         </v-alert>
       </div>
 
@@ -40,11 +41,11 @@ import Header from "~~/components/layouts/Header.vue";
 
 import { useAuth } from "~~/composables/useAuth";
 
-const { errorApi, errorApiMessage } = useAuth()
+const { errorApi, errorApiMessage, errorApiMessageSecondLine } = useAuth()
 
 const props = defineProps({testProps: String})
 
-const {fetchUser} = useAuth();
+const { fetchHome } = useAuth();
 const nuxtApp = useNuxtApp();
 const loading = ref(false);
 nuxtApp.hook("page:start", () => {
@@ -55,7 +56,7 @@ nuxtApp.hook("page:finish", () => {
 }); 
 
 onMounted(async () => {
-  await fetchUser();
+  await fetchHome();
 })
 
 </script>

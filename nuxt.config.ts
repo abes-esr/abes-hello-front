@@ -18,10 +18,10 @@ export default defineNuxtConfig({
   // et celles placées dans le runtimeConfig du nuxt.config.ts :
   // https://nuxt.com/docs/getting-started/configuration#runtimeconfig-vs-appconfig
   runtimeConfig: {
-    apiUrl: process.env.NUXT_API_URL,
+    apiUrl: process.env.NUXT_API_URL || "https://hello.abes.fr/api/v1",
     public: {
       // placer ici les variables communes du projet, elles seront exposées au client
-      apiURL: process.env.NUXT_API_URL, // exemple avec une valeur récupérée dans le .env. Elle est utilisée dans le index.vue
+      apiURL: process.env.NUXT_API_URL || "https://hello.abes.fr/api/v1", // exemple avec une valeur récupérée dans le .env. Elle est utilisée dans le index.vue
     },
   },
 
