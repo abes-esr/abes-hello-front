@@ -32,8 +32,6 @@ export type FetchUserResponse = {
 
 export const useAuth = () => {
   const client = useNuxtApi();
-  const config = useRuntimeConfig();
-  const basePublicUrl = config.public.apiUrl;
   const user = useState<User | null>("user", () => null);
   const token = useState<string | null>("token", () => null);
   const errorApi = useState<boolean>("errorApi", () => false);
@@ -54,19 +52,10 @@ export const useAuth = () => {
     }
   });
 
-  const fetchPublic = async () => {
-    try {
-      console.log(client.getUri().toString())
-      const response = await client.get<FetchUserResponse>(basePublicUrl + "/api/v1");
-    } catch {
-
-    }
-  }
-
   const fetchUser = async () => {
     try {
       token.value = localStorage.getItem("token");
-      const response = await client.get<FetchUserResponse>("/api/v1");
+      const response = await client.get<FetchUserResponse>("/api/v1/me");
       user.value = response.data.user;
       token.value = response.data.accessToken;
     } catch {
@@ -125,6 +114,5 @@ export const useAuth = () => {
     login,
     logout,
     fetchUser,
-    fetchHome: fetchPublic,
   };
 };
