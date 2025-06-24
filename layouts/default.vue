@@ -45,7 +45,6 @@ const { errorApi, errorApiMessage, errorApiMessageSecondLine } = useAuth()
 
 const props = defineProps({testProps: String})
 
-const { fetchHome } = useAuth();
 const nuxtApp = useNuxtApp();
 const loading = ref(false);
 nuxtApp.hook("page:start", () => {
@@ -54,9 +53,5 @@ nuxtApp.hook("page:start", () => {
 nuxtApp.hook("page:finish", () => {
   loading.value = false;
 }); 
-
-onMounted(async () => {
-  await fetchHome();
-})
 
 </script>
