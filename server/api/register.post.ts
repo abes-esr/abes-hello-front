@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event);
         const config = useRuntimeConfig();
         const apiUrl = config.apiUrl;
-        const response = await axios.post(`${apiUrl}/register`, body);
+        const response = await axios.post(`${apiUrl}/api/v1/register`, body);
         const { accessToken, userName } = response.data;
         return { userName, accessToken };
 

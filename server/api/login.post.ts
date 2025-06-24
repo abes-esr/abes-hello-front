@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig();
     const apiUrl = config.apiUrl;
 
-    const response = await axios.post(`${apiUrl}/login`, body);
+    const response = await axios.post(`${apiUrl}/api/v1/login`, body);
     const { accessToken, userName } = response.data;
 
     setCookie(event, "auth_token", accessToken, {
