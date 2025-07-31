@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
+  axios.defaults.url = 'api/v1';
   const client = axios.create();
 
   client.interceptors.response.use(
