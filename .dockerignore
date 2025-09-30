@@ -1,0 +1,11 @@
+.github
+.git
+.gitignore
+.idea
+.vscode
+node_modules
+.nuxt
+.output
+.dockerignore
+Dockerfile
+docker-compose.yml
