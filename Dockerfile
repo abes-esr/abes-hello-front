@@ -12,9 +12,6 @@ RUN npm ci
 # Copy the entire project
 COPY . ./
 
-ARG NUXT_API_URL
-ENV NUXT_API_URL=$NUXT_API_URL
-
 # Build the project
 RUN npm run build
 
