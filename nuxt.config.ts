@@ -2,6 +2,18 @@
 import { process } from "std-env";
 
 export default defineNuxtConfig({
+// Active les sources maps
+  sourceMap: {
+    server: true,
+    client: true,
+  },
+
+  // Configuration Vite pour les DevTools
+  vite: {
+    build: {
+      sourcemap: true,  // Génère les sources maps
+    },
+  },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
 
