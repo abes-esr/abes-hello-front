@@ -18,10 +18,12 @@ export default defineNuxtConfig({
   // et celles placées dans le runtimeConfig du nuxt.config.ts :
   // https://nuxt.com/docs/getting-started/configuration#runtimeconfig-vs-appconfig
   runtimeConfig: {
-    apiUrl: process.env.NUXT_API_URL!,
+    // placer ici les variables secrètes du projet, elles ne seront disponibles uniquement côté serveur
+    // Dans les fichiers .env et docker-compose.yml, la variable doit avoir le préfixe NUXT_ (exemple ici : NUXT_API_URL). Ecrire le suffixe de la variable ici en camel case
+    // apiURL: ''
     public: {
       // placer ici les variables communes du projet, elles seront exposées au client
-      apiURL: process.env.NUXT_API_URL!, // exemple avec une valeur récupérée dans le .env. Elle est utilisée dans le index.vue
+      apiURL: '', // Dans les fichiers .env et docker-compose.yml, la variable doit avoir le préfixe NUXT_PUBLIC_ (exemple ici : NUXT_PUBLIC_API_URL). Ecrire le suffixe de la variable ici en camel case
     },
   },
 
