@@ -15,7 +15,6 @@ updates:
 #      timezone: "Etc/GMT+0"
 #    "cooldown" configure un cooldown (entre 1 et 90 jours) selon le niveau d'importance major/minor/patch, en renseignant si besoin des cas particuliers (include, exclude)
     cooldown:
-      default-day: 7
       semver-major-days: 30
       semver-minor-days: 7
       semver-patch-days: 1
@@ -30,8 +29,8 @@ updates:
 #      - dependency-name: "[nom_de_le_dépendance]"
 #      versions: ["1.x"]
 #    Possibilité d'assigner une personne ou un groupe pour la PR qui sera créée
-#    assignees:
-#      - "user-or-group-name"
+    assignees:
+      - "EryneKL"
 #   "pull-request-branch-name" Permet d'imposer le séparateur utilisé dans le nommage automatique des PR de Dependabot (par défault, le "/" est utilisé)
     pull-request-branch-name:
       separator: "-"
