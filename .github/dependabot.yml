@@ -1,0 +1,40 @@
+# Fichier de configuration de Dependabot
+# Source : https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+#    Permet de fixer l'interval de temps entre chaque vérification de Dependabot
+    schedule:
+      interval: "daily"
+#      Possibilité d'affiner la fréquence à un jour et une heure précis
+#      interval: "monthly"
+#      day: "monday"
+#      time: "06:00"
+#      timezone: "Etc/GMT+0"
+#    "cooldown" configure un cooldown (entre 1 et 90 jours) selon le niveau d'importance major/minor/patch, en renseignant si besoin des cas particuliers (include, exclude)
+    cooldown:
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 1
+#      include:
+#        - "nuxt"
+#        - "axios"
+#      exclude:
+#        - "vuetify"
+#        - "vuetify-nuxt-module"
+#    "ignore" oblige Dependabot à ignorer une dépendance que l'on ne souhaite pas faire évoluer (à cause de conflit connu ou potentiel avec une autre dépendance par exemple)
+#    ignore:
+#      - dependency-name: "[nom_de_le_dépendance]"
+#      versions: ["1.x"]
+#    Possibilité d'assigner une personne ou un groupe pour la PR qui sera créée
+    assignees:
+      - "EryneKL"
+#   "pull-request-branch-name" Permet d'imposer le séparateur utilisé dans le nommage automatique des PR de Dependabot (par défault, le "/" est utilisé)
+    pull-request-branch-name:
+      separator: "-"
+#    "open-pull-requests-limit" permet de fixer le nombre de PR ouverte en même temps par Dependabot
+    open-pull-requests-limit: 1
+#    "target-branch" permet d'indiquer la branche cible de la PR
+    target-branch: "develop"
