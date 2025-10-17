@@ -30,7 +30,7 @@ updates:
 #      versions: ["1.x"]
 #    Possibilité d'assigner une personne ou un groupe pour la PR qui sera créée
     assignees:
-      - "EryneKL"
+      - "abes-dev"
 #   "pull-request-branch-name" Permet d'imposer le séparateur utilisé dans le nommage automatique des PR de Dependabot (par défault, le "/" est utilisé)
     pull-request-branch-name:
       separator: "-"
