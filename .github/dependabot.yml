@@ -38,6 +38,6 @@ updates:
     pull-request-branch-name:
       separator: "-"
 #    "open-pull-requests-limit" permet de fixer le nombre de PR ouverte en même temps par Dependabot
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 4
 #    "target-branch" permet d'indiquer la branche cible de la PR
     target-branch: "develop"
