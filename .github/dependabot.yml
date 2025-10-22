@@ -32,6 +32,8 @@ updates:
     assignees:
       - "abes-soa"
       - "EryneKL"
+    reviewers:
+      - "@abes-esr/abes-soa"
 #   "pull-request-branch-name" Permet d'imposer le séparateur utilisé dans le nommage automatique des PR de Dependabot (par défault, le "/" est utilisé)
     pull-request-branch-name:
       separator: "-"
