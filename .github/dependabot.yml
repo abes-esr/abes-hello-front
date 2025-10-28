@@ -13,6 +13,10 @@ updates:
 #      day: "monday"
 #      time: "06:00"
 #      timezone: "Etc/GMT+0"
+#    "ignore" permet d'indiquer à Dependabot d'ignorer une montée en version (ou plusieurs) sur une dépendance.
+    ignore:
+      - dependency-name: "nuxt"
+        versions: "4.x"
 #    "cooldown" configure un cooldown (entre 1 et 90 jours) selon le niveau d'importance major/minor/patch, en renseignant si besoin des cas particuliers (include, exclude)
     cooldown:
       semver-major-days: 30
