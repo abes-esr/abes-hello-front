@@ -13,10 +13,15 @@ updates:
 #      day: "monday"
 #      time: "06:00"
 #      timezone: "Etc/GMT+0"
-#    "ignore" permet d'indiquer à Dependabot d'ignorer une montée en version (ou plusieurs) sur une dépendance.
+#    "ignore" oblige Dependabot à ignorer une dépendance que l'on ne souhaite pas faire évoluer (à cause de conflit connu ou potentiel avec une autre dépendance par exemple)
+#    ignore:
+#      - dependency-name: "[nom_de_le_dépendance]"
+#      versions: ["1.x"]
     ignore:
       - dependency-name: "nuxt"
-        versions: "4.x"
+        versions: ["4.x"]
+      - dependency-name: "@nuxt/ui"
+        versions: ["4.x"]
 #    "cooldown" configure un cooldown (entre 1 et 90 jours) selon le niveau d'importance major/minor/patch, en renseignant si besoin des cas particuliers (include, exclude)
     cooldown:
       semver-major-days: 30
@@ -28,10 +33,6 @@ updates:
 #      exclude:
 #        - "vuetify"
 #        - "vuetify-nuxt-module"
-#    "ignore" oblige Dependabot à ignorer une dépendance que l'on ne souhaite pas faire évoluer (à cause de conflit connu ou potentiel avec une autre dépendance par exemple)
-#    ignore:
-#      - dependency-name: "[nom_de_le_dépendance]"
-#      versions: ["1.x"]
 #    Possibilité d'assigner une personne ou un groupe pour la PR qui sera créée
     assignees:
 #      - "abes-esr/abes-soa" // cette écriture ne fonctionne pas
