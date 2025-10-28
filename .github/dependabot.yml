@@ -19,7 +19,7 @@ updates:
 #      versions: ["1.x"]
     ignore:
       - dependency-name: "nuxt"
-        versions: ["4.x"]
+        versions: ["4.x", "3.19.3"]
       - dependency-name: "@nuxt/ui"
         versions: ["4.x"]
 #    "cooldown" configure un cooldown (entre 1 et 90 jours) selon le niveau d'importance major/minor/patch, en renseignant si besoin des cas particuliers (include, exclude)
