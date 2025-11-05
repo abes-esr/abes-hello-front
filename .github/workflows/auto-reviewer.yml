@@ -7,13 +7,15 @@ on:
 jobs:
   auto-reviewer:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'dependencies')
+    if: ${{ github.event.label.name == 'dependencies' }}
+#    if: contains(github.event.pull_request.labels.*.name, 'dependencies')
     permissions:
       pull-requests: write
 
     steps:
       - name: Add reviewers for a Dependabot PR
-        if: contains(github.event.pull_request.labels.*.name, 'dependencies')
+        if: ${{ github.event.label.name == 'dependencies' }}
+#        if: contains(github.event.pull_request.labels.*.name, 'dependencies')
         uses: actions/github-script@v7
         with:
           script: |
