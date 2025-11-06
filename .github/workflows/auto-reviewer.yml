@@ -21,6 +21,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number,
-              reviewers: ['EryneKL', 'jvk88511334'],
+              reviewers: ['EryneKL'],
               team_reviewers: ['abes-soa']
             });
