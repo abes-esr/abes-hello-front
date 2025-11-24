@@ -34,7 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+
+// import { ref, watch } from "vue";
 import { useAuth } from "~~/composables/useAuth";
 
 const { errorApiMessage, register } = useAuth()
@@ -47,25 +48,16 @@ const isPasswordIconVisible = ref(true);
 const valid = ref(false)
 const isAlertErrorVisible = ref(false);
 const nameRules = [
-  v => !!v || 'Name is required',
-  v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+  (v: string) => !!v || 'Name is required',
+  (v: string) => (v && v.length <= 10) || 'Name must be less than 10 characters'
 ];
 const passwordRules = [
-  v => !!v || 'Password is required',
-  v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{8,}/.test(v) || 'Password must be valid',
+  (v: string) => !!v || 'Password is required',
+  (v:string) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{8,}/.test(v) || 'Password must be valid',
 ];
 
 // TODO harmoniser les regex d'invalidité des mot de passe entre le front et le back. La regex ci-dessous est l'ancienne du front et semble plus large
 // ancienne regex du mot de passe sur le front => v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(v) || 'Password must be valid',
-
-
-
-// Permet de vérifier si le formulaire est correct afin d'activer le bouton de validation
-watch(() => {
-  registerForm.value?.validate().then(({ valide: isValid }) => {
-    valid.value = isValid != null;
-  })
-})
 
 function changePasswordIcon() {
   isPasswordIconVisible.value = !isPasswordIconVisible.value;

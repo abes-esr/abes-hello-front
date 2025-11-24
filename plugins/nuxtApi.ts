@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
+  const { errorApi, errorApiMessage, errorApiMessageSecondLine } = useAuth();
+
   axios.defaults.url = 'api/v1';
   const client = axios.create();
 
@@ -14,6 +16,12 @@ export default defineNuxtPlugin((nuxtApp) => {
           if (statusCode === 401 || statusCode === 403) {
             // Redirige l'utilisateur s'il n'est pas connecté où s'il n'a pas les droits
             await nuxtApp.runWithContext(() => navigateTo("/login"));
+          } else if (statusCode === 400) {
+            // Cas où l'utilisateur tente de créer un compte avec un userName déjà existant
+            await nuxtApp.runWithContext(() => navigateTo("/register"));
+            errorApi.value = true;
+            errorApiMessage.value = "Votre tentative d'inscription a échoué. Veuillez recommencer."
+            errorApiMessageSecondLine.value = "";
           } else if (statusCode.toString().startsWith("5")) {
             // Cas où le serveur n'est pas disponible
             showError("Erreur serveur : la requête n'a pas pu aboutir.");

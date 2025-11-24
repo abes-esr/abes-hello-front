@@ -45,7 +45,6 @@ export default defineNuxtPlugin((nuxtApp) => {
                     showError("Une erreur interne est survenue.");
                 }
             } else if (error.request) {
-
                 showError("Erreur : le serveur n'est pas disponible")
             } else {
                 showError("Une erreur interne est survenue.");
