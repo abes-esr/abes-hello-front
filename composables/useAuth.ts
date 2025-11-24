@@ -65,15 +65,16 @@ export const useAuth = () => {
 
   const register = async (payload: RegisterPayload) => {
     try {
-      await client.post<RegisterResponse>("/api/register", payload);
-      responseFromApi.value =
-        "Votre inscription a bien été enregistrée. Vous pouvez maintenant vous connecter";
+      const response = await client.post<RegisterResponse>("/api/register", payload);
+      responseFromApi.value = "Votre inscription a bien été enregistrée. Vous pouvez maintenant vous connecter";
+      user.value = { userName: response.data.userName };
       isRequestSuccess.value = true;
       errorApi.value = false;
       errorApiMessage.value = null;
     } catch (error) {
       errorApi.value = true;
       errorApiMessage.value = "Votre inscription a échoué. Veuillez recommencer.";
+      responseFromApi.value = "Votre inscription a échoué. Veuillez recommencer.";
       isRequestSuccess.value = false;
       throw error;
     }
