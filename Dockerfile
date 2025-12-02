@@ -14,6 +14,7 @@ COPY . ./
 
 # Build the project
 RUN npm run build
+RUN npm prune --production
 
 # Build Stage 2
 
