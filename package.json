@@ -15,7 +15,7 @@
     "@nuxt/ui": "^3.3.7",
     "axios": "^1.13.2",
     "nuxt": "^4.2.1",
-    "vuetify": "^3.11.3",
+    "vuetify": "^3.10.11",
     "vuetify-nuxt-module": "^0.16.1"
   },
   "devDependencies": {
