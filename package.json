@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nuxt/fonts": "^0.12.1",
-    "@nuxt/icon": "^2.1.0",
+    "@nuxt/icon": "^2.1.1",
     "@nuxt/ui": "^3.3.7",
     "axios": "^1.13.2",
     "nuxt": "^4.2.1",
