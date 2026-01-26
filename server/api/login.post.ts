@@ -20,15 +20,16 @@ export default defineEventHandler(async (event) => {
 
     return { userName, accessToken };
   } catch (error: unknown) {
+    console.error(error)
     if (error instanceof AxiosError) {
       throw createError({
         statusCode: error.response?.status ?? 500,
-        statusMessage: error.response?.data?.message ?? "Loading Failed",
+        statusMessage: error.response?.data?.message ?? "Login Failed",
       });
     }
     throw createError({
       statusCode: 500,
-      statusMessage: "Loading Failed",
+      statusMessage: "Login Failed",
     });
   }
 });

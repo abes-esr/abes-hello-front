@@ -4,6 +4,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const { token, errorApi, errorApiMessage, errorApiMessageSecondLine } = useAuth();
     const config = useRuntimeConfig();
 
+
     const client = axios.create({
         baseURL: config.public.apiURL, // cf nuxt.config.ts
     });

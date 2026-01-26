@@ -12,15 +12,16 @@ export default defineEventHandler(async (event) => {
         return { userName, accessToken };
 
     } catch (error: unknown) {
+            console.error(error)
         if (error instanceof AxiosError) {
             throw createError({
                 statusCode: error.response?.status ?? 500,
-                statusMessage: error.response?.data?.message ?? "register failed",
+                statusMessage: error.response?.data?.message ?? "Register failed",
             });
         }
         throw createError({
             statusCode: 500,
-            statusMessage: "register failed",
+            statusMessage: "Register failed",
         });
     }
 });
