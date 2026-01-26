@@ -40,6 +40,6 @@ const { token } = useAuth();
 
 const client = useSpringbootApi();
 
-const { data } = await client.get("/");
+const { data } = await client.get("");
 
 </script>
