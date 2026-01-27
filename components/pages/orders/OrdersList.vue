@@ -28,7 +28,7 @@ import { ref } from "vue";
 import Command from "~/components/pages/orders/Command.vue";
 const { user } = useAuth();
 const client = useSpringbootApi()
-const { data: listCommande } = await client.get('/secured/commande');
+const { data: listCommande } = await client.get('/api/v1/secured/commande');
 
 const tabHeader = ref([
   {
