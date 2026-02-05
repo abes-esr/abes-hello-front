@@ -18,7 +18,7 @@ RUN npm prune --production
 
 # Build Stage 2
 
-FROM node:23-slim as front-image
+FROM node:23-slim AS front-image
 WORKDIR /app
 
 # Only `.output` folder is needed from the build stage
