@@ -20,15 +20,8 @@ jobs:
   build-test-pubtodockerhub:
     runs-on: ubuntu-latest
     steps:
-
-
       - name: "Build: checkout source code"
         uses: actions/checkout@v3
-      - name: "Build: build docker image"
-        run: |
-          docker build . -t localimage:latest
-
-
       - name: "Push: prepare version from git tags/branchs"
         id: docker_tag_meta
         uses: docker/metadata-action@v5
@@ -45,6 +38,6 @@ jobs:
           for DOCKER_TAG in $DOCKER_TAGS
           do
             # publication de l'image pour le front
-            docker build . --target front-image -t ${DOCKER_TAG}-front
+            docker buildx build --platform linux/amd64 . --target front-image -t ${DOCKER_TAG}-front
             docker push ${DOCKER_TAG}-front
           done
