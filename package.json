@@ -16,7 +16,7 @@
     "axios": "^1.15.0",
     "nuxt": "^4.2.1",
     "vuetify": "^3.12.5",
-    "vuetify-nuxt-module": "^0.19.5"
+    "vuetify-nuxt-module": "^0.18.9"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",
