@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { process } from "std-env";
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
@@ -23,14 +22,32 @@ export default defineNuxtConfig({
     // apiURL: ''
     public: {
       // placer ici les variables communes du projet, elles seront exposées au client
-      apiURL: '', // Dans les fichiers .env et docker-compose.yml, la variable doit avoir le préfixe NUXT_PUBLIC_ (exemple ici : NUXT_PUBLIC_API_URL). Ecrire le suffixe de la variable ici en camel case
+      apiURL: "", // Dans les fichiers .env et docker-compose.yml, la variable doit avoir le préfixe NUXT_PUBLIC_ (exemple ici : NUXT_PUBLIC_API_URL). Ecrire le suffixe de la variable ici en camel case
+    },
+  },
+  vite: {
+    optimizeDeps: {
+      include: ["@vue/devtools-core", "@vue/devtools-kit", "axios"],
     },
   },
 
-  modules: [
-    "@nuxt/icon",
-    "@nuxt/fonts",
-    "@nuxt/ui",
-    "vuetify-nuxt-module",
-  ],
+  modules: ["@nuxt/icon", "@nuxt/fonts", "@nuxt/ui", "vuetify-nuxt-module"],
+
+  experimental: {
+    // Désactive le serverAppConfig pour éviter les avertissements de doublons d'import de useAppConfig (lié à Nuxt 4)
+    serverAppConfig: false,
+  },
+
+  hooks: {
+    "imports:extend"(imports) {
+      // Supprime le doublon de useLocale provenant de @nuxt/ui pour laisser la priorité à Vuetify
+      // et ainsi supprimer l'avertissement au démarrage
+      const index = imports.findIndex(
+        (i) => i.name === "useLocale" && i.from.includes("@nuxt/ui"),
+      );
+      if (index !== -1) {
+        imports.splice(index, 1);
+      }
+    },
+  },
 });
