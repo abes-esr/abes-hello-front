@@ -35,6 +35,7 @@ export default defineNuxtConfig({
 
   experimental: {
     // Désactive le serverAppConfig pour éviter les avertissements de doublons d'import de useAppConfig (lié à Nuxt 4)
+    // Source GitHub (Nuxt issue #29420) : https://github.com/nuxt/nuxt/issues/29420
     serverAppConfig: false,
   },
 
