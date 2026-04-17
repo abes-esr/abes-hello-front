@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",
-    "@nuxt/test-utils": "^3.23.0",
+    "@nuxt/test-utils": "^4.0.0",
     "eslint": "^10.2.0"
   },
   "browserslist": [
