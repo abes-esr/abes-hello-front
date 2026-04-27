@@ -13,7 +13,7 @@
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/icon": "^2.2.1",
     "@nuxt/ui": "^3.3.7",
-    "axios": "^1.15.0",
+    "axios": "^1.15.1",
     "nuxt": "^4.2.1",
     "vuetify": "^4.0.5",
     "vuetify-nuxt-module": "^0.19.5"
